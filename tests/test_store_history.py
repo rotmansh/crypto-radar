@@ -87,4 +87,17 @@ def test_validate_flags_duplicates_misalignment_unclosed():
     assert rep.duplicates == 1 and rep.fatal
     shifted = [dataclasses.replace(x, open_time=x.open_time + 1, close_time=x.close_time + 1) for x in c]
     assert validate_series(shifted, DAY, 10**15).misaligned == 5
+    overlong = [dataclasses.replace(c[0], close_time=c[0].close_time + 1)] + c[1:]
+    assert validate_series(overlong, DAY, 10**15).misaligned == 1
     assert validate_series(c, DAY, c[-1].close_time).unclosed == 1
+
+
+def test_halt_truncated_candle_is_kept_and_reported(tmp_path):
+    """Binance closes a candle early when trading halts; such a candle is real data, not a defect."""
+    all_c = make_candles(40, H4, JAN_2024)
+    halted = list(all_c)
+    halted[17] = dataclasses.replace(all_c[17], close_time=all_c[17].open_time + 1_694_788)
+    s = CandleStore(tmp_path, "binance")
+    r = history.sync(s, FakeExchange(halted).fetch, "XUSDT", "4h", H4, all_c[-1].close_time + 1)
+    assert r.error is None and r.appended == 40 and r.report.partial == 1 and not r.report.fatal
+    assert s.load("XUSDT", "4h")[17].close_time == halted[17].close_time

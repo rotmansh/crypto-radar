@@ -182,6 +182,7 @@ def main() -> int:
         manifest.setdefault(r.symbol, {})[r.interval] = {
             "first": rep.first if rep else None, "last": rep.last if rep else None,
             "count": rep.count if rep else 0, "gaps": rep.gaps if rep else [],
+            "partial_candles": rep.examples.get("partial", []) if rep else [], "partial_count": rep.partial if rep else 0,
             "last_sync_utc": started.isoformat(timespec="seconds"), "last_error": r.error}
         for rev in r.revisions:
             events.append({"utc": started.isoformat(timespec="seconds"), "run": tag, "symbol": r.symbol,
@@ -208,6 +209,7 @@ def main() -> int:
                          "last": r.report.last if r.report else None,
                          "gaps": len(r.report.gaps) if r.report else 0,
                          "missing_candles": sum(g["missing_candles"] for g in r.report.gaps) if r.report else 0,
+                         "partial": r.report.partial if r.report else 0,
                          "defects": ({k: getattr(r.report, k) for k in ("duplicates", "unordered", "unclosed", "misaligned", "bad_ohlc")}
                                      if r.report else {}),
                          "defect_examples": r.report.examples if r.report else {}}
@@ -259,19 +261,19 @@ def render(s: dict, cands: list[universe.Candidate], settings: dict) -> str:
         L += ["", "### שגיאות טעינה", ""] + [f"- {k}: {v}" for k, v in s["universe_meta"]["fetch_errors"].items()]
 
     L += ["", "## היסטוריית נרות", "",
-          "| מטבע | טווח | נרות | ראשון | אחרון | נוספו בהרצה | דפים | חורים (נרות חסרים) | תיקוני בורסה | מצב |",
-          "|---|---|---|---|---|---|---|---|---|---|"]
+          "| מטבע | טווח | נרות | ראשון | אחרון | נוספו בהרצה | דפים | חורים (נרות חסרים) | נרות חלקיים (עצירת מסחר) | תיקוני בורסה | מצב |",
+          "|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in sorted(s["sync"], key=lambda r: (r["symbol"], r["interval"])):
         state = r["error"] or ("היסטוריה לא מספיקה" if r["count"] < min_hist else "תקין")
         L.append(f"| {r['symbol'][:-4]} | {r['interval']} | {r['count']} | {r['first']} | {r['last']} | {r['appended']} | "
-                 f"{r['pages']} | {r['gaps']} ({r['missing_candles']}) | {r['revisions']} | {state} |")
+                 f"{r['pages']} | {r['gaps']} ({r['missing_candles']}) | {r.get('partial', 0)} | {r['revisions']} | {state} |")
     bad = [r for r in s["sync"] if any(r.get("defects", {}).values())]
     if bad:
-        L += ["", "## פגמים שנמצאו בנתוני הבורסה (הסדרה לא נשמרה)", ""]
+        L += ["", "## פגמים שנמצאו בנתונים (הסדרה לא נשמרה)", ""]
         for r in sorted(bad, key=lambda r: (r["symbol"], r["interval"])):
             counts = ", ".join(f"{k}={v}" for k, v in r["defects"].items() if v)
             L.append(f"- **{r['symbol']} {r['interval']}**: {counts}")
-            for kind, ex in r["defect_examples"].items():
+            for kind, ex in ((k, v) for k, v in r["defect_examples"].items() if k != "partial"):
                 for e in ex[:2]:
                     L.append(f"  - {kind}: `{json.dumps(e)}`")
     L += ["", "## ערכי אינדיקטורים ל-BTCUSDT (להשוואה ידנית מול TradingView, Binance, נרות UTC)", ""]
