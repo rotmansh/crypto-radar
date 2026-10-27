@@ -296,17 +296,17 @@
   function journalTable(rows, withCoin = true) {
     if (!rows.length) return `<div class="empty">אין רשומות ביומן. היומן התחיל ב-27.10.2026 ונכתב רק מסריקות בזמן אמת.</div>`;
     rows = rows.slice().sort((a, b) => (a.detected_at_utc < b.detected_at_utc ? 1 : -1));
-    return `<div class="table-wrap"><table><thead><tr>${withCoin ? "<th>מטבע</th>" : ""}<th>סוג</th><th>אסטרטגיה</th><th>טווח</th><th>מקור</th><th>נר</th><th>זוהה ב-</th><th>מחיר</th><th>ביטול / סטופ</th><th>יעד</th></tr></thead><tbody>
+    return `<div class="table-wrap jt"><table><thead><tr>${withCoin ? "<th>מטבע</th>" : ""}<th>סוג</th><th>אסטרטגיה · טווח</th><th>מקור</th><th>נר</th><th>זוהה ב-</th><th>מחיר</th><th>ביטול / סטופ</th><th>יעד</th></tr></thead><tbody>
       ${rows.map((r) => {
         const o = ORIGIN[r.origin] || ["—", ""];
         const ep = r.origin === "live_already_active" ? `<div class="note">התחלת המעקב לפי הנרות: ${esc(r.episode_started_utc.replace("T", " ").replace("Z", " UTC"))}</div>` : "";
-        return `<tr>${withCoin ? `<td><span class="coin" data-coin="${esc(r.symbol)}" role="link" tabindex="0" style="font-weight:700;cursor:pointer">${esc(r.symbol.replace(/USDT$/, ""))}</span></td>` : ""}
-        <td>${r.type === "SIGNAL" ? "🟢 מאושר" : "🟡 מעקב"}${r.high_risk === "True" ? ' <span class="badge risk">סיכון גבוה</span>' : ""}</td>
-        <td>${LETTER[r.strategy] || ""} <span class="note">@${esc(r.strategy_version)}</span></td><td>${TFNAME[r.timeframe]}</td>
-        <td><span class="badge ${o[1]}">${o[0]}</span>${ep}</td>
-        <td class="num">${esc(r.candle_open_utc.replace("T", " ").replace(":00Z", " UTC"))}</td>
-        <td>${ilTime(new Date(r.detected_at_utc))}</td>
-        <td class="num">${fmt(num(r.ref_price))}</td><td class="num">${fmt(num(r.type === "SIGNAL" ? r.stop : r.watch_invalidation))}</td><td class="num">${fmt(num(r.target))}</td></tr>`;
+        return `<tr>${withCoin ? `<td data-l="מטבע"><span class="coin" data-coin="${esc(r.symbol)}" role="link" tabindex="0" style="font-weight:700;cursor:pointer">${esc(r.symbol.replace(/USDT$/, ""))}</span></td>` : ""}
+        <td data-l="סוג">${r.type === "SIGNAL" ? "🟢 מאושר" : "🟡 מעקב"}${r.high_risk === "True" ? ' <span class="badge risk">סיכון גבוה</span>' : ""}</td>
+        <td data-l="אסטרטגיה">${LETTER[r.strategy] || ""} <span class="note ltr">@${esc(r.strategy_version)}</span> · ${TFNAME[r.timeframe]}</td>
+        <td data-l="מקור"><span class="badge ${o[1]}">${o[0]}</span>${ep}</td>
+        <td data-l="נר" class="num">${esc(r.candle_open_utc.replace("T", " ").replace(":00Z", " UTC"))}</td>
+        <td data-l="זוהה ב-">${ilTime(new Date(r.detected_at_utc))}</td>
+        <td data-l="מחיר" class="num">${fmt(num(r.ref_price))}</td><td data-l="${r.type === "SIGNAL" ? "סטופ" : "ביטול"}" class="num">${fmt(num(r.type === "SIGNAL" ? r.stop : r.watch_invalidation))}</td><td data-l="יעד" class="num">${fmt(num(r.target))}</td></tr>`;
       }).join("")}</tbody></table></div>`;
   }
 

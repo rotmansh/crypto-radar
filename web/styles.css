@@ -184,3 +184,14 @@ select, input[type="date"], input[type="time"] {
 .limits { margin: 0; padding-inline-start: 18px; font-size: 13px; color: var(--muted); }
 .two { display: grid; gap: 12px; grid-template-columns: 1fr; }
 @media (min-width: 900px) { .two { grid-template-columns: 1.6fr 1fr; } }
+
+@media (max-width: 720px) {
+  .jt { border: 0; background: transparent; }
+  .jt thead { display: none; }
+  .jt table, .jt tbody { display: block; }
+  .jt tr { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 8px 12px; margin-bottom: 10px; }
+  .jt td { display: flex; justify-content: space-between; gap: 10px; border: 0; padding: 3px 0; text-align: end; }
+  .jt td::before { content: attr(data-l); color: var(--muted); font-size: 12.5px; text-align: start; flex: none; }
+  .jt td .badge { white-space: normal; }
+  .jt td.num { flex-direction: row-reverse; }
+}
