@@ -32,9 +32,11 @@ def book_metrics(bids: list[Level], asks: list[Level], bands_pct: list[float], s
                  "book_ask_ceiling_pct": (asks[-1][0] - mid) / mid * 100}
     for band in bands_pct:
         lo, hi = mid * (1 - band / 100), mid * (1 + band / 100)
-        # If the fetched levels do not reach the band edge, the depth figure would understate reality.
-        out[f"depth_bid_{band}pct_usd"] = sum(p * q for p, q in bids if p >= lo) if bids[-1][0] <= lo else None
-        out[f"depth_ask_{band}pct_usd"] = sum(p * q for p, q in asks if p <= hi) if asks[-1][0] >= hi else None
+        out[f"depth_bid_{band}pct_usd"] = sum(p * q for p, q in bids if p >= lo)
+        out[f"depth_ask_{band}pct_usd"] = sum(p * q for p, q in asks if p <= hi)
+        # If the fetched levels stop before the band edge the figure is only a lower bound (deep books, e.g. BTC).
+        out[f"depth_bid_{band}pct_lower_bound"] = bids[-1][0] > lo
+        out[f"depth_ask_{band}pct_lower_bound"] = asks[-1][0] < hi
     for size in sizes_usd:
         out[f"impact_buy_{int(size)}_pct"] = _impact_pct(asks, size, mid)
         out[f"impact_sell_{int(size)}_pct"] = _impact_pct(bids, size, mid)
@@ -49,6 +51,6 @@ def liquidity_flags(m: dict, max_spread_pct: float, min_depth_1pct_usd: float) -
         flags.append("wide_spread")
     for side in ("bid", "ask"):
         d = m.get(f"depth_{side}_1.0pct_usd")
-        if d is not None and d < min_depth_1pct_usd:
+        if d is not None and d < min_depth_1pct_usd and not m.get(f"depth_{side}_1.0pct_lower_bound"):
             flags.append(f"thin_book_{side}")
     return flags

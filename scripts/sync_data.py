@@ -207,7 +207,10 @@ def main() -> int:
                          "count": r.report.count if r.report else 0, "first": r.report.first if r.report else None,
                          "last": r.report.last if r.report else None,
                          "gaps": len(r.report.gaps) if r.report else 0,
-                         "missing_candles": sum(g["missing_candles"] for g in r.report.gaps) if r.report else 0}
+                         "missing_candles": sum(g["missing_candles"] for g in r.report.gaps) if r.report else 0,
+                         "defects": ({k: getattr(r.report, k) for k in ("duplicates", "unordered", "unclosed", "misaligned", "bad_ohlc")}
+                                     if r.report else {}),
+                         "defect_examples": r.report.examples if r.report else {}}
                         for r in results]}
     rep_dir = ROOT / "reports/phase1/runs" / tag
     rep_dir.mkdir(parents=True, exist_ok=False)
@@ -235,8 +238,9 @@ def render(s: dict, cands: list[universe.Candidate], settings: dict) -> str:
     for i, c in enumerate(inc, 1):
         m = c.checks.get("liquidity", {})
         imp = lambda k: "—" if m.get(k) is None else f"{m[k]:.3f}%"
+        dep = lambda side: ("≥" if m.get(f"depth_{side}_1.0pct_lower_bound") else "") + fmt_usd(m.get(f"depth_{side}_1.0pct_usd"))
         L.append(f"| {i} | {c.base} | {fmt_usd(c.median_qvol_30d)} | {m.get('spread_pct', 0):.4f} | "
-                 f"{fmt_usd(m.get('depth_bid_1.0pct_usd'))} / {fmt_usd(m.get('depth_ask_1.0pct_usd'))} | "
+                 f"{dep('bid')} / {dep('ask')} | "
                  f"{imp('impact_buy_10000_pct')} | {imp('impact_buy_50000_pct')} |")
     rev = [c for c in cands if c.status == "review"]
     L += ["", "### תור בדיקת חריגים (לא נסרקים)", ""]
@@ -261,6 +265,15 @@ def render(s: dict, cands: list[universe.Candidate], settings: dict) -> str:
         state = r["error"] or ("היסטוריה לא מספיקה" if r["count"] < min_hist else "תקין")
         L.append(f"| {r['symbol'][:-4]} | {r['interval']} | {r['count']} | {r['first']} | {r['last']} | {r['appended']} | "
                  f"{r['pages']} | {r['gaps']} ({r['missing_candles']}) | {r['revisions']} | {state} |")
+    bad = [r for r in s["sync"] if any(r.get("defects", {}).values())]
+    if bad:
+        L += ["", "## פגמים שנמצאו בנתוני הבורסה (הסדרה לא נשמרה)", ""]
+        for r in sorted(bad, key=lambda r: (r["symbol"], r["interval"])):
+            counts = ", ".join(f"{k}={v}" for k, v in r["defects"].items() if v)
+            L.append(f"- **{r['symbol']} {r['interval']}**: {counts}")
+            for kind, ex in r["defect_examples"].items():
+                for e in ex[:2]:
+                    L.append(f"  - {kind}: `{json.dumps(e)}`")
     L += ["", "## ערכי אינדיקטורים ל-BTCUSDT (להשוואה ידנית מול TradingView, Binance, נרות UTC)", ""]
     for itv, v in s["btc_indicators"].items():
         L += [f"### {itv} — נר שנפתח ב-{v['candle_open_utc']}", "", "| מדד | ערך |", "|---|---|"]

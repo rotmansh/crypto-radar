@@ -87,6 +87,9 @@ def test_book_metrics():
     assert liquidity.liquidity_flags(m, max_spread_pct=0.1, min_depth_1pct_usd=50_000) == ["wide_spread", "thin_book_bid", "thin_book_ask"]
 
 
-def test_depth_is_none_when_fetched_levels_do_not_reach_band():
+def test_depth_is_marked_lower_bound_when_levels_do_not_reach_band():
     m = liquidity.book_metrics([(99.9, 1)], [(100.1, 1)], [1.0], [])
-    assert m["depth_bid_1.0pct_usd"] is None and m["depth_ask_1.0pct_usd"] is None
+    assert m["depth_bid_1.0pct_usd"] == 99.9 and m["depth_bid_1.0pct_lower_bound"]
+    assert m["depth_ask_1.0pct_lower_bound"]
+    m2 = liquidity.book_metrics([(99.9, 1), (98.0, 1)], [(100.1, 1), (102.0, 1)], [1.0], [])
+    assert not m2["depth_bid_1.0pct_lower_bound"] and not m2["depth_ask_1.0pct_lower_bound"]
