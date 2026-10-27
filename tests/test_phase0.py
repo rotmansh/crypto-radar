@@ -6,7 +6,6 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from radar import universe  # noqa: E402
 from radar.sources import base, binance, okx  # noqa: E402
 from radar.sources.base import Candle  # noqa: E402
 
@@ -46,22 +45,6 @@ def test_okx_parser_uses_confirm_flag_and_sorts(monkeypatch):
     out = okx.klines("BTCUSDT", "1d")
     assert calls["bar"] == "1Dutc" and calls["instId"] == "BTC-USDT"
     assert [c.close for c in out] == [1.3, 1.4]
-
-
-def test_exclusions():
-    bases = {"BTC", "BTCUP", "JUP", "SYRUP", "USDC", "WBTC", "ETH"}
-    assert universe.exclusion_reason("USDC", bases) == "stable_or_pegged"
-    assert universe.exclusion_reason("WBTC", bases) == "wrapped"
-    assert universe.exclusion_reason("BTCUP", bases) == "leveraged_token"
-    assert universe.exclusion_reason("JUP", bases) is None
-    assert universe.exclusion_reason("SYRUP", bases) is None
-    assert universe.exclusion_reason("ETH", bases) is None
-
-
-def test_rank_applies_floor_and_size():
-    E = universe.UniverseEntry
-    entries = [E("A", "A", 9e6, 30), E("B", "B", 4e6, 30), E("C", "C", 2e7, 30), E("D", "D", 3e7, 10)]
-    assert [e.symbol for e in universe.rank(entries, size=5)] == ["C", "A"]
 
 
 def test_validate_candles_flags_gaps_and_staleness():

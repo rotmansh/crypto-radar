@@ -1,0 +1,30 @@
+# Explicit exclusions. Each entry: base asset, category, reason, date added, evidence.
+# Categories: stable_or_pegged, wrapped, tokenized_equity, unidentified.
+# Removing an entry is a decision — record why in the commit message.
+
+[stable_or_pegged]
+reason = "Stablecoins and fiat/gold-pegged tokens have no meaningful trend to analyse"
+added = "2026-10-27"
+evidence = "SPEC.md §1.1"
+bases = ["USDT", "USDC", "FDUSD", "TUSD", "DAI", "USDP", "BUSD", "USDE", "USDS", "PYUSD", "USD1", "RLUSD",
+         "USDD", "FRAX", "LUSD", "GUSD", "SUSD", "USTC", "UST", "EURI", "EUR", "AEUR", "EURC", "EURQ",
+         "TRY", "BRL", "GBP", "AUD", "PAXG", "XAUT", "BFUSD", "XUSD", "USDG", "USDQ"]
+
+[wrapped]
+reason = "Wrapped / staked derivatives that track another asset"
+added = "2026-10-27"
+evidence = "SPEC.md §1.1"
+bases = ["WBTC", "WBETH", "WETH", "BETH", "STETH", "WSTETH", "CBBTC", "BTCB", "SOLVBTC", "BNSOL"]
+
+[tokenized_equity]
+reason = "Tokenized stocks / ETFs (ticker + 'B'), not crypto assets"
+added = "2026-10-27"
+evidence = "reports/phase0/runs/run-40458221520 — stock/ETF tickers; all lacked a permission group common to other pairs"
+bases = ["SNDKB", "SPCXB", "CRCLB", "MSTRB", "MUB", "NVDAB", "SOXLB", "SNXXB", "QQQB", "SKHYB", "KORUB",
+         "INTCB", "TSLAB", "BNCB", "SOXSB", "GOOGLB", "CBRSB", "NBISB", "TQQQB", "LITEB", "AAOIB"]
+
+[unidentified]
+reason = "Asset type not verified — temporarily excluded until identified"
+added = "2026-10-27"
+evidence = "Phase 0 decision #4"
+bases = ["U"]

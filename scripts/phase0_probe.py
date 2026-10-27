@@ -23,9 +23,40 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from radar import universe  # noqa: E402
+from radar import config  # noqa: E402
 from radar.sources import binance, okx  # noqa: E402
 from radar.sources.base import SourceError, get_json, now_ms  # noqa: E402
+
+class universe:  # noqa: N801 — frozen phase-0 helpers; phase 1+ uses radar.universe
+    import statistics as _st
+    from dataclasses import dataclass as _dc
+
+    MIN_MEDIAN_QVOL_USD = 5_000_000
+    _EXCL = config.load_exclusions()
+
+    @_dc(frozen=True)
+    class UniverseEntry:
+        symbol: str
+        base: str
+        median_qvol_30d: float
+        days: int
+
+    @staticmethod
+    def exclusion_reason(base, all_bases):
+        from radar.universe import leveraged_token
+        if base in universe._EXCL:
+            return universe._EXCL[base]["category"]
+        return "leveraged_token" if leveraged_token(base, all_bases) else None
+
+    @staticmethod
+    def median_quote_volume(v):
+        return universe._st.median(v) if v else 0.0
+
+    @staticmethod
+    def rank(entries, size=100, floor=5_000_000):
+        e = sorted((x for x in entries if x.median_qvol_30d >= floor and x.days >= 30), key=lambda x: -x.median_qvol_30d)
+        return e[:size]
+
 
 DAY_MS = 86_400_000
 H4_MS = 14_400_000

@@ -1,0 +1,47 @@
+name: "Data sync (universe + full history)"
+
+# Phase 1: manual runs only. A schedule is added in phase 4, after approval.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar-writer
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Start from the latest main
+        run: git fetch --depth=1 origin main && git checkout -B main FETCH_HEAD
+      - run: pip install -r requirements-dev.txt
+      - name: Unit tests (offline)
+        run: python -m pytest -q
+      - name: Sync universe, liquidity and candle history
+        id: sync
+        run: python scripts/sync_data.py
+        continue-on-error: true
+      - name: Append-only check and commit
+        if: always()
+        run: |
+          git config user.name "crypto-radar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data reports
+          python scripts/check_append_only.py
+          if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
+          git commit -q -m "Data sync (run ${GITHUB_RUN_ID})"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
+          exit 1
+      - name: Fail if the sync reported errors
+        if: steps.sync.outcome != 'success'
+        run: |
+          echo "::error::Sync reported errors — see reports/phase1/runs/ for details"
+          exit 1

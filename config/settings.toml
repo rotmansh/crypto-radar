@@ -1,0 +1,31 @@
+# Crypto Radar — system settings.
+# Changing a value here changes system behaviour; strategy parameters live elsewhere and are versioned.
+
+[data]
+source = "binance"                               # see docs/DATA_SOURCES.md — changing it requires a new log entry there
+base_url = "https://data-api.binance.vision"
+fallback_source = "okx"                          # documented only; the system never switches automatically
+quote_asset = "USDT"
+intervals = ["1d", "4h"]
+store_dir = "data/ohlcv"
+sync_overlap_candles = 3                         # re-fetch this many stored candles to detect exchange revisions
+
+[universe]
+min_median_quote_volume_usd = 5_000_000          # 30-day median daily quote volume floor
+max_size = 100
+volume_lookback_days = 30
+min_history_candles = 220                        # per timeframe; below this the coin is marked "insufficient history" there
+prefilter_24h_quote_volume_usd = 250_000         # skip fetching 30d history for pairs below this 24h volume
+
+[asset_checks]
+# Automated checks. Any flag sends the pair to the review queue (not scanned) — never silently into the universe.
+common_permission_share = 0.95                   # a permission group present on >=95% of pairs; lacking any such group -> flag
+stable_max_range_pct = 3.0                       # 30d max/min close range below this -> flag (possible stablecoin / peg)
+weekend_volume_ratio_min = 0.35                  # median weekend / weekday daily volume below this -> flag (equity-like hours)
+
+[liquidity]
+depth_limit = 500                                # order-book levels per side requested
+depth_bands_pct = [0.5, 1.0, 2.0]                # USD depth measured within ±X% of mid
+impact_sizes_usd = [10_000, 50_000]              # simulated market order sizes for price-impact estimate
+max_spread_pct = 0.30                            # wider -> flag
+min_depth_1pct_usd = 50_000                      # thinner on either side -> flag

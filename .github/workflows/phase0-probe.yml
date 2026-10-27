@@ -1,13 +1,8 @@
 name: "Phase 0 — data source probe"
 
+# Phase 0 diagnostic, kept for re-checking source access. Manual runs only.
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - "radar/**"
-      - "scripts/phase0_probe.py"
-      - ".github/workflows/phase0-probe.yml"
 
 permissions:
   contents: write

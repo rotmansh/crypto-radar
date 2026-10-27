@@ -1,49 +1,106 @@
-"""Universe selection: ~100 liquid USDT spot pairs ranked by 30-day median daily quote volume."""
+"""Universe classification: which USDT pairs are scanned, excluded, or held for review.
+
+Every candidate gets exactly one status:
+  included      passes the liquidity floor and every check; scanned
+  review        passes the floor but an automated check raised a flag; NOT scanned until a person decides
+  excluded      on the explicit exclusion list (config/exclusions.toml)
+  below_floor   30d median daily quote volume under the floor
+  short_volume_history  fewer than `volume_lookback_days` closed daily candles
+  overflow      eligible but beyond `max_size`
+
+No single undocumented exchange field decides the outcome on its own: the permission-profile check is one
+of several independent flags, and a flag only routes a pair to review.
+"""
 from __future__ import annotations
 
+import datetime as dt
 import statistics
-from dataclasses import dataclass
+from collections import Counter
+from dataclasses import dataclass, field
 
-# Stablecoins and fiat/gold-pegged tokens: no meaningful trend to analyse.
-STABLE_OR_PEGGED = {
-    "USDT", "USDC", "FDUSD", "TUSD", "DAI", "USDP", "BUSD", "USDE", "USDS", "PYUSD", "USD1", "RLUSD",
-    "USDD", "FRAX", "LUSD", "GUSD", "SUSD", "USTC", "UST", "EURI", "EUR", "AEUR", "EURC", "EURQ",
-    "TRY", "BRL", "GBP", "AUD", "PAXG", "XAUT", "BFUSD", "XUSD", "USDG", "USDQ",
-}
-# Wrapped / staked derivatives that track another asset in the universe.
-WRAPPED = {"WBTC", "WBETH", "WETH", "BETH", "STETH", "WSTETH", "CBBTC", "BTCB", "SOLVBTC", "BNSOL"}
+from .sources.base import Candle
+
 LEVERAGED_SUFFIXES = ("UP", "DOWN", "BULL", "BEAR")
 
-MIN_MEDIAN_QVOL_USD = 5_000_000
-TARGET_SIZE = 100
 
-
-@dataclass(frozen=True)
-class UniverseEntry:
+@dataclass
+class Candidate:
     symbol: str
     base: str
-    median_qvol_30d: float
-    days: int
+    status: str = ""
+    median_qvol_30d: float | None = None
+    days: int = 0
+    flags: list[str] = field(default_factory=list)
+    exclusion: dict | None = None
+    checks: dict = field(default_factory=dict)  # measured values behind each check, kept for the snapshot
 
 
-def exclusion_reason(base: str, all_bases: set[str]) -> str | None:
-    if base in STABLE_OR_PEGGED:
-        return "stable_or_pegged"
-    if base in WRAPPED:
-        return "wrapped"
-    # A leveraged token is <underlying><suffix> where the underlying is itself listed (e.g. BTCUP -> BTC).
-    # Matching on the suffix alone would wrongly drop real coins such as JUP or SYRUP.
-    for suffix in LEVERAGED_SUFFIXES:
-        if base.endswith(suffix) and base[: -len(suffix)] in all_bases:
-            return "leveraged_token"
-    return None
+def leveraged_token(base: str, all_bases: set[str]) -> bool:
+    # <underlying><suffix> where the underlying is itself listed (BTCUP -> BTC); suffix alone would hit JUP, SYRUP.
+    return any(base.endswith(s) and base[: -len(s)] in all_bases for s in LEVERAGED_SUFFIXES)
 
 
-def median_quote_volume(daily_quote_volumes: list[float]) -> float:
-    return statistics.median(daily_quote_volumes) if daily_quote_volumes else 0.0
+def common_permission_groups(metadata: list[dict], share: float) -> set[str]:
+    """Permission groups present on at least `share` of all listed pairs."""
+    counts: Counter[str] = Counter()
+    for m in metadata:
+        counts.update({g for ps in m.get("permissionSets", []) for g in ps})
+    return {g for g, n in counts.items() if n >= share * len(metadata)}
 
 
-def rank(entries: list[UniverseEntry], size: int = TARGET_SIZE, floor: float = MIN_MEDIAN_QVOL_USD) -> list[UniverseEntry]:
-    eligible = [e for e in entries if e.median_qvol_30d >= floor and e.days >= 30]
-    eligible.sort(key=lambda e: e.median_qvol_30d, reverse=True)
-    return eligible[:size]
+def permission_anomaly(meta: dict, common: set[str]) -> list[str]:
+    groups = {g for ps in meta.get("permissionSets", []) for g in ps}
+    return sorted(common - groups)
+
+
+def weekend_volume_ratio(candles: list[Candle]) -> float | None:
+    """Median Sat/Sun daily quote volume divided by median Mon–Fri volume (UTC days)."""
+    wkend, wkday = [], []
+    for c in candles:
+        (wkend if dt.datetime.fromtimestamp(c.open_time / 1000, dt.timezone.utc).weekday() >= 5 else wkday).append(c.quote_volume)
+    if len(wkend) < 4 or len(wkday) < 10 or statistics.median(wkday) <= 0:
+        return None
+    return statistics.median(wkend) / statistics.median(wkday)
+
+
+def price_range_pct(candles: list[Candle]) -> float | None:
+    closes = [c.close for c in candles]
+    return (max(closes) / min(closes) - 1) * 100 if closes and min(closes) > 0 else None
+
+
+def asset_flags(candles: list[Candle], meta: dict | None, common_groups: set[str], checks_cfg: dict) -> tuple[list[str], dict]:
+    flags, values = [], {}
+    if meta is not None:
+        missing = permission_anomaly(meta, common_groups)
+        values["missing_common_permission_groups"] = missing
+        if missing:
+            flags.append("permission_profile_anomaly")
+    rng = price_range_pct(candles)
+    values["range_30d_pct"] = rng
+    if rng is not None and rng < checks_cfg["stable_max_range_pct"]:
+        flags.append("stable_like_price")
+    ratio = weekend_volume_ratio(candles)
+    values["weekend_volume_ratio"] = ratio
+    if ratio is not None and ratio < checks_cfg["weekend_volume_ratio_min"]:
+        flags.append("equity_like_weekend_volume")
+    return flags, values
+
+
+def finalize(candidates: list[Candidate], floor: float, max_size: int, lookback_days: int) -> list[Candidate]:
+    """Assign statuses to candidates that do not have one yet. Flags must already be set."""
+    pool = []
+    for c in candidates:
+        if c.status:
+            continue
+        if c.days < lookback_days:
+            c.status = "short_volume_history"
+        elif (c.median_qvol_30d or 0) < floor:
+            c.status = "below_floor"
+        elif c.flags:
+            c.status = "review"
+        else:
+            pool.append(c)
+    pool.sort(key=lambda c: c.median_qvol_30d, reverse=True)
+    for i, c in enumerate(pool):
+        c.status = "included" if i < max_size else "overflow"
+    return candidates
