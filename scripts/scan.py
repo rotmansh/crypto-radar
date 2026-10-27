@@ -3,9 +3,10 @@
 Writes:
   data/scan/<tag>.json           full scan result of this run (new file per run)
   data/scan/latest.json          the same, as the current state for the dashboard (overwritten each run)
-  journal/signals.csv            append-only: every confirmed SIGNAL, and every WATCH on the candle it starts
+  journal/signals-v2.csv         append-only: every live SIGNAL and WATCH episode, with its origin (live_new /
+                                 live_already_active). journal/signals.csv is the frozen v1 journal.
   journal/runs.csv               append-only: one row per scan
-  reports/phase2/runs/<tag>/     REPORT.md (Hebrew) + historical_signals.csv — where the rules fired in the
+  reports/scan/runs/<tag>/       REPORT.md (Hebrew) + historical_signals.csv — where the rules fired in the
                                  stored history. Occurrences only: no performance is computed or implied.
 
 Uses only stored closed candles. A symbol whose latest stored candle is not the most recently closed one is
@@ -29,21 +30,26 @@ sys.path.insert(0, str(ROOT))
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from radar import config, indicators  # noqa: E402
+from radar import config, engine, indicators  # noqa: E402
 from radar.store import CandleStore, iso  # noqa: E402
-from radar.strategies import ALL, INSUFFICIENT, SIGNAL, WATCH, rs_panel  # noqa: E402
+from radar.strategies import ALL, INSUFFICIENT, SIGNAL, WATCH  # noqa: E402
 from radar.strategies.base import fmt  # noqa: E402
+from radar.present import clean, item, num  # noqa: E402,F401
 
 SURVIVORSHIP_HE = ("**הטיית שורדים:** הנתונים ההיסטוריים כוללים רק מטבעות שנסחרים היום ב-Binance וברשימה הנוכחית. "
                    "מטבעות שנמחקו או שירדו מהרשימה בעבר חסרים, ולכן כל ספירה או תוצאה היסטורית עלולה להיות "
                    "אופטימית מהמציאות. תיעוד מתוארך של הרשימה קיים רק מ-27.10.2026.")
 NOT_PROOF_HE = ("**אין כאן הוכחה לרווחיות.** הדוח מציג היכן הכללים התקיימו בעבר, ללא חישוב ביצועים. "
                 "גם בדיקה היסטורית עתידית (שלב 5) לא תהיה הוכחה לתוצאות עתידיות.")
-JOURNAL_FIELDS = ["signal_id", "detected_at_utc", "candle_open_utc", "candle_close_utc", "exchange", "symbol",
+JOURNAL_V2_FIELDS = ["signal_id", "origin", "detected_at_utc", "detection_delay_min", "episode_started_utc",
+                     "candle_open_utc", "candle_close_utc", "exchange", "symbol", "timeframe", "strategy",
+                     "strategy_version", "params_hash", "type", "ref_price", "stop", "target", "rr", "high_risk",
+                     "watch_invalidation", "breakout_level", "atr_pct", "realized_vol_30", "median_qvol_30d",
+                     "spread_pct", "liquidity_warnings", "partial_in_window", "reason_he", "code_commit"]
+JOURNAL_V1_FIELDS = ["signal_id", "detected_at_utc", "candle_open_utc", "candle_close_utc", "exchange", "symbol",
                   "timeframe", "strategy", "strategy_version", "params_hash", "type", "ref_price", "stop", "target",
                   "rr", "atr_pct", "realized_vol_30", "median_qvol_30d", "spread_pct", "liquidity_warnings",
                   "partial_in_window", "reason_he", "code_commit"]
-PARTIAL_WINDOW = 20
 
 
 def code_commit() -> str:
@@ -62,57 +68,6 @@ def latest_snapshot() -> tuple[Path, list[dict]]:
         return path, list(csv.DictReader(f))
 
 
-def num(v):
-    try:
-        return None if v in (None, "") else float(v)
-    except ValueError:
-        return None
-
-
-def clean(v):
-    if v is None:
-        return None
-    if isinstance(v, (float, np.floating)):
-        return None if np.isnan(v) else round(float(v), 8)
-    if isinstance(v, (np.bool_,)):
-        return bool(v)
-    if isinstance(v, (np.integer,)):
-        return int(v)
-    return v
-
-
-def item(strategy, sym: str, interval: str, df: pd.DataFrame, ev: pd.DataFrame, i: int, snap: dict) -> dict:
-    row, crow = ev.iloc[i], df.iloc[i]
-    stop, target, rr, rr_note = clean(row["stop"]), clean(row["target"]), clean(row["rr"]), None
-    invalidation = invalidation_he = None
-    if row["state"] == WATCH:
-        # A WATCH is not an entry: no stop, target or R:R — only the level that cancels the setup.
-        stop = target = rr = None
-        rr_note = "יחושב רק לאיתות מאושר"
-        invalidation, invalidation_he = strategy.watch_invalidation(row)
-        invalidation = clean(invalidation)
-    elif rr is None:
-        rr_note = ("לא ניתן לחשב — אין יעד מוגדר באסטרטגיה (יציאה בסטופ נגרר)" if np.isnan(row["target"])
-                   else "לא ניתן לחשב — היעד אינו מעל מחיר הייחוס")
-    return {
-        "symbol": sym, "base": sym[:-4], "timeframe": interval, "strategy": strategy.id,
-        "strategy_version": strategy.version, "params_hash": strategy.params_hash, "state": row["state"],
-        "candle_open_utc": iso(int(crow["open_time"])), "candle_close_utc": iso(int(crow["close_time"]) + 1),
-        "ref_price": clean(crow["close"]), "stop": stop, "target": target, "rr": rr, "rr_note": rr_note,
-        "risk_pct_to_stop": clean((crow["close"] - stop) / crow["close"] * 100) if stop is not None else None,
-        "watch_invalidation": invalidation, "watch_invalidation_he": invalidation_he,
-        "breakout_level": clean(row["breakout_level"]) if "breakout_level" in row else None,
-        "atr_pct": clean(crow["atr_pct"]), "realized_vol_30": clean(crow["realized_vol_30"]),
-        "history_candles": int(i + 1),
-        "partial_in_window": bool(df["partial"].iloc[max(0, i - PARTIAL_WINDOW + 1): i + 1].any()),
-        "median_qvol_30d": num(snap.get("median_quote_volume_30d")), "spread_pct": num(snap.get("spread_pct")),
-        "depth_bid_1pct_usd": num(snap.get("depth_bid_1pct_usd")), "depth_ask_1pct_usd": num(snap.get("depth_ask_1pct_usd")),
-        "liquidity_warnings": [w for w in (snap.get("liquidity_warnings") or "").split(";") if w],
-        "reason_he": strategy.reason_he(row) if row["state"] in (SIGNAL, WATCH) else None,
-        "rules": [{k: clean(v) for k, v in r.items()} for r in strategy.explain(row)],
-    }
-
-
 def main() -> int:
     started = dt.datetime.now(dt.timezone.utc)
     now_ms = int(started.timestamp() * 1000)
@@ -124,25 +79,26 @@ def main() -> int:
     snap = {r["symbol"]: r for r in snap_rows}
     universe = sorted(r["symbol"] for r in snap_rows if r["status"] == "included")
     commit = code_commit()
+    high_risk_pct = settings["risk"]["high_risk_stop_pct"]
 
-    frames: dict[str, dict[str, pd.DataFrame]] = defaultdict(dict)
+    raw: dict[str, dict[str, pd.DataFrame]] = {}
     stale: list[dict] = []
     for interval in settings["data"]["intervals"]:
         span = indicators.INTERVAL_MS[interval]
         expected_last_open = (now_ms // span) * span - span
+        loaded = engine.load_candles(store, sorted(set(universe) | {"BTCUSDT"}), interval, now_ms)
+        raw[interval] = {}
         for sym in sorted(set(universe) | {"BTCUSDT"}):
-            candles = store.load(sym, interval)
-            if not candles or candles[-1].open_time != expected_last_open:
+            df = loaded.get(sym)
+            if df is None or int(df["open_time"].iloc[-1]) != expected_last_open:
                 stale.append({"symbol": sym, "timeframe": interval,
-                              "last_stored": iso(candles[-1].open_time) if candles else None,
+                              "last_stored": iso(int(df["open_time"].iloc[-1])) if df is not None else None,
                               "expected": iso(expected_last_open)})
                 continue
-            frames[interval][sym] = indicators.compute_all(indicators.to_frame(candles), interval)
+            raw[interval][sym] = df
+    res = engine.run(raw, settings["universe"], set(universe), ALL, as_of_ms=now_ms)
 
-    daily = frames.get("1d", {})
-    btc_daily = daily.get("BTCUSDT")
-    panel = rs_panel({s: f for s, f in daily.items() if s != "BTCUSDT" and s in universe}, btc_daily) \
-        if btc_daily is not None else {}
+    btc_daily = res.frames.get("1d", {}).get("BTCUSDT")
     btc_regime = None
     if btc_daily is not None and not np.isnan(btc_daily["sma200"].iloc[-1]):
         b = btc_daily.iloc[-1]
@@ -156,33 +112,30 @@ def main() -> int:
         for interval in strategy.timeframes:
             block = {"strategy": strategy.id, "version": strategy.version, "params_hash": strategy.params_hash,
                      "name_he": strategy.name_he, "timeframe": interval, "min_candles": strategy.min_candles,
-                     "signals": [], "watch": [], "insufficient": []}
-            for sym, df in sorted(frames.get(interval, {}).items()):
-                if sym not in universe or (strategy.id == "C-TRS" and sym == "BTCUSDT"):
+                     "signals": [], "watch": [], "insufficient": [], "not_member_now": []}
+            for sym, ev in sorted(res.evaluated[(strategy.id, interval)].items()):
+                if sym not in universe:
                     continue
-                ev = strategy.evaluate(df, {"rs": panel.get(sym)})
+                df = res.frames[interval][sym]
                 last = len(ev) - 1
                 st = ev["state"].iloc[last]
                 s_row = snap.get(sym, {})
-                if st == SIGNAL:
-                    block["signals"].append(item(strategy, sym, interval, df, ev, last, s_row))
-                elif st == WATCH:
-                    block["watch"].append(item(strategy, sym, interval, df, ev, last, s_row))
+                if st in (SIGNAL, WATCH):
+                    it = item(strategy, sym, interval, df, ev, last, s_row, high_risk_pct)
+                    block["signals" if st == SIGNAL else "watch"].append(it)
+                    journal_rows.append((it, engine.episode_start(ev["state"], last), df))
                 elif st == INSUFFICIENT:
                     block["insufficient"].append({"symbol": sym, "history_candles": len(df),
                                                   "needs": strategy.min_candles})
-                # Journal: every confirmed signal; a WATCH only on the candle it begins.
-                prev = ev["state"].iloc[last - 1] if last >= 1 else None
-                if st == SIGNAL or (st == WATCH and prev != WATCH):
-                    journal_rows.append((strategy, sym, interval, df, ev, last, s_row))
-                # Historical occurrences (rules only; no outcome or performance).
-                sig_idx = np.flatnonzero(ev["state"].to_numpy() == SIGNAL)
-                for i in sig_idx:
+                elif st == engine.NOT_MEMBER:
+                    block["not_member_now"].append(sym)
+                # Historical occurrences (rules only; no outcome or performance). Member candles only.
+                for i in np.flatnonzero(ev["state"].to_numpy() == SIGNAL):
                     hist_counts[(strategy.id, interval, pd.Timestamp(df.index[i]).year)] += 1
-                    hist_rows.append(item(strategy, sym, interval, df, ev, i, {}))
+                    hist_rows.append(item(strategy, sym, interval, df, ev, i, {}, high_risk_pct))
                 # Partial-candle check: candles where every signal rule held except "complete".
                 others = [f"c_{k}" for k in strategy.signal_rules if k != "complete"]
-                would = (ev[others] == 1).all(axis=1) & df["partial"].astype(bool)
+                would = (ev[others] == 1).all(axis=1) & df["partial"].astype(bool) & ev["member"].astype(bool)
                 for i in np.flatnonzero(would.to_numpy()):
                     partial_blocked.append({"strategy": strategy.ref, "symbol": sym, "timeframe": interval,
                                             "candle_open_utc": iso(int(df["open_time"].iloc[i]))})
@@ -191,33 +144,37 @@ def main() -> int:
             results.append(block)
 
     out = {"run": tag, "generated_utc": started.isoformat(timespec="seconds"), "source": settings["data"]["source"],
-           "code_commit": commit, "universe_snapshot": snap_path.name, "universe_size": len(universe),
+           "code_commit": commit, "data_fingerprint": res.data_fingerprint, "universe_snapshot": snap_path.name,
+           "universe_size": len(universe), "high_risk_stop_pct": high_risk_pct,
            "btc_regime": btc_regime, "stale": stale, "strategies": results,
            "disclaimers_he": [SURVIVORSHIP_HE, NOT_PROOF_HE,
                               "התראת מעקב (WATCH) אינה נקודת כניסה. רק איתות מאושר (SIGNAL) עומד בכל התנאים.",
+                              "שום איתות אינו המלצת כניסה. איתות שהסטופ שלו רחוק מ-"
+                              f"{high_risk_pct:g}% מסומן 'סיכון גבוה'.",
                               "אין כאן ייעוץ השקעות. המערכת לא מבצעת מסחר ולא מחוברת לחשבון."]}
     scan_dir = ROOT / "data/scan"
     scan_dir.mkdir(parents=True, exist_ok=True)
     (scan_dir / f"{tag}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
     (scan_dir / "latest.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
 
-    n_new = append_journal(journal_rows, started, commit, settings["data"]["source"])
+    added = append_journal(journal_rows, started, commit, settings["data"]["source"])
     append_csv(ROOT / "journal/runs.csv", [{
         "run": tag, "started_utc": started.isoformat(timespec="seconds"), "code_commit": commit,
         "universe_snapshot": snap_path.name, "universe_size": len(universe), "stale_series": len(stale),
         "signals": sum(len(b["signals"]) for b in results), "watch": sum(len(b["watch"]) for b in results),
-        "journal_rows_added": n_new}])
+        "journal_rows_added": sum(added.values())}])
 
-    rep = ROOT / "reports/phase2/runs" / tag
+    rep = ROOT / "reports/scan/runs" / tag
     rep.mkdir(parents=True, exist_ok=False)
     hist_cols = ["strategy", "strategy_version", "params_hash", "timeframe", "symbol", "candle_open_utc",
-                 "ref_price", "stop", "target", "rr", "atr_pct", "partial_in_window", "history_candles", "reason_he"]
+                 "ref_price", "stop", "target", "rr", "risk_pct_to_stop", "high_risk", "atr_pct",
+                 "partial_in_window", "history_candles", "reason_he"]
     with (rep / "historical_signals.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=hist_cols, extrasaction="ignore")
         w.writeheader()
         w.writerows(hist_rows)
-    (rep / "REPORT.md").write_text(render(out, hist_counts, hist_rows, partial_blocked, n_new))
-    print((rep / "REPORT.md").read_text()[:6000])
+    (rep / "REPORT.md").write_text(render(out, hist_counts, hist_rows, partial_blocked, added))
+    print((rep / "REPORT.md").read_text()[:3000])
     return 0
 
 
@@ -233,39 +190,67 @@ def append_csv(path: Path, rows: list[dict], fields: list[str] | None = None) ->
         w.writerows(rows)
 
 
-def append_journal(rows, started: dt.datetime, commit: str, source: str) -> int:
-    path = ROOT / "journal/signals.csv"
-    existing = set()
-    if path.exists():
-        with path.open(newline="") as f:
-            existing = {r["signal_id"] for r in csv.DictReader(f)}
-    new = []
-    for strategy, sym, interval, df, ev, i, s_row in rows:
-        it = item(strategy, sym, interval, df, ev, i, s_row)
-        key = f"{sym}|{strategy.ref}|{interval}|{it['state']}|{it['candle_open_utc']}"
-        sid = hashlib.sha256(key.encode()).hexdigest()[:16]
+def journal_key(it: dict, episode_start_utc: str) -> str:
+    """Stable id of one alert episode. For a SIGNAL the episode is its own candle; for a WATCH it is the run of
+    consecutive WATCH candles, identified by its first candle. Same formula as journal v1 (whose WATCH rows were
+    all recorded on their first candle), so a v1 row and a v2 row of the same episode share an id."""
+    key = f"{it['symbol']}|{it['strategy']}@{it['strategy_version']}|{it['timeframe']}|{it['state']}|{episode_start_utc}"
+    return hashlib.sha256(key.encode()).hexdigest()[:16]
+
+
+def journal_ids() -> set[str]:
+    ids = set()
+    for name in ("signals.csv", "signals-v2.csv"):
+        path = ROOT / "journal" / name
+        if path.exists():
+            with path.open(newline="") as f:
+                ids |= {r["signal_id"] for r in csv.DictReader(f)}
+    return ids
+
+
+def append_journal(rows, started: dt.datetime, commit: str, source: str) -> dict[str, int]:
+    """Append live alerts to journal/signals-v2.csv (journal/signals.csv is the frozen v1 file).
+
+    origin = live_new             the alert's first candle is the candle this scan evaluated
+             live_already_active  the alert was already active when first observed by a live scan (e.g. it began
+                                  before the journal existed). episode_started_utc is computed from the stored
+                                  candles and is NOT the time it was detected; detected_at_utc is the real
+                                  observation time. Nothing is back-dated.
+    Historical reconstructions (Time Machine) are never written here; they live under data/replays/.
+    """
+    existing = journal_ids()
+    new, counts = [], Counter()
+    for it, ep_start, df in rows:
+        ep_utc = iso(int(df["open_time"].iloc[ep_start]))
+        sid = journal_key(it, ep_utc)
         if sid in existing:
-            continue  # same candle already journaled by an earlier run
+            continue  # this episode is already in the journal (v1 or v2)
         existing.add(sid)
-        new.append({"signal_id": sid, "detected_at_utc": started.isoformat(timespec="seconds"),
-                    "candle_open_utc": it["candle_open_utc"], "candle_close_utc": it["candle_close_utc"],
-                    "exchange": source, "symbol": sym, "timeframe": interval, "strategy": strategy.id,
-                    "strategy_version": strategy.version, "params_hash": strategy.params_hash, "type": it["state"],
-                    "ref_price": it["ref_price"], "stop": it["stop"], "target": it["target"], "rr": it["rr"],
+        origin = "live_new" if ep_utc == it["candle_open_utc"] else "live_already_active"
+        counts[origin] += 1
+        close_dt = dt.datetime.fromisoformat(it["candle_close_utc"].replace("Z", "+00:00"))
+        new.append({"signal_id": sid, "origin": origin, "detected_at_utc": started.isoformat(timespec="seconds"),
+                    "detection_delay_min": round((started - close_dt).total_seconds() / 60, 1),
+                    "episode_started_utc": ep_utc, "candle_open_utc": it["candle_open_utc"],
+                    "candle_close_utc": it["candle_close_utc"], "exchange": source, "symbol": it["symbol"],
+                    "timeframe": it["timeframe"], "strategy": it["strategy"], "strategy_version": it["strategy_version"],
+                    "params_hash": it["params_hash"], "type": it["state"], "ref_price": it["ref_price"],
+                    "stop": it["stop"], "target": it["target"], "rr": it["rr"], "high_risk": it["high_risk"],
+                    "watch_invalidation": it["watch_invalidation"], "breakout_level": it["breakout_level"],
                     "atr_pct": it["atr_pct"], "realized_vol_30": it["realized_vol_30"],
                     "median_qvol_30d": it["median_qvol_30d"], "spread_pct": it["spread_pct"],
                     "liquidity_warnings": ";".join(it["liquidity_warnings"]),
                     "partial_in_window": it["partial_in_window"], "reason_he": it["reason_he"], "code_commit": commit})
-    append_csv(path, new, JOURNAL_FIELDS)
-    return len(new)
+    append_csv(ROOT / "journal/signals-v2.csv", new, JOURNAL_V2_FIELDS)
+    return dict(counts)
 
 
 def f(x, d=4):
     return "—" if x is None else f"{x:,.{d}g}"
 
 
-def render(out: dict, counts: Counter, hist: list[dict], partial_blocked: list[dict], n_new: int) -> str:
-    L = [f"# דוח שלב 2 — אסטרטגיות ({out['run']})", "",
+def render(out: dict, counts: Counter, hist: list[dict], partial_blocked: list[dict], added: dict) -> str:
+    L = [f"# דוח סריקה ({out['run']})", "",
          f"- קוד: `{out['code_commit']}` · יקום: `{out['universe_snapshot']}` ({out['universe_size']} מטבעות) · "
          f"זמן: {out['generated_utc']}", "", "> " + SURVIVORSHIP_HE, ">", "> " + NOT_PROOF_HE, ""]
     b = out["btc_regime"]
@@ -296,6 +281,8 @@ def render(out: dict, counts: Counter, hist: list[dict], partial_blocked: list[d
                 warn = f" · ⚠️ נזילות: {', '.join(x['liquidity_warnings'])}" if x["liquidity_warnings"] else ""
                 part = " · ⚠️ נר חלקי ב-20 הנרות האחרונים" if x["partial_in_window"] else ""
                 if kind == "signals":
+                    if x["high_risk"]:
+                        warn += f" · ⚠️ סיכון גבוה: הסטופ במרחק {f(x['risk_pct_to_stop'], 3)}% — לא המלצת כניסה"
                     rr = f(x["rr"], 3) if x["rr"] is not None else x["rr_note"]
                     levels = (f"ביטול {fmt(x['stop'])} ({f(x['risk_pct_to_stop'], 3)}%) · יעד {fmt(x['target'])} · R:R {rr}")
                 else:
@@ -304,7 +291,8 @@ def render(out: dict, counts: Counter, hist: list[dict], partial_blocked: list[d
                       f"ATR {f(x['atr_pct'], 3)}% · תנודתיות 30 {f(x['realized_vol_30'], 3)}{warn}{part}",
                       f"  - {x['reason_he']}"]
         L.append("")
-    L += [f"- שורות חדשות ביומן: {n_new}", ""]
+    L += [f"- רשומות חדשות ביומן: {sum(added.values())} (חדשות בזמן אמת: {added.get('live_new', 0)} · "
+          f"היו פעילות כבר לפני שנצפו: {added.get('live_already_active', 0)})", ""]
 
     L += ["## היכן הכללים התקיימו בהיסטוריה (ספירה בלבד, ללא ביצועים)", "",
           "| אסטרטגיה | טווח | " + " | ".join(str(y) for y in range(2017, 2027)) + " | סה\"כ |",

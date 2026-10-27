@@ -10,12 +10,13 @@ from .base import Rule, Strategy, flag, fmt, fmt_pct
 RS_SMA, RS_RET, MIN_CROSS_SECTION = 50, 30, 10
 
 
-def rs_panel(frames: dict[str, pd.DataFrame], btc: pd.DataFrame) -> dict[str, pd.DataFrame]:
+def rs_panel(frames: dict[str, pd.DataFrame], btc: pd.DataFrame,
+             membership: pd.DataFrame | None = None) -> dict[str, pd.DataFrame]:
     """Per symbol: RS line, its SMA50, 30-candle RS return, and the cross-sectional percentile of that return.
 
-    The percentile on date d uses only coins with a valid 30-candle RS return on d (point-in-time within the
-    coins we hold — delisted coins are absent, see the survivorship note in every report). Fewer than
-    MIN_CROSS_SECTION coins on a date leaves the rank undefined (NaN), never guessed.
+    The percentile on date d uses only coins that were universe members on d (`membership`, point-in-time; None =
+    every coin given) and have a valid 30-candle RS return on d. Delisted coins are absent (see the survivorship
+    note in every report). Fewer than MIN_CROSS_SECTION coins on a date leaves the rank undefined (NaN).
     """
     btc_close = btc["close"]
     per: dict[str, pd.DataFrame] = {}
@@ -28,6 +29,9 @@ def rs_panel(frames: dict[str, pd.DataFrame], btc: pd.DataFrame) -> dict[str, pd
     if not per:
         return per
     wide = pd.DataFrame({s: d["rs_ret30"] for s, d in per.items()})
+    if membership is not None:
+        mask = membership.reindex(index=wide.index, columns=wide.columns).fillna(False).astype(bool)
+        wide = wide.where(mask)
     n = wide.notna().sum(axis=1)
     pct = wide.rank(axis=1, method="max").div(n, axis=0) * 100  # share of coins with return <= this coin's
     pct[n < MIN_CROSS_SECTION] = np.nan
@@ -39,7 +43,7 @@ def rs_panel(frames: dict[str, pd.DataFrame], btc: pd.DataFrame) -> dict[str, pd
 
 class TrendRelativeStrength(Strategy):
     id = "C-TRS"
-    version = "1.0.0"
+    version = "1.1.0"  # 1.1.0: rank population is the point-in-time universe of each date (engine.pit_membership)
     name_he = "C · מגמה וחוזק יחסי מול BTC"
     timeframes = ("1d",)
     params = {

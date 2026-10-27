@@ -18,6 +18,7 @@ REQUIRED = {
     "asset_checks": ["common_permission_share", "stable_max_range_pct", "weekend_volume_ratio_min"],
     "liquidity": ["depth_limit", "depth_bands_pct", "impact_sizes_usd", "max_spread_pct", "min_depth_1pct_usd",
                   "suspend_window", "suspend_min_hits", "suspend_min_span_hours"],
+    "risk": ["high_risk_stop_pct"],
 }
 
 

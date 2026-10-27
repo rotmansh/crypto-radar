@@ -334,7 +334,7 @@ def test_rs_does_not_forward_fill_missing_btc():
 EXPECTED_PARAM_HASHES = {
     "A-SMA50PB@1.0.0": "ff7efc6d7c94",
     "B-BBSQ@1.0.0": "9bbcd16acf0c",
-    "C-TRS@1.0.0": "5ccc403477ab",
+    "C-TRS@1.1.0": "5ccc403477ab",
 }
 
 
@@ -383,3 +383,38 @@ def test_no_lookahead_real_data(strategy, interval):
     df = ind.compute_all(ind.to_frame(candles), interval)
     n = len(df)
     _check_no_lookahead(strategy, df, lambda d: {}, (n - 400, n - 251, n - 97, n - 2), interval)
+
+
+# ---------------------------------------------------------------- research variant & high-risk flag
+
+def test_research_tail_variant_is_separate_and_pinned():
+    from radar.strategies import RESEARCH
+    assert {s.ref: s.params_hash for s in RESEARCH} == {
+        "A-SMA50PB-TAIL@0.1.0": "a92eead115c1", "A-SMA50PB-TAIL@0.2.0": "c6007cffcf27",
+        "A-SMA50PB-TAIL@0.3.0": "9d184b67c834"}
+    assert not {s.id for s in RESEARCH} & {s.id for s in ALL}  # never part of the live scan
+    assert A.ref == "A-SMA50PB@1.0.0" and "max_tail_atr" not in A.params  # base version untouched
+
+
+def test_research_tail_limits_wick_depth_base_does_not():
+    from radar.strategies import SMA50PullbackTail
+    df = a_frame()
+    put(df, "low", df["sma50"].iloc[-3] - 1.5 * 2.0, -3)  # wick 1.5 ATR below SMA50, close unchanged
+    assert state(A, df).state == SIGNAL                    # base rule allows any wick depth
+    r1 = state(SMA50PullbackTail("0.2.0"), df)             # k = 1.0
+    assert r1.c_tail_within_atr == 0 and r1.state == NONE
+    assert state(SMA50PullbackTail("0.3.0"), df).state == SIGNAL  # k = 1.5
+
+
+def test_high_risk_flag_marks_but_never_moves_the_stop():
+    from radar.present import item
+    df, ctx = c_case()
+    df["atr14"] = 6.0  # stop = 110 - 2.5*6 = 95  -> 13.6% away
+    df["open_time"] = df.index.as_unit("ms").asi8
+    df["close_time"] = df["open_time"] + 86_400_000 - 1
+    df["atr_pct"], df["realized_vol_30"] = 5.0, 1.0
+    ev = C.evaluate(df, ctx)
+    it = item(C, "XUSDT", "1d", df, ev, len(df) - 1, {}, 10.0)
+    assert it["state"] == SIGNAL and it["high_risk"] is True
+    assert it["stop"] == pytest.approx(95.0)
+    assert not item(C, "XUSDT", "1d", df, ev, len(df) - 1, {}, 20.0)["high_risk"]

@@ -10,7 +10,7 @@ from __future__ import annotations
 import subprocess
 import sys
 
-PROTECTED = ("data/ohlcv/", "data/universe/", "data/liquidity/", "data/scan/", "journal/", "reports/")
+PROTECTED = ("data/ohlcv/", "data/universe/", "data/liquidity/", "data/scan/", "data/replays/", "journal/", "reports/")
 UNPROTECTED = ("data/ohlcv/binance/manifest.json", "data/scan/latest.json")
 
 

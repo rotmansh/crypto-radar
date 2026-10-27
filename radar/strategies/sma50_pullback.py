@@ -138,3 +138,35 @@ class SMA50Pullback(Strategy):
         span = p["target_from"] - p["target_to"] + 1
         out["target"] = h.shift(p["target_to"]).rolling(span, min_periods=span).max()
         return out
+
+
+class SMA50PullbackTail(SMA50Pullback):
+    """RESEARCH variant of A: the pullback's wicks may not reach deeper than SMA50 − k·ATR14.
+
+    Not part of the live scan or the dashboard. Three versions are declared in advance (k = 0.5 / 1.0 / 1.5) so
+    that the choice between them is made on the in-sample period only (SPEC §3.1.1); results of each version are
+    kept separate from each other and from the base strategy A-SMA50PB@1.0.0.
+    """
+    research = True
+    TAIL_K = {"0.1.0": 0.5, "0.2.0": 1.0, "0.3.0": 1.5}
+
+    def __init__(self, version: str = "0.2.0"):
+        self.id = "A-SMA50PB-TAIL"
+        self.version = version
+        self.name_he = f"A מחקר · תיקון ל-SMA50 עם זנב מוגבל ({self.TAIL_K[version]}·ATR)"
+        self.params = dict(SMA50Pullback.params, max_tail_atr=self.TAIL_K[version])
+        self.watch_rules = SMA50Pullback.watch_rules + ("tail_within_atr",)
+        self.signal_rules = self.watch_rules + ("green", "close_above_sma50", "close_above_prev_high", "complete")
+        k = self.TAIL_K[version]
+        self.rules = SMA50Pullback.rules + (
+            Rule("tail_within_atr", f"זנב לא עמוק מ-{k}·ATR מתחת ל-SMA50",
+                 lambda r: f"הזנב העמוק ב-5 נרות: {fmt_pct(r.tail_depth_atr)} ATR מתחת ל-SMA50 (מותר עד {k})"),
+        )
+
+    def conditions(self, df: pd.DataFrame, ctx: dict) -> pd.DataFrame:
+        out = super().conditions(df, ctx)
+        n = self.params["pullback_lookback"]
+        depth = (df["sma50"] - df["low"]) / df["atr14"]  # in ATRs below SMA50 (negative = above)
+        out["tail_depth_atr"] = depth.rolling(n, min_periods=n).max()
+        out["c_tail_within_atr"] = flag(out["tail_depth_atr"] <= self.params["max_tail_atr"], out["tail_depth_atr"])
+        return out

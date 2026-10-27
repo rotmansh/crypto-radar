@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Crypto Radar</title>
+  <meta name="description" content="סורק וניתוח טכני של מטבעות קריפטו על נתוני שוק אמיתיים. ללא מסחר וללא ייעוץ השקעות.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='none' stroke='%2322c55e' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%2322c55e' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%2322c55e'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">דלג לתוכן</a>
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14"/><circle cx="16" cy="16" r="7"/><circle cx="16" cy="16" r="2" class="dot"/></svg>
+      <div>
+        <div class="title">Crypto Radar</div>
+        <div class="subtitle">ניתוח טכני על נתוני Binance אמיתיים · ללא מסחר</div>
+      </div>
+    </div>
+    <div id="freshness" class="freshness" aria-live="polite"></div>
+  </header>
+  <div id="banner"></div>
+  <nav class="tabs" aria-label="ניווט ראשי">
+    <a href="#overview" data-tab="overview">סקירה</a>
+    <a href="#strategies" data-tab="strategies">איתותים</a>
+    <a href="#coin" data-tab="coin">מטבע</a>
+    <a href="#journal" data-tab="journal">יומן</a>
+    <a href="#tm" data-tab="tm">מכונת זמן</a>
+    <a href="#about" data-tab="about">אודות</a>
+  </nav>
+  <main id="main" tabindex="-1"><div class="loading">טוען נתונים…</div></main>
+  <footer class="foot">אין כאן ייעוץ השקעות. המערכת לא מבצעת מסחר, לא מחוברת לחשבון ולא משתמשת במינוף.</footer>
+  <script src="vendor/lightweight-charts.standalone.production.js"></script><!-- TradingView Lightweight Charts v4.2.0, Apache-2.0, see vendor/ -->
+  <script src="tm-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
