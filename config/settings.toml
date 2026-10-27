@@ -15,10 +15,12 @@ min_median_quote_volume_usd = 5_000_000          # 30-day median daily quote vol
 max_size = 100
 volume_lookback_days = 30
 min_history_candles = 220                        # per timeframe; below this the coin is marked "insufficient history" there
+tradability_days = 7                             # last N daily candles must all have volume > 0
 prefilter_24h_quote_volume_usd = 250_000         # skip fetching 30d history for pairs below this 24h volume
 
 [asset_checks]
-# Automated checks. Any flag sends the pair to the review queue (not scanned) — never silently into the universe.
+# Asset-type checks. Any flag sends the pair to the review queue (not scanned) unless config/review.toml
+# holds a still-valid verification for it.
 common_permission_share = 0.95                   # a permission group present on >=95% of pairs; lacking any such group -> flag
 stable_max_range_pct = 3.0                       # 30d max/min close range below this -> flag (possible stablecoin / peg)
 weekend_volume_ratio_min = 0.35                  # median weekend / weekday daily volume below this -> flag (equity-like hours)
@@ -27,5 +29,10 @@ weekend_volume_ratio_min = 0.35                  # median weekend / weekday dail
 depth_limit = 500                                # order-book levels per side requested
 depth_bands_pct = [0.5, 1.0, 2.0]                # USD depth measured within ±X% of mid
 impact_sizes_usd = [10_000, 50_000]              # simulated market order sizes for price-impact estimate
-max_spread_pct = 0.30                            # wider -> flag
-min_depth_1pct_usd = 50_000                      # thinner on either side -> flag
+# Liquidity does not decide universe membership. A breach produces a warning shown with the coin.
+max_spread_pct = 0.30                            # wider -> warning
+min_depth_1pct_usd = 50_000                      # thinner on either side -> warning
+# Suspension from scanning requires a persistent problem over time, never a single snapshot:
+suspend_window = 6                               # look at the last N measurements of the pair
+suspend_min_hits = 5                             # ... at least this many must carry a warning
+suspend_min_span_hours = 24                      # ... and they must span at least this long

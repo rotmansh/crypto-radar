@@ -43,7 +43,8 @@ def book_metrics(bids: list[Level], asks: list[Level], bands_pct: list[float], s
     return out
 
 
-def liquidity_flags(m: dict, max_spread_pct: float, min_depth_1pct_usd: float) -> list[str]:
+def liquidity_warnings(m: dict, max_spread_pct: float, min_depth_1pct_usd: float) -> list[str]:
+    """Warnings for one order-book snapshot. They are shown with the coin; they do not change membership."""
     if "error" in m:
         return ["order_book_unavailable"]
     flags = []
@@ -54,3 +55,45 @@ def liquidity_flags(m: dict, max_spread_pct: float, min_depth_1pct_usd: float) -
         if d is not None and d < min_depth_1pct_usd and not m.get(f"depth_{side}_1.0pct_lower_bound"):
             flags.append(f"thin_book_{side}")
     return flags
+
+
+def _num(v):
+    if v in (None, ""):
+        return None
+    return float(v)
+
+
+def _bool(v) -> bool:
+    return v is True or v == "True"
+
+
+def parse_measurement(row: dict) -> dict:
+    """Normalise a row read back from data/liquidity/*.csv (strings) to the book_metrics shape."""
+    m = {"measured_utc": row.get("measured_utc"), "spread_pct": _num(row.get("spread_pct"))}
+    if m["spread_pct"] is None:
+        return {"measured_utc": row.get("measured_utc"), "error": row.get("error") or "missing"}
+    for side in ("bid", "ask"):
+        m[f"depth_{side}_1.0pct_usd"] = _num(row.get(f"depth_{side}_1.0pct_usd"))
+        m[f"depth_{side}_1.0pct_lower_bound"] = _bool(row.get(f"depth_{side}_1.0pct_lower_bound"))
+        if m[f"depth_{side}_1.0pct_usd"] is None:  # early runs stored None when the book did not reach ±1%
+            m[f"depth_{side}_1.0pct_lower_bound"] = True
+    return m
+
+
+def persistence(measurements: list[dict], cfg: dict) -> dict:
+    """Suspension rule over the last `suspend_window` measurements (oldest first, each with measured_utc).
+
+    Suspended only when there are at least `suspend_window` measurements, at least `suspend_min_hits` of them
+    carry a warning, and they span at least `suspend_min_span_hours`. A single snapshot can never suspend.
+    """
+    import datetime as dt
+
+    last = measurements[-cfg["suspend_window"]:]
+    hits = sum(1 for m in last if liquidity_warnings(m, cfg["max_spread_pct"], cfg["min_depth_1pct_usd"]))
+    span_h = 0.0
+    if len(last) >= 2:
+        t0, t1 = (dt.datetime.fromisoformat(last[i]["measured_utc"]) for i in (0, -1))
+        span_h = (t1 - t0).total_seconds() / 3600
+    suspended = (len(last) >= cfg["suspend_window"] and hits >= cfg["suspend_min_hits"]
+                 and span_h >= cfg["suspend_min_span_hours"])
+    return {"measurements": len(last), "hits": hits, "span_hours": round(span_h, 1), "suspended": suspended}

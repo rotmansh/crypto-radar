@@ -73,10 +73,13 @@ def relative_strength(coin: pd.DataFrame, btc: pd.DataFrame) -> pd.Series:
 
 
 PERIODS_PER_YEAR = {"1d": 365, "4h": 365 * 6}
+INTERVAL_MS = {"1d": 86_400_000, "4h": 14_400_000}
 
 
 def compute_all(df: pd.DataFrame, interval: str = "1d") -> pd.DataFrame:
     out = df.copy()
+    # Candle closed early because the exchange halted trading (see SPEC §1.3). Kept, but flagged.
+    out["partial"] = df["close_time"] < df["open_time"] + INTERVAL_MS[interval] - 1
     out["sma20"] = sma(df["close"], 20)
     out["sma50"] = sma(df["close"], 50)
     out["sma200"] = sma(df["close"], 200)

@@ -1,15 +1,20 @@
 """Universe classification: which USDT pairs are scanned, excluded, or held for review.
 
-Every candidate gets exactly one status:
-  included      passes the liquidity floor and every check; scanned
-  review        passes the floor but an automated check raised a flag; NOT scanned until a person decides
-  excluded      on the explicit exclusion list (config/exclusions.toml)
-  below_floor   30d median daily quote volume under the floor
-  short_volume_history  fewer than `volume_lookback_days` closed daily candles
-  overflow      eligible but beyond `max_size`
+Membership depends on volume, asset type, listing age and tradability. Order-book liquidity is reported as a
+warning and can only suspend a pair through a persistence rule over many measurements (liquidity.persistence).
 
-No single undocumented exchange field decides the outcome on its own: the permission-profile check is one
-of several independent flags, and a flag only routes a pair to review.
+Every candidate gets exactly one status:
+  included              scanned (may carry liquidity warnings)
+  review                an asset-type flag without a still-valid verification, a manual hold, or a failed
+                        tradability check; NOT scanned until a person decides (config/review.toml)
+  liquidity_suspended   persistent liquidity problem over time; NOT scanned, re-evaluated every run
+  excluded              on the explicit exclusion list (config/exclusions.toml)
+  below_floor           30d median daily quote volume under the floor
+  below_prefilter       24h volume too low to be worth measuring
+  short_volume_history  listed for fewer than `volume_lookback_days` closed daily candles
+  overflow              eligible but beyond `max_size`
+
+No single undocumented exchange field decides the outcome on its own: a flag only routes a pair to review.
 """
 from __future__ import annotations
 
@@ -30,8 +35,13 @@ class Candidate:
     status: str = ""
     median_qvol_30d: float | None = None
     days: int = 0
-    flags: list[str] = field(default_factory=list)
+    flags: list[str] = field(default_factory=list)  # asset-type flags only
     exclusion: dict | None = None
+    liquidity_warnings: list[str] = field(default_factory=list)
+    liquidity_suspended: bool = False
+    tradable: bool | None = None
+    review_reason: str | None = None
+    notes: list[str] = field(default_factory=list)
     checks: dict = field(default_factory=dict)  # measured values behind each check, kept for the snapshot
 
 
@@ -86,8 +96,34 @@ def asset_flags(candles: list[Candle], meta: dict | None, common_groups: set[str
     return flags, values
 
 
-def finalize(candidates: list[Candidate], floor: float, max_size: int, lookback_days: int) -> list[Candidate]:
-    """Assign statuses to candidates that do not have one yet. Flags must already be set."""
+def tradability(candles: list[Candle], book_ok: bool, days: int) -> tuple[bool, dict]:
+    """Can the pair actually be traded now? Listed as TRADING with spot allowed (filtered upstream), both sides
+    of the order book present, and volume on each of the last `days` daily candles."""
+    recent = candles[-days:]
+    zero = [c.open_time for c in recent if c.volume <= 0]
+    ok = book_ok and len(recent) >= days and not zero
+    return ok, {"book_both_sides": book_ok, "days_checked": len(recent), "zero_volume_days": len(zero)}
+
+
+def apply_review(c: Candidate, review: dict) -> str | None:
+    """Return a review reason, or None if the pair may proceed. Mutates c.notes for verified pairs."""
+    if c.base in review.get("hold", {}):
+        return "manual_hold: " + review["hold"][c.base]["question"]
+    if c.tradable is False:
+        return "not_tradable"
+    if c.flags:
+        v = review.get("verified", {}).get(c.base)
+        if v and set(c.flags) <= set(v["accepted_flags"]):
+            c.notes.append(f"verified {v['decided']}: accepted {', '.join(c.flags)}")
+            return None
+        return "asset_flags: " + ", ".join(c.flags)
+    return None
+
+
+def finalize(candidates: list[Candidate], floor: float, max_size: int, lookback_days: int,
+             review: dict | None = None) -> list[Candidate]:
+    """Assign statuses to candidates that do not have one yet. Flags, tradability and liquidity must be set."""
+    review = review or {}
     pool = []
     for c in candidates:
         if c.status:
@@ -96,8 +132,10 @@ def finalize(candidates: list[Candidate], floor: float, max_size: int, lookback_
             c.status = "short_volume_history"
         elif (c.median_qvol_30d or 0) < floor:
             c.status = "below_floor"
-        elif c.flags:
-            c.status = "review"
+        elif reason := apply_review(c, review):
+            c.status, c.review_reason = "review", reason
+        elif c.liquidity_suspended:
+            c.status = "liquidity_suspended"
         else:
             pool.append(c)
     pool.sort(key=lambda c: c.median_qvol_30d, reverse=True)

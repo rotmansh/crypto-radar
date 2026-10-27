@@ -1,0 +1,38 @@
+# Manual review decisions for pairs the automated checks flagged.
+#
+# [verified.<BASE>]  The pair was checked and may be scanned despite the listed flags. The decision holds only
+#                    while (a) its flags are a subset of `accepted_flags` and (b) it passes the tradability check
+#                    on every run. Any new flag, or failing tradability, sends it back to review automatically.
+# [hold.<BASE>]      Kept in review (not scanned) until the stated question is answered.
+#
+# Decisions are based on measured evidence, never on the asset's name.
+
+[verified.ZEC]
+accepted_flags = ["permission_profile_anomaly"]
+decided = "2026-10-27"
+evidence = """Missing groups TRD_GRP_004/006/020 differ from the tokenized-equity pattern. Measured in runs
+40462417068..40463572930: spread 0.0008%, ±1% depth $1.8M–5.2M per side, weekend/weekday volume 0.66,
+30d range 40.8%, status TRADING with spot allowed. Re-verified by the tradability check on every run."""
+
+[verified.DASH]
+accepted_flags = ["permission_profile_anomaly"]
+decided = "2026-10-27"
+evidence = """Missing groups TRD_GRP_004/006 differ from the tokenized-equity pattern. Measured in runs
+40462417068..40463572930: spread 0.04–0.05%, ±1% depth bid $98K–173K / ask $38K–59K, weekend/weekday volume 0.47,
+30d range 41.3%, status TRADING with spot allowed. Re-verified by the tradability check on every run."""
+
+[hold.GTC]
+decided = "2026-10-27"
+question = "Flagged only for ask-side ±1% depth $20K–26K (< $50K) in all 4 measurements. Is this persistent?"
+
+[hold.POL]
+decided = "2026-10-27"
+question = "Flagged only for ask-side ±1% depth $47K–61K oscillating around the $50K threshold."
+
+[hold.MUBARAK]
+decided = "2026-10-27"
+question = "Flagged only for ±1% depth bid $30K–45K / ask $24K–27K (< $50K) in all 4 measurements."
+
+[hold."牛来"]
+decided = "2026-10-27"
+question = "Missing permission group TRD_GRP_004 plus ±1% depth $30K–43K both sides. Asset type not yet established."

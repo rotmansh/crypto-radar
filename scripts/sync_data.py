@@ -50,7 +50,21 @@ def write_csv(path: Path, rows: list[dict]) -> None:
         w.writerows(rows)
 
 
-def build_universe(settings: dict, exclusions: dict, base_url: str) -> tuple[list[universe.Candidate], list[dict], dict]:
+def liquidity_history(symbols: set[str]) -> dict[str, list[dict]]:
+    """Earlier order-book measurements per symbol from data/liquidity/*.csv, oldest first."""
+    out: dict[str, list[dict]] = {s: [] for s in symbols}
+    for path in sorted((ROOT / "data/liquidity").glob("*.csv")):
+        with path.open(newline="") as f:
+            for row in csv.DictReader(f):
+                if row["symbol"] in out and row.get("measured_utc"):
+                    out[row["symbol"]].append(liquidity.parse_measurement(row))
+    for v in out.values():
+        v.sort(key=lambda m: m["measured_utc"])
+    return out
+
+
+def build_universe(settings: dict, exclusions: dict, review: dict, base_url: str,
+                   started_iso: str) -> tuple[list[universe.Candidate], list[dict], dict]:
     u, chk, liq = settings["universe"], settings["asset_checks"], settings["liquidity"]
     all_symbols = binance.exchange_symbols(base_url)
     usdt = [m for m in all_symbols if m["quoteAsset"] == "USDT" and m["status"] == "TRADING"
@@ -71,19 +85,29 @@ def build_universe(settings: dict, exclusions: dict, base_url: str) -> tuple[lis
             c.status = "below_prefilter"
         cands.append(c)
 
+    history_by_symbol = liquidity_history({c.symbol for c in cands if not c.status})
+
     def measure(c: universe.Candidate) -> None:
         candles = binance.klines(c.symbol, "1d", limit=u["volume_lookback_days"] + 1, base_url=base_url)
         candles = candles[-u["volume_lookback_days"]:]
         c.days = len(candles)
         c.median_qvol_30d = statistics.median([x.quote_volume for x in candles]) if candles else 0.0
         c.flags, c.checks = universe.asset_flags(candles, meta_by_symbol[c.symbol], common, chk)
+        if c.status:  # explicitly excluded pair measured for evidence only (would the automated checks catch it?)
+            return
         if c.median_qvol_30d >= u["min_median_quote_volume_usd"]:
             bids, asks = binance.order_book(c.symbol, liq["depth_limit"], base_url)
             m = liquidity.book_metrics(bids, asks, liq["depth_bands_pct"], liq["impact_sizes_usd"])
             c.checks["liquidity"] = m
-            c.flags += liquidity.liquidity_flags(m, liq["max_spread_pct"], liq["min_depth_1pct_usd"])
+            c.liquidity_warnings = liquidity.liquidity_warnings(m, liq["max_spread_pct"], liq["min_depth_1pct_usd"])
+            series = history_by_symbol.get(c.symbol, []) + [{"measured_utc": started_iso} | m]
+            c.checks["liquidity_persistence"] = p = liquidity.persistence(series, liq)
+            c.liquidity_suspended = p["suspended"]
+            c.tradable, c.checks["tradability"] = universe.tradability(candles, bool(bids) and bool(asks),
+                                                                         u["tradability_days"])
 
-    todo = [c for c in cands if not c.status]
+    evidence_only = [c for c in cands if c.status == "excluded" and (c.exclusion or {}).get("category") == "tokenized_equity"]
+    todo = [c for c in cands if not c.status] + evidence_only
     errors = {}
     with ThreadPoolExecutor(WORKERS) as pool:
         for c, fut in [(c, pool.submit(measure, c)) for c in todo]:
@@ -91,9 +115,10 @@ def build_universe(settings: dict, exclusions: dict, base_url: str) -> tuple[lis
                 fut.result()
             except Exception as exc:
                 errors[c.symbol] = str(exc)[:200]
-                c.status = "fetch_error"
+                if not c.status:
+                    c.status = "fetch_error"
     universe.finalize([c for c in cands if c.status != "fetch_error"], u["min_median_quote_volume_usd"],
-                      u["max_size"], u["volume_lookback_days"])
+                      u["max_size"], u["volume_lookback_days"], review)
     return cands, all_symbols, {"common_permission_groups": sorted(common), "fetch_errors": errors}
 
 
@@ -136,12 +161,13 @@ def main() -> int:
     started = dt.datetime.now(dt.timezone.utc)
     run_id = os.environ.get("GITHUB_RUN_ID")
     tag = f"{started:%Y-%m-%d}-run-{run_id}" if run_id else f"{started:%Y-%m-%d}-local-{started:%H%M%S}"
-    settings, exclusions = config.load_settings(), config.load_exclusions()
+    settings, exclusions, review = config.load_settings(), config.load_exclusions(), config.load_review()
     base_url = settings["data"]["base_url"]
     store = CandleStore(ROOT / settings["data"]["store_dir"], settings["data"]["source"])
 
     t0 = time.monotonic()
-    cands, all_symbols, uni_meta = build_universe(settings, exclusions, base_url)
+    cands, all_symbols, uni_meta = build_universe(settings, exclusions, review, base_url,
+                                                  started.isoformat(timespec="seconds"))
     t_universe = time.monotonic() - t0
 
     write_csv(ROOT / "data/universe/exchange" / f"{tag}.csv",
@@ -150,8 +176,13 @@ def main() -> int:
     snap_rows = []
     for c in sorted(cands, key=lambda c: -(c.median_qvol_30d or 0)):
         liq = c.checks.get("liquidity", {})
+        pers = c.checks.get("liquidity_persistence", {})
         snap_rows.append({
             "symbol": c.symbol, "base": c.base, "status": c.status, "flags": ";".join(c.flags),
+            "review_reason": c.review_reason, "notes": " | ".join(c.notes), "tradable": c.tradable,
+            "liquidity_warnings": ";".join(c.liquidity_warnings),
+            "liquidity_hits": pers.get("hits"), "liquidity_measurements": pers.get("measurements"),
+            "liquidity_span_hours": pers.get("span_hours"),
             "median_quote_volume_30d": None if c.median_qvol_30d is None else round(c.median_qvol_30d),
             "days": c.days, "exclusion_category": (c.exclusion or {}).get("category"),
             "range_30d_pct": c.checks.get("range_30d_pct"),
@@ -228,14 +259,14 @@ def fmt_usd(x) -> str:
 
 def render(s: dict, cands: list[universe.Candidate], settings: dict) -> str:
     min_hist = settings["universe"]["min_history_candles"]
-    L = [f"# דוח שלב 1 — נתונים ({s['run']})", "",
+    L = [f"# דוח נתונים ({s['run']})", "",
          f"- מקור: `{s['source']}` · הגדרות: `{s['settings_fingerprint']}` · זמן: {s['started_utc']}",
          f"- משך: יקום {s['seconds_universe']} ש׳, היסטוריה {s['seconds_history']} ש׳", "",
          "## יקום", "", "| סטטוס | כמות |", "|---|---|"]
     L += [f"| {k} | {v} |" for k, v in s["status_counts"].items()]
     L += ["", "### נכללים בסריקה", "",
-          "| # | מטבע | חציון מחזור 30 יום | ספרד % | עומק ±1% קנייה / מכירה | השפעת מחיר בקנייה של $10K | השפעת מחיר בקנייה של $50K |",
-          "|---|---|---|---|---|---|---|"]
+          "| # | מטבע | חציון מחזור 30 יום | ספרד % | עומק ±1% קנייה / מכירה | השפעת מחיר בקנייה של $10K | השפעת מחיר בקנייה של $50K | אזהרות נזילות (פגיעות/מדידות) | הערות |",
+          "|---|---|---|---|---|---|---|---|---|"]
     inc = sorted([c for c in cands if c.status == "included"], key=lambda c: -c.median_qvol_30d)
     for i, c in enumerate(inc, 1):
         m = c.checks.get("liquidity", {})
@@ -243,17 +274,36 @@ def render(s: dict, cands: list[universe.Candidate], settings: dict) -> str:
         dep = lambda side: ("≥" if m.get(f"depth_{side}_1.0pct_lower_bound") else "") + fmt_usd(m.get(f"depth_{side}_1.0pct_usd"))
         L.append(f"| {i} | {c.base} | {fmt_usd(c.median_qvol_30d)} | {m.get('spread_pct', 0):.4f} | "
                  f"{dep('bid')} / {dep('ask')} | "
-                 f"{imp('impact_buy_10000_pct')} | {imp('impact_buy_50000_pct')} |")
+                 f"{imp('impact_buy_10000_pct')} | {imp('impact_buy_50000_pct')} | "
+                 f"{', '.join(c.liquidity_warnings) or '—'} ({c.checks.get('liquidity_persistence', {}).get('hits', 0)}/"
+                 f"{c.checks.get('liquidity_persistence', {}).get('measurements', 0)}) | {' · '.join(c.notes) or ''} |")
     rev = [c for c in cands if c.status == "review"]
     L += ["", "### תור בדיקת חריגים (לא נסרקים)", ""]
     if rev:
-        L += ["| מטבע | חציון מחזור | דגלים | טווח מחיר 30 יום | יחס נפח סופ\"ש |", "|---|---|---|---|---|"]
+        L += ["| מטבע | חציון מחזור | סיבה | דגלי סוג נכס | קבוצות הרשאה חסרות | טווח מחיר 30 יום | יחס נפח סופ\"ש | אזהרות נזילות (פגיעות/מדידות, טווח שעות) |",
+              "|---|---|---|---|---|---|---|---|"]
         for c in sorted(rev, key=lambda c: -c.median_qvol_30d):
             r, w = c.checks.get("range_30d_pct"), c.checks.get("weekend_volume_ratio")
-            L.append(f"| {c.base} | {fmt_usd(c.median_qvol_30d)} | {', '.join(c.flags)} | "
-                     f"{'—' if r is None else f'{r:.1f}%'} | {'—' if w is None else f'{w:.2f}'} |")
+            p = c.checks.get("liquidity_persistence", {})
+            L.append(f"| {c.base} | {fmt_usd(c.median_qvol_30d)} | {c.review_reason} | {', '.join(c.flags) or '—'} | "
+                     f"{', '.join(c.checks.get('missing_common_permission_groups', [])) or '—'} | "
+                     f"{'—' if r is None else f'{r:.1f}%'} | {'—' if w is None else f'{w:.2f}'} | "
+                     f"{', '.join(c.liquidity_warnings) or '—'} ({p.get('hits', 0)}/{p.get('measurements', 0)}, {p.get('span_hours', 0)}h) |")
     else:
         L.append("- ריק")
+    sus = [c for c in cands if c.status == "liquidity_suspended"]
+    L += ["", "### מושעים בגלל נזילות מתמשכת", ""]
+    L += [f"- {c.base}: {c.checks['liquidity_persistence']}" for c in sus] or ["- אין"]
+    ev = [c for c in cands if c.status == "excluded" and "range_30d_pct" in c.checks]
+    if ev:
+        caught = [c for c in ev if c.flags]
+        L += ["", "### ראיה: האם הבדיקות האוטומטיות היו תופסות את המניות בטוקן בלי הרשימה המפורשת?", "",
+              f"- נתפסו: {len(caught)} מתוך {len(ev)}", "",
+              "| נכס | דגלים | קבוצות חסרות | יחס נפח סופ\"ש | טווח 30 יום |", "|---|---|---|---|---|"]
+        for c in sorted(ev, key=lambda c: c.base):
+            w, r = c.checks.get("weekend_volume_ratio"), c.checks.get("range_30d_pct")
+            L.append(f"| {c.base} | {', '.join(c.flags) or '—'} | {', '.join(c.checks.get('missing_common_permission_groups', [])) or '—'} | "
+                     f"{'—' if w is None else f'{w:.2f}'} | {'—' if r is None else f'{r:.1f}%'} |")
     exc = [c for c in cands if c.status == "excluded"]
     L += ["", f"### הוחרגו במפורש ({len(exc)})", "",
           ", ".join(f"{c.base} ({c.exclusion['category']})" for c in sorted(exc, key=lambda c: c.base))]

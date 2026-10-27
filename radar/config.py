@@ -9,13 +9,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SETTINGS_PATH = ROOT / "config" / "settings.toml"
 EXCLUSIONS_PATH = ROOT / "config" / "exclusions.toml"
+REVIEW_PATH = ROOT / "config" / "review.toml"
 
 REQUIRED = {
     "data": ["source", "base_url", "quote_asset", "intervals", "store_dir", "sync_overlap_candles"],
     "universe": ["min_median_quote_volume_usd", "max_size", "volume_lookback_days", "min_history_candles",
-                 "prefilter_24h_quote_volume_usd"],
+                 "prefilter_24h_quote_volume_usd", "tradability_days"],
     "asset_checks": ["common_permission_share", "stable_max_range_pct", "weekend_volume_ratio_min"],
-    "liquidity": ["depth_limit", "depth_bands_pct", "impact_sizes_usd", "max_spread_pct", "min_depth_1pct_usd"],
+    "liquidity": ["depth_limit", "depth_bands_pct", "impact_sizes_usd", "max_spread_pct", "min_depth_1pct_usd",
+                  "suspend_window", "suspend_min_hits", "suspend_min_span_hours"],
 }
 
 
@@ -48,6 +50,25 @@ def load_exclusions(path: Path = EXCLUSIONS_PATH) -> dict[str, dict]:
                 raise ConfigError(f"{base} is listed twice ({out[base]['category']}, {category})")
             out[base] = {"category": category, "reason": entry["reason"], "added": entry["added"],
                          "evidence": entry["evidence"]}
+    return out
+
+
+def load_review(path: Path = REVIEW_PATH) -> dict:
+    """{"verified": {base: {...}}, "hold": {base: {...}}}"""
+    with open(path, "rb") as f:
+        raw = tomllib.load(f)
+    out = {"verified": raw.get("verified", {}), "hold": raw.get("hold", {})}
+    for base, v in out["verified"].items():
+        for field in ("accepted_flags", "decided", "evidence"):
+            if field not in v:
+                raise ConfigError(f"review.verified.{base} is missing '{field}'")
+    for base, v in out["hold"].items():
+        for field in ("decided", "question"):
+            if field not in v:
+                raise ConfigError(f"review.hold.{base} is missing '{field}'")
+    both = set(out["verified"]) & set(out["hold"])
+    if both:
+        raise ConfigError(f"both verified and on hold: {sorted(both)}")
     return out
 
 

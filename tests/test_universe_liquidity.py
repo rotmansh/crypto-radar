@@ -61,7 +61,7 @@ def test_stable_like_and_weekend_flags():
 
 def test_finalize_statuses():
     cs = [Candidate("AUSDT", "A", median_qvol_30d=9e6, days=30),
-          Candidate("BUSDT", "B", median_qvol_30d=8e6, days=30, flags=["wide_spread"]),
+          Candidate("BUSDT", "B", median_qvol_30d=8e6, days=30, flags=["stable_like_price"]),
           Candidate("CUSDT", "C", median_qvol_30d=4e6, days=30),
           Candidate("DUSDT", "D", median_qvol_30d=9e7, days=12),
           Candidate("EUSDT", "E", median_qvol_30d=7e6, days=30),
@@ -84,7 +84,7 @@ def test_book_metrics():
     assert m["depth_bid_0.5pct_usd"] == 99.9 * 10 + 99.5 * 10
     assert m["impact_buy_1000_pct"] == (100.1 - 100) / 100 * 100
     assert m["impact_buy_100000_pct"] is None  # book too thin: not computable, not estimated
-    assert liquidity.liquidity_flags(m, max_spread_pct=0.1, min_depth_1pct_usd=50_000) == ["wide_spread", "thin_book_bid", "thin_book_ask"]
+    assert liquidity.liquidity_warnings(m, max_spread_pct=0.1, min_depth_1pct_usd=50_000) == ["wide_spread", "thin_book_bid", "thin_book_ask"]
 
 
 def test_depth_is_marked_lower_bound_when_levels_do_not_reach_band():
@@ -93,3 +93,81 @@ def test_depth_is_marked_lower_bound_when_levels_do_not_reach_band():
     assert m["depth_ask_1.0pct_lower_bound"]
     m2 = liquidity.book_metrics([(99.9, 1), (98.0, 1)], [(100.1, 1), (102.0, 1)], [1.0], [])
     assert not m2["depth_bid_1.0pct_lower_bound"] and not m2["depth_ask_1.0pct_lower_bound"]
+
+
+LIQ = {"max_spread_pct": 0.3, "min_depth_1pct_usd": 50_000, "suspend_window": 6, "suspend_min_hits": 5,
+       "suspend_min_span_hours": 24}
+
+
+def snap(hour, thin):
+    d = 10_000 if thin else 500_000
+    return {"measured_utc": f"2026-10-{20 + hour // 24:02d}T{hour % 24:02d}:00:00+00:00", "spread_pct": 0.01,
+            "depth_bid_1.0pct_usd": d, "depth_ask_1.0pct_usd": d,
+            "depth_bid_1.0pct_lower_bound": False, "depth_ask_1.0pct_lower_bound": False}
+
+
+def test_single_thin_snapshot_never_suspends():
+    assert not liquidity.persistence([snap(0, True)], LIQ)["suspended"]
+
+
+def test_suspension_needs_window_hits_and_span():
+    six_quick = [snap(h, True) for h in range(6)]  # 6/6 thin but only 5 hours apart
+    assert not liquidity.persistence(six_quick, LIQ)["suspended"]
+    six_slow = [snap(h * 6, True) for h in range(6)]  # 30 hours
+    assert liquidity.persistence(six_slow, LIQ)["suspended"]
+    mixed = [snap(h * 6, h % 2 == 0) for h in range(6)]  # only 3/6 thin
+    assert not liquidity.persistence(mixed, LIQ)["suspended"]
+
+
+def test_parse_measurement_round_trip_from_csv_strings():
+    row = {"measured_utc": "2026-10-27T06:00:00+00:00", "spread_pct": "0.05", "depth_bid_1.0pct_usd": "",
+           "depth_ask_1.0pct_usd": "40000.0", "depth_ask_1.0pct_lower_bound": "False"}
+    m = liquidity.parse_measurement(row)
+    assert m["depth_bid_1.0pct_lower_bound"] is True and m["depth_ask_1.0pct_usd"] == 40000.0
+    assert liquidity.liquidity_warnings(m, 0.3, 50_000) == ["thin_book_ask"]
+
+
+def test_liquidity_warning_does_not_change_membership():
+    c = Candidate("AUSDT", "A", median_qvol_30d=9e6, days=30, liquidity_warnings=["thin_book_ask"], tradable=True)
+    universe.finalize([c], floor=5e6, max_size=10, lookback_days=30)
+    assert c.status == "included"
+    c2 = Candidate("BUSDT", "B", median_qvol_30d=9e6, days=30, liquidity_suspended=True, tradable=True)
+    universe.finalize([c2], floor=5e6, max_size=10, lookback_days=30)
+    assert c2.status == "liquidity_suspended"
+
+
+REVIEW = {"verified": {"Z": {"accepted_flags": ["permission_profile_anomaly"], "decided": "d", "evidence": "e"}},
+          "hold": {"H": {"decided": "d", "question": "q?"}}}
+
+
+def test_verified_pair_passes_only_with_accepted_flags_and_tradable():
+    ok = Candidate("ZUSDT", "Z", median_qvol_30d=9e6, days=30, flags=["permission_profile_anomaly"], tradable=True)
+    extra = Candidate("ZUSDT", "Z", median_qvol_30d=9e6, days=30,
+                      flags=["permission_profile_anomaly", "equity_like_weekend_volume"], tradable=True)
+    halted = Candidate("ZUSDT", "Z", median_qvol_30d=9e6, days=30, flags=["permission_profile_anomaly"], tradable=False)
+    other = Candidate("QUSDT", "Q", median_qvol_30d=9e6, days=30, flags=["permission_profile_anomaly"], tradable=True)
+    for c in (ok, extra, halted, other):
+        universe.finalize([c], floor=5e6, max_size=10, lookback_days=30, review=REVIEW)
+    assert ok.status == "included" and ok.notes
+    assert extra.status == "review" and "equity_like_weekend_volume" in extra.review_reason
+    assert halted.status == "review" and halted.review_reason == "not_tradable"
+    assert other.status == "review"  # verification is per asset, not per flag
+
+
+def test_hold_keeps_clean_pair_in_review():
+    c = Candidate("HUSDT", "H", median_qvol_30d=9e6, days=30, tradable=True)
+    universe.finalize([c], floor=5e6, max_size=10, lookback_days=30, review=REVIEW)
+    assert c.status == "review" and c.review_reason.startswith("manual_hold")
+
+
+def test_tradability():
+    candles = make_candles(10, DAY, MON_2024_01_01)
+    assert universe.tradability(candles, True, 7)[0]
+    assert not universe.tradability(candles, False, 7)[0]
+    dead = candles[:-1] + [dataclasses.replace(candles[-1], volume=0.0)]
+    assert not universe.tradability(dead, True, 7)[0]
+
+
+def test_review_file_loads():
+    r = config.load_review()
+    assert set(r["verified"]) == {"ZEC", "DASH"} and {"GTC", "POL", "MUBARAK", "牛来"} <= set(r["hold"])

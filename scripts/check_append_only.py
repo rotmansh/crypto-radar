@@ -2,15 +2,16 @@
 
 For each staged change under the protected paths, the version at HEAD must be an exact prefix of the
 staged version. Deletions, renames and in-place edits fail the check and the commit is not made.
-manifest.json is current-state metadata (rewritten each run) and is deliberately not protected.
+manifest.json and data/scan/latest.json are current-state files (rewritten each run) and are deliberately
+not protected; every scan is also kept as its own dated file under data/scan/.
 """
 from __future__ import annotations
 
 import subprocess
 import sys
 
-PROTECTED = ("data/ohlcv/", "data/universe/", "data/liquidity/", "journal/", "reports/")
-UNPROTECTED = ("data/ohlcv/binance/manifest.json",)
+PROTECTED = ("data/ohlcv/", "data/universe/", "data/liquidity/", "data/scan/", "journal/", "reports/")
+UNPROTECTED = ("data/ohlcv/binance/manifest.json", "data/scan/latest.json")
 
 
 def git(*args: str) -> bytes:
