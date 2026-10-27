@@ -397,7 +397,7 @@
       ${wat.length ? `<div class="grid">${wat.map((x) => alertCard(x, { origin: "replay", extra: x.ep !== Math.floor(Date.parse(x.candle_open_utc) / 1000) ? `<div class="note">המעקב התחיל בנר <span class="num">${utcTime(x.ep)}</span></div>` : "" })).join("")}</div>` : `<div class="empty">אין התראות מעקב בנר הזה.</div>`}
       <div id="tmChart"></div><div id="tmRevealOut"></div>`;
     bindTMCoins(out, t);
-    if (!t.coin && items.length) t.coin = items[0].symbol;
+    if (!t.coin) t.coin = items.length ? items[0].symbol : "BTCUSDT";  // always show a chart; BTC when there are no alerts
     if (t.coin) await renderTMChart(t, items);
     if (t.revealed) await renderReveal(t, items);
   }

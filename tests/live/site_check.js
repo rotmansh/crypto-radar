@@ -33,7 +33,7 @@ fs.mkdirSync(OUT, { recursive: true });
   await visit(M, "m2-signals", "#strategies", null, ["איתותים מאושרים", "התראות מעקב"]);
   await visit(M, "m3-coin", "#coin/BTCUSDT", async (p) => p.waitForSelector("#pc canvas"), ["היסטוריית איתותים"]);
   await visit(M, "m4-journal", "#journal", null, ["יומן איתותים"]);
-  await visit(M, "m5-tm-replay", "#tm", async (p) => { await p.click("#tmRun"); await p.waitForSelector(".panel-known"); },
+  await visit(M, "m5-tm-replay", "#tm", async (p) => { await p.click("#tmRun"); await p.waitForSelector("#tmPc canvas"); },
     ["ידוע בזמן השחזור", "2025-03-14 00:00 UTC"]);
   await visit(M, "m6-tm-replay-4h", "#tm", async (p) => { await p.selectOption("#tmTf", "4h"); await p.click("#tmRun"); await p.waitForSelector("#tmPc canvas"); },
     ["ידוע בזמן השחזור", "התראות מעקב בנר הזה"]);
