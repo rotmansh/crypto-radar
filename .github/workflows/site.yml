@@ -1,12 +1,10 @@
 name: "Dashboard (GitHub Pages)"
 
 # Builds the static dashboard from the data in the repository and publishes it.
-# Runs after every successful "Data sync + scan", or manually.
+# Called by "Data sync + scan" after a successful sync, or run manually.
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Data sync + scan"]
-    types: [completed]
+  workflow_call:
 
 permissions:
   contents: read
@@ -19,7 +17,6 @@ concurrency:
 
 jobs:
   build:
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:

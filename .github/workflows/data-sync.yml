@@ -50,3 +50,11 @@ jobs:
         run: |
           echo "::error::sync=${{ steps.sync.outcome }} scan=${{ steps.scan.outcome }} — see reports/ for details"
           exit 1
+
+  site:
+    needs: sync
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/site.yml
