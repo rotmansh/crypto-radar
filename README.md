@@ -8,7 +8,7 @@
 מסמכים:
 - [מפרט](docs/SPEC.md)
 - [יומן מקורות נתונים](docs/DATA_SOURCES.md)
-- [דוח שלב 0](reports/phase0/REPORT.md)
+- [דוחות שלב 0](reports/phase0/runs/) (תיקייה לכל הרצה)
 
 ## סטטוס
 שלב 0 — בדיקת מקורות נתונים.

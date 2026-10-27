@@ -1,10 +1,10 @@
 """Phase 0: verify access to public market-data sources from the run environment, cross-check them,
 and build the first liquidity-ranked universe from the chosen source.
 
-Writes:
-  reports/phase0/probe.json      machine-readable results
-  reports/phase0/REPORT.md       Hebrew summary
-  data/universe/universe-<date>.csv
+Writes one new directory per run (never overwrites a previous run's output):
+  reports/phase0/runs/<run>/probe.json       machine-readable results
+  reports/phase0/runs/<run>/REPORT.md        Hebrew summary
+  data/universe/universe-<date>-<run>.csv
 
 Read-only: public market-data endpoints only. No keys, no account or order endpoints.
 """
@@ -30,6 +30,8 @@ from radar.sources.base import SourceError, get_json, now_ms  # noqa: E402
 DAY_MS = 86_400_000
 H4_MS = 14_400_000
 ROUNDS = 3
+PREFILTER_24H_USD = 250_000
+FLOOR_SENSITIVITY = (5_000_000, 3_000_000, 2_000_000, 1_000_000)
 
 REACHABILITY = {
     "binance_vision": f"{binance.BASE_URL}/api/v3/ping",
@@ -119,8 +121,8 @@ def build_universe(module) -> dict:
             excluded[sym] = reason
         else:
             candidates.append((sym, base))
-    # Only fetch 30d history for pairs with meaningful 24h activity; the 30d median is the actual ranking key.
-    prefilter = [(s, b) for s, b in candidates if vol24.get(s, 0) >= universe.MIN_MEDIAN_QVOL_USD / 4]
+    # Only fetch 30d history for pairs with some 24h activity; the 30d median is the actual ranking key.
+    prefilter = [(s, b) for s, b in candidates if vol24.get(s, 0) >= PREFILTER_24H_USD]
     entries, failures = [], {}
     for sym, base in prefilter:
         try:
@@ -130,8 +132,18 @@ def build_universe(module) -> dict:
             failures[sym] = str(exc)[:200]
         time.sleep(0.12)
     ranked = universe.rank(entries)
+    sensitivity = {f: len(universe.rank(entries, size=10_000, floor=f)) for f in FLOOR_SENSITIVITY}
+    # Exchange metadata for everything above the lowest floor, so each listing's asset class can be
+    # verified from the exchange's own data rather than guessed from the ticker.
+    meta = {}
+    if hasattr(module, "usdt_spot_metadata"):
+        keep = {e.symbol for e in universe.rank(entries, size=10_000, floor=min(FLOOR_SENSITIVITY))}
+        meta = {m["symbol"]: {k: v for k, v in m.items() if k not in ("filters", "orderTypes")}
+                for m in module.usdt_spot_metadata() if m["symbol"] in keep}
     return {"pairs_total": len(pairs), "excluded": excluded, "prefiltered": len(prefilter),
-            "fetch_failures": failures, "ranked": ranked}
+            "fetch_failures": failures, "ranked": ranked, "floor_sensitivity": sensitivity,
+            "all_entries": [e.__dict__ for e in sorted(entries, key=lambda e: -e.median_qvol_30d)],
+            "symbol_metadata": meta}
 
 
 def main() -> int:
@@ -165,8 +177,9 @@ def main() -> int:
             uni = {"error": str(exc)}
 
     # ---- write outputs ----
-    reports = ROOT / "reports" / "phase0"
-    reports.mkdir(parents=True, exist_ok=True)
+    run_tag = f"run-{env['github_run_id']}" if env["github_run_id"] else f"local-{started:%Y%m%dT%H%M%SZ}"
+    reports = ROOT / "reports" / "phase0" / "runs" / run_tag
+    reports.mkdir(parents=True, exist_ok=False)
     for src in ohlcv.values():
         for v in src.values():
             v.pop("_candles", None)
@@ -175,7 +188,7 @@ def main() -> int:
     if uni and "ranked" in uni:
         udir = ROOT / "data" / "universe"
         udir.mkdir(parents=True, exist_ok=True)
-        universe_file = udir / f"universe-{started:%Y-%m-%d}.csv"
+        universe_file = udir / f"universe-{started:%Y-%m-%d}-{run_tag}.csv"
         with universe_file.open("w", newline="") as f:
             w = csv.writer(f)
             w.writerow(["rank", "symbol", "base", "median_quote_volume_30d_usdt", "days", "source", "built_utc"])
@@ -218,6 +231,10 @@ def render_report(r: dict, uni: dict | None) -> str:
         L += ["## יקום", "",
               f"- צמדי USDT פעילים: {uni['pairs_total']} · הוחרגו: {len(uni['excluded'])} · נבדקו לעומק: {uni['prefiltered']} · כשלי טעינה: {len(uni['fetch_failures'])}",
               f"- נבחרו: **{len(uni['ranked'])}** מטבעות (חציון מחזור 30 יום ≥ $5M)", "",
+              "### רגישות לרצפת הנזילות", "", "| רצפה (חציון 30 יום) | מספר צמדים שעוברים |", "|---|---|"]
+        L += [f"| ${f/1e6:.0f}M | {n} |" for f, n in uni["floor_sensitivity"].items()]
+        L += ["", "### הוחרגו", "", ", ".join(f"{s} ({r})" for s, r in sorted(uni["excluded"].items())) or "—", "",
+              "### נבחרו", "",
               "| # | מטבע | חציון מחזור יומי 30 יום (USDT) |", "|---|---|---|"]
         for i, e in enumerate(uni["ranked"], 1):
             L.append(f"| {i} | {e.base} | {e.median_qvol_30d:,.0f} |")

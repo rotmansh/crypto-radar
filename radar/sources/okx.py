@@ -1,7 +1,9 @@
 """OKX Spot public market data (https://www.okx.com/docs-v5/en/).
 
-Note: OKX's plain `1D` bar is aligned to Hong Kong time (UTC+8); we use `1Dutc` / `4Hutc`
-so candles close on the same UTC boundaries as Binance.
+Note: OKX's plain `1D` bar is aligned to Hong Kong time (UTC+8), so daily uses `1Dutc`.
+OKX has no `4Hutc` bar (UTC variants exist only for 6H and up); plain `4H` already closes on
+UTC 00/04/08/... boundaries because the UTC+8 offset is a multiple of 4 hours. The probe verifies
+this alignment on every run.
 """
 from __future__ import annotations
 
@@ -9,7 +11,7 @@ from .base import Candle, SourceError, drop_unclosed, get_json, now_ms
 
 NAME = "okx"
 BASE_URL = "https://www.okx.com"
-BARS = {"1d": ("1Dutc", 86_400_000), "4h": ("4Hutc", 14_400_000)}
+BARS = {"1d": ("1Dutc", 86_400_000), "4h": ("4H", 14_400_000)}
 
 
 def _inst_id(symbol: str) -> str:

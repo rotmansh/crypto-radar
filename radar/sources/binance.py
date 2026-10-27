@@ -34,12 +34,16 @@ def klines(symbol: str, interval: str, limit: int = 1000, base_url: str = BASE_U
 
 def usdt_spot_symbols(base_url: str = BASE_URL) -> list[tuple[str, str]]:
     """[(symbol, base_asset)] for USDT spot pairs currently TRADING."""
+    return [(s["symbol"], s["baseAsset"]) for s in usdt_spot_metadata(base_url)]
+
+
+def usdt_spot_metadata(base_url: str = BASE_URL) -> list[dict]:
+    """Raw exchangeInfo entries for USDT spot pairs currently TRADING."""
     data, _, _ = get_json(f"{base_url}/api/v3/exchangeInfo", {"permissions": "SPOT"})
-    out = []
-    for s in data["symbols"]:
-        if s["quoteAsset"] == "USDT" and s["status"] == "TRADING" and s.get("isSpotTradingAllowed", True):
-            out.append((s["symbol"], s["baseAsset"]))
-    return out
+    return [
+        s for s in data["symbols"]
+        if s["quoteAsset"] == "USDT" and s["status"] == "TRADING" and s.get("isSpotTradingAllowed", True)
+    ]
 
 
 def tickers_24h(base_url: str = BASE_URL) -> dict[str, float]:

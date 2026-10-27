@@ -72,3 +72,10 @@ def test_validate_candles_flags_gaps_and_staleness():
     assert any("expected" in i for i in res["issues"])
     ok = p.validate_candles([fixture_candle(i) for i in range(5)], DAY, 5 * DAY + 10)
     assert ok["issues"] == []
+
+
+def test_okx_4h_uses_supported_bar(monkeypatch):
+    calls = {}
+    monkeypatch.setattr(okx, "get_json", lambda url, params, **k: (calls.update(params) or {"code": "0", "data": []}, 200, 1.0))
+    okx.klines("BTCUSDT", "4h")
+    assert calls["bar"] == "4H"

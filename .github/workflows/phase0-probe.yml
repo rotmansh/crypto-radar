@@ -21,10 +21,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
+      - name: Start from the latest main (a queued run may have been dispatched on an older commit)
+        run: git fetch --depth=1 origin main && git checkout -B main FETCH_HEAD
       - run: pip install -r requirements-dev.txt
       - name: Unit tests (offline)
         run: python -m pytest -q
