@@ -143,6 +143,48 @@ def sync_histories(symbols: list[str], settings: dict, store: CandleStore, base_
         return list(pool.map(one, jobs))
 
 
+def write_exchange_snapshot(rows: list[dict], tag: str) -> str:
+    """Save the exchange listing only when it changed since the last saved snapshot (keeps the repo small).
+    Every saved file is a complete listing, so any date's listing is the latest file saved on or before it."""
+    key = lambda rs: sorted((r["symbol"], r["status"]) for r in rs)
+    prev = sorted((ROOT / "data/universe/exchange").glob("*.csv"))
+    if prev:
+        with prev[-1].open(newline="") as f:
+            if key(list(csv.DictReader(f))) == key(rows):
+                return f"unchanged since {prev[-1].name}"
+    write_csv(ROOT / "data/universe/exchange" / f"{tag}.csv", rows)
+    return f"saved {tag}.csv"
+
+
+def expected_last_open(interval: str, now: int) -> int:
+    span = binance.INTERVAL_MS[interval]
+    return (now // span) * span - span
+
+
+def sync_until_fresh(symbols: list[str], settings: dict, store: CandleStore, base_url: str,
+                     attempts: int = 4, wait_s: int = 60) -> tuple[list[history.SyncResult], dict]:
+    """Sync, and if the exchange has not yet published the candle that just closed (checked on BTCUSDT), wait and
+    sync again. Never stores an open candle; never deletes stored data. Reports what is still stale at the end."""
+    appended: dict = {}
+    for attempt in range(1, attempts + 1):
+        results = sync_histories(symbols, settings, store, base_url)
+        for r in results:
+            appended[(r.symbol, r.interval)] = appended.get((r.symbol, r.interval), 0) + r.appended
+        now = now_ms()
+        btc_ok = all(r.report and r.report.last == iso(expected_last_open(r.interval, now))
+                     for r in results if r.symbol == "BTCUSDT")
+        if btc_ok or attempt == attempts:
+            break
+        time.sleep(wait_s)
+    for r in results:
+        r.appended = appended[(r.symbol, r.interval)]
+    now = now_ms()
+    stale = [{"symbol": r.symbol, "interval": r.interval, "last": r.report.last if r.report else None,
+              "expected": iso(expected_last_open(r.interval, now)), "error": r.error}
+             for r in results if not r.report or r.report.last != iso(expected_last_open(r.interval, now))]
+    return results, {"attempts": attempt, "btc_fresh": btc_ok, "stale_series": stale}
+
+
 def btc_indicator_check(store: CandleStore) -> dict:
     out = {}
     for itv in ("1d", "4h"):
@@ -170,9 +212,9 @@ def main() -> int:
                                                   started.isoformat(timespec="seconds"))
     t_universe = time.monotonic() - t0
 
-    write_csv(ROOT / "data/universe/exchange" / f"{tag}.csv",
-              [{"symbol": m["symbol"], "base": m["baseAsset"], "quote": m["quoteAsset"], "status": m["status"]}
-               for m in all_symbols])
+    exch_rows = [{"symbol": m["symbol"], "base": m["baseAsset"], "quote": m["quoteAsset"], "status": m["status"]}
+                 for m in all_symbols]
+    exchange_note = write_exchange_snapshot(exch_rows, tag)
     snap_rows = []
     for c in sorted(cands, key=lambda c: -(c.median_qvol_30d or 0)):
         liq = c.checks.get("liquidity", {})
@@ -202,7 +244,7 @@ def main() -> int:
     if "BTCUSDT" not in included:
         included.insert(0, "BTCUSDT")  # needed for relative strength regardless of its own status
     t0 = time.monotonic()
-    results = sync_histories(included, settings, store, base_url)
+    results, freshness = sync_until_fresh(included, settings, store, base_url)
     t_history = time.monotonic() - t0
 
     manifest_path = store.root / "manifest.json"
@@ -232,6 +274,7 @@ def main() -> int:
     summary = {"run": tag, "started_utc": started.isoformat(timespec="seconds"), "source": settings["data"]["source"],
                "settings_fingerprint": config.fingerprint(settings), "seconds_universe": round(t_universe),
                "seconds_history": round(t_history), "universe_meta": uni_meta,
+               "exchange_snapshot": exchange_note, "freshness": freshness,
                "status_counts": {s: sum(1 for c in cands if c.status == s) for s in sorted({c.status for c in cands})},
                "btc_indicators": btc_indicator_check(store),
                "sync": [{"symbol": r.symbol, "interval": r.interval, "pages": r.pages, "appended": r.appended,
@@ -250,7 +293,8 @@ def main() -> int:
     (rep_dir / "summary.json").write_text(json.dumps(summary, indent=1, ensure_ascii=False))
     (rep_dir / "REPORT.md").write_text(render(summary, cands, settings))
     print((rep_dir / "REPORT.md").read_text())
-    return 1 if any(r.error for r in results) or uni_meta["fetch_errors"] else 0
+    # A run is a failure if any series errored, the universe had fetch errors, or the latest candle never arrived.
+    return 1 if any(r.error for r in results) or uni_meta["fetch_errors"] or not freshness["btc_fresh"] else 0
 
 
 def fmt_usd(x) -> str:

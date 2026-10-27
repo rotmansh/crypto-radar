@@ -75,7 +75,8 @@ a { color: var(--accent); }
     position: fixed; bottom: 0; inset-inline: 0; z-index: 30; justify-content: space-around;
     border-top: 1px solid var(--border); border-bottom: 0; padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
   }
-  .tabs a { padding: 8px 9px; font-size: 13.5px; }
+  .tabs a { padding: 8px 5px; font-size: 12.5px; }
+  .tabs { justify-content: space-between; }
   .subtitle { display: none; }
 }
 

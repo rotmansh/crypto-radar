@@ -83,6 +83,8 @@
     ];
     if (x.high_risk) badges.push(`<span class="badge risk">סיכון גבוה · לא המלצת כניסה</span>`);
     if (opts.origin) badges.push(`<span class="badge ${ORIGIN[opts.origin][1]}">${ORIGIN[opts.origin][0]}</span>`);
+    if (x.lifecycle === "new") badges.push(`<span class="badge known">🆕 חדש · נר אחרון</span>`);
+    else if (x.lifecycle === "active") badges.push(`<span class="badge">⏳ פעיל מאז ${esc(utcTime(isoSec(x.episode_started_utc)).slice(5))}</span>`);
     const warns = [];
     if (x.high_risk) warns.push(`<div class="note risk">הסטופ במרחק ${pct(x.risk_pct_to_stop)} מהמחיר (מעל ${S.meta.high_risk_stop_pct}%). הסטופ לא צומצם; האיתות אינו המלצת כניסה.</div>`);
     if (x.liquidity_warnings && x.liquidity_warnings.length) warns.push(`<div class="note warn">⚠️ אזהרת נזילות: ${esc(x.liquidity_warnings.map(liqHe).join(", "))}</div>`);
@@ -125,7 +127,12 @@
     const ageH = (Date.now() - gen.getTime()) / 3.6e6;
     $("#freshness").innerHTML = `סריקה אחרונה: <b>${ilTime(gen)}</b> (שעון ישראל)`;
     const b = [];
-    if (ageH > S.meta.stale_after_hours) b.push(`<div class="banner">⚠️ הנתונים אינם עדכניים: הסריקה האחרונה לפני ${ageH.toFixed(1)} שעות. ההרצה האוטומטית תופעל בשלב 4; כרגע הסריקה רצה ידנית.</div>`);
+    const lr = S.health && S.health.last_run;
+    if (lr && lr.status !== "success") {
+      const what = lr.status === "partial" ? "הושלמה חלקית" : "נכשלה";
+      b.push(`<div class="banner">⚠️ הריצה האחרונה (${ilTime(new Date(lr.started_utc))}) ${what}. מוצגת הסריקה המוצלחת האחרונה מ-${ilTime(gen)}. <a href="#system">פרטים</a></div>`);
+    }
+    if (ageH > S.meta.stale_after_hours) b.push(`<div class="banner">⚠️ הנתונים אינם עדכניים: הסריקה האחרונה לפני ${ageH.toFixed(1)} שעות (צפויה כל 4 שעות). <a href="#system">מצב המערכת</a></div>`);
     if (S.scan.stale && S.scan.stale.length) b.push(`<div class="banner">⚠️ ${S.scan.stale.length} סדרות לא עודכנו ולא נסרקו: ${esc(S.scan.stale.slice(0, 8).map((s) => s.symbol + " " + s.timeframe).join(", "))}</div>`);
     if (S.meta.self_check.some((c) => !c.match)) b.push(`<div class="banner">⚠️ בדיקת התאמה של מכונת הזמן נכשלה</div>`);
     $("#banner").innerHTML = b.join("");
@@ -176,9 +183,28 @@
       </div>
       ${f.kind !== "watch" ? sec("signal", "🟢 איתותים מאושרים", sig, "אין איתות מאושר בנר האחרון בסינון הזה.") : ""}
       ${f.kind !== "signal" ? sec("watch", "🟡 התראות מעקב (לפני אישור)", wat, "אין התראות מעקב בסינון הזה.") : ""}
+      ${endedHTML(f)}
       ${ins.length ? `<p class="note" style="margin-top:14px">היסטוריה לא מספיקה (לא מחושב, לא משוער): ${esc(ins.join(" · "))}</p>` : ""}`;
     document.querySelectorAll(".chip").forEach((c) => c.addEventListener("click", () => { S.filters[c.dataset.f] = c.dataset.v; viewStrategies(); }));
     bindCoinLinks($("#main"));
+  }
+
+  const REASON_HE = {
+    became_signal: "הפכה לאיתות מאושר", invalidated: "נסגרה מתחת לרמת הביטול", left_universe: "המטבע יצא מהיקום",
+    insufficient: "חסרים נתונים להערכה", conditions_ended: "תנאי המעקב חדלו להתקיים", closed_below_stop: "נר נסגר מתחת לסטופ",
+    window_elapsed: "חלון 10 הנרות הסתיים", not_followable: "לא ניתן לעקוב",
+  };
+  function endedHTML(f) {
+    const list = (S.scan.lifecycle_ended || []).filter((x) => (f.strat === "all" || x.strategy === f.strat) && (f.tf === "all" || x.timeframe === f.tf)
+      && (f.kind === "all" || (f.kind === "signal") === (x.type === "SIGNAL")));
+    return `<div class="section-h">⏹ הסתיימו ב-7 הימים האחרונים <span class="count">(${list.length})</span></div>
+      ${list.length ? `<div class="table-wrap jt"><table><thead><tr><th>מטבע</th><th>סוג</th><th>אסטרטגיה · טווח</th><th>התחילה</th><th>הסתיימה בנר</th><th>סיבה</th></tr></thead><tbody>
+      ${list.map((x) => `<tr><td data-l="מטבע"><span class="coin" data-coin="${esc(x.symbol)}" role="link" tabindex="0" style="font-weight:700;cursor:pointer">${esc(x.symbol.replace(/USDT$/, ""))}</span></td>
+        <td data-l="סוג">${x.type === "SIGNAL" ? "🟢 מאושר" : "🟡 מעקב"}</td><td data-l="אסטרטגיה">${LETTER[x.strategy]} · ${TFNAME[x.timeframe]}</td>
+        <td data-l="התחילה" class="num">${esc(utcTime(isoSec(x.episode_started_utc)))}</td><td data-l="הסתיימה" class="num">${esc(utcTime(isoSec(x.ended_candle_utc)))}</td>
+        <td data-l="סיבה">${esc(REASON_HE[x.reason] || x.reason)}</td></tr>`).join("")}</tbody></table></div>`
+      : `<div class="empty">לא הסתיימה אף התראה מהיומן בזמן אמת ב-7 הימים האחרונים.</div>`}
+      <p class="note">מצב בלבד — לא מחושב רווח או הפסד (שלב 5).</p>`;
   }
 
   // ---- charts
@@ -293,10 +319,18 @@
       <p class="note">${hist.length} רשומות בסך הכול; מוצגות 40 האחרונות.</p>` : `<div class="empty">אין שחזורים היסטוריים למטבע הזה.</div>`;
   }
 
+  function lifeHTML(l) {
+    if (!l) return '<span class="note">—</span>';
+    if (l.status === "new") return '<span class="badge known">🆕 חדש</span>';
+    if (l.status === "active") return `<span class="badge">⏳ פעיל</span>`;
+    if (l.status === "ended") return `<span class="badge">⏹ הסתיים</span><div class="note">${esc(REASON_HE[l.reason] || l.reason)} · ${esc(utcTime(isoSec(l.ended_candle_utc)))}</div>`;
+    return `<span class="badge replay">לא ידוע</span><div class="note">${esc(REASON_HE[l.reason] || "")}</div>`;
+  }
+
   function journalTable(rows, withCoin = true) {
     if (!rows.length) return `<div class="empty">אין רשומות ביומן. היומן התחיל ב-27.10.2026 ונכתב רק מסריקות בזמן אמת.</div>`;
     rows = rows.slice().sort((a, b) => (a.detected_at_utc < b.detected_at_utc ? 1 : -1));
-    return `<div class="table-wrap jt"><table><thead><tr>${withCoin ? "<th>מטבע</th>" : ""}<th>סוג</th><th>אסטרטגיה · טווח</th><th>מקור</th><th>נר</th><th>זוהה ב-</th><th>מחיר</th><th>ביטול / סטופ</th><th>יעד</th></tr></thead><tbody>
+    return `<div class="table-wrap jt"><table><thead><tr>${withCoin ? "<th>מטבע</th>" : ""}<th>סוג</th><th>אסטרטגיה · טווח</th><th>מקור</th><th>מצב</th><th>נר</th><th>זוהה ב-</th><th>מחיר</th><th>ביטול / סטופ</th><th>יעד</th></tr></thead><tbody>
       ${rows.map((r) => {
         const o = ORIGIN[r.origin] || ["—", ""];
         const ep = r.origin === "live_already_active" ? `<div class="note">התחלת המעקב לפי הנרות: ${esc(r.episode_started_utc.replace("T", " ").replace("Z", " UTC"))}</div>` : "";
@@ -304,6 +338,7 @@
         <td data-l="סוג">${r.type === "SIGNAL" ? "🟢 מאושר" : "🟡 מעקב"}${r.high_risk === "True" ? ' <span class="badge risk">סיכון גבוה</span>' : ""}</td>
         <td data-l="אסטרטגיה">${LETTER[r.strategy] || ""} <span class="note ltr">@${esc(r.strategy_version)}</span> · ${TFNAME[r.timeframe]}</td>
         <td data-l="מקור"><span class="badge ${o[1]}">${o[0]}</span>${ep}</td>
+        <td data-l="מצב">${lifeHTML(S.life[r.signal_id])}</td>
         <td data-l="נר" class="num">${esc(r.candle_open_utc.replace("T", " ").replace(":00Z", " UTC"))}</td>
         <td data-l="זוהה ב-">${ilTime(new Date(r.detected_at_utc))}</td>
         <td data-l="מחיר" class="num">${fmt(num(r.ref_price))}</td><td data-l="${r.type === "SIGNAL" ? "סטופ" : "ביטול"}" class="num">${fmt(num(r.type === "SIGNAL" ? r.stop : r.watch_invalidation))}</td><td data-l="יעד" class="num">${fmt(num(r.target))}</td></tr>`;
@@ -475,6 +510,41 @@
     URL.revokeObjectURL(a.href);
   }
 
+  function viewSystem() {
+    const h = S.health, runs = (S.runs || []).slice().reverse(), checks = (S.checks || []).slice().reverse();
+    const ST = { success: ["תקינה", "signal"], partial: ["חלקית", "watch"], failed: ["נכשלה", "risk"] };
+    const st = (x) => `<span class="badge ${(ST[x] || ["", ""])[1]}">${(ST[x] || [x])[0]}</span>`;
+    const lr = h && h.last_run;
+    const sched = runs.filter((r) => r.event === "schedule");
+    const card = (label, value, sub) => `<div class="card kpi"><div class="label">${label}</div><div class="value" style="font-size:20px">${value}</div><div class="sub">${sub || ""}</div></div>`;
+    const ev = (e) => (e === "schedule" ? "מתוזמנת" : e === "workflow_dispatch" ? "ידנית" : esc(e));
+    $("#main").innerHTML = `<h2>מצב המערכת</h2><p class="lead">${esc(S.meta.schedule_he)}</p>
+      ${!h ? `<div class="empty">אין עדיין רשומת תקינות. היא נוצרת בסוף כל ריצה.</div>` : `<div class="grid">
+        ${card("הריצה האחרונה", lr ? st(lr.status) : "—", lr ? `${ilTime(new Date(lr.started_utc))} · ${ev(lr.event)} · ${lr.duration_s} ש׳` : "")}
+        ${card("ריצה מוצלחת אחרונה", h.last_success_utc ? ilTime(new Date(h.last_success_utc)) : "אין", "")}
+        ${card("נסרקו", lr && lr.universe_included ? `${lr.universe_included} מטבעות` : "—", lr ? `${lr.series_synced} סדרות סונכרנו · ${lr.stale_series} לא עדכניות` : "")}
+        ${card("התראות חדשות בריצה", lr ? `${lr.journal_live_new}` : "—", lr ? `${lr.journal_already_active} שהיו פעילות · ${lr.episodes_ended} שהסתיימו` : "")}
+        ${card("ריצות מתוזמנות", `${sched.length}`, sched.length ? `עיכוב חציוני ${median(sched.map((r) => Number(r.start_delay_min))).toFixed(0)} דק׳ אחרי סגירת הנר` : "עדיין לא רצה ריצה מתוזמנת")}
+        ${card("התראות חיצוניות", "כבויות", `${S.meta.outbox_messages} הודעות בתור, לא נשלחו`)}
+      </div>`}
+      ${h && h.detail && h.detail.stale_series && h.detail.stale_series.length ? `<h3>נתונים לא עדכניים בריצה האחרונה</h3><ul class="limits">${h.detail.stale_series.map((x) => `<li>${esc(x.symbol)} ${esc(x.interval)}: אחרון ${esc(x.last || "—")}, צפוי ${esc(x.expected)}${x.error ? " · " + esc(x.error) : ""}</li>`).join("")}</ul>` : ""}
+      <h3>ריצות אחרונות</h3>
+      ${runs.length ? `<div class="table-wrap jt"><table><thead><tr><th>התחלה</th><th>סוג</th><th>מצב</th><th>נר צפוי</th><th>לא עדכניות</th><th>חדשות</th><th>הסתיימו</th><th>משך</th></tr></thead><tbody>
+        ${runs.slice(0, 30).map((r) => `<tr><td data-l="התחלה">${ilTime(new Date(r.started_utc))}</td><td data-l="סוג">${ev(r.event)}</td><td data-l="מצב">${st(r.status)}</td>
+        <td data-l="נר צפוי" class="num">${esc(r.expected_4h_candle_utc.slice(5, 16).replace("T", " "))}</td><td data-l="לא עדכניות">${r.stale_series}</td>
+        <td data-l="חדשות">${r.journal_live_new}</td><td data-l="הסתיימו">${r.episodes_ended}</td><td data-l="משך">${r.duration_s} ש׳</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">אין ריצות רשומות.</div>`}
+      <h3>בדיקות חיות של האתר</h3>
+      ${checks.length ? `<ul class="limits">${checks.slice(0, 10).map((c) => `<li>${esc(c.checked_utc ? ilTime(new Date(c.checked_utc)) : "—")} · ${c.outcome === "success" ? "✓ תקין" : "✗ " + esc(c.problems)} · האתר הציג את נתוני הריצה: ${c.published_run_matches === "True" ? "כן" : esc(c.published_run_matches)}</li>`).join("")}</ul>` : `<div class="empty">אין עדיין בדיקות חיות רשומות.</div>`}
+      <h3>תור בדיקת חריגים — ראיות נזילות לאורך זמן</h3>
+      <p class="note">השעיה דורשת לפחות 5 מדידות בעייתיות מתוך 6 האחרונות, על פני 24 שעות לפחות. מטבע לא מוסר לצמיתות בלי החלטה מתועדת ב-config/review.toml.</p>
+      ${h && h.review_evidence && h.review_evidence.length ? `<div class="table-wrap jt"><table><thead><tr><th>מטבע</th><th>סטטוס</th><th>שאלה פתוחה / סיבה</th><th>מדידות בעייתיות</th><th>טווח זמן</th><th>עומק ±1% (קנייה/מכירה)</th></tr></thead><tbody>
+        ${h.review_evidence.map((r) => { const base = r.symbol.replace(/USDT$/, ""); const hold = S.meta.review_holds[base];
+          return `<tr><td data-l="מטבע"><b>${esc(base)}</b></td><td data-l="סטטוס">${esc(r.status)}</td><td data-l="שאלה">${esc(hold ? hold.question : r.review_reason || "")}</td>
+          <td data-l="בעייתיות">${esc(r.liquidity_hits || 0)}/${esc(r.liquidity_measurements || 0)}</td><td data-l="טווח">${esc(r.liquidity_span_hours || 0)} שעות</td>
+          <td data-l="עומק" class="num">${usd(r.depth_bid_1pct_usd)} / ${usd(r.depth_ask_1pct_usd)}</td></tr>`; }).join("")}</tbody></table></div>` : `<div class="empty">התור ריק.</div>`}`;
+  }
+  function median(a) { const b = a.filter((x) => !Number.isNaN(x)).sort((x, y) => x - y); return b.length ? b[Math.floor(b.length / 2)] : NaN; }
+
   function viewAbout() {
     const st = S.meta.strategies;
     $("#main").innerHTML = `<h2>אודות ומגבלות</h2>
@@ -503,6 +573,7 @@
       else if (tab === "journal") viewJournal();
       else if (tab === "tm") await viewTM();
       else if (tab === "about") viewAbout();
+      else if (tab === "system") viewSystem();
       else viewOverview();
     } catch (e) {
       $("#main").innerHTML = `<div class="banner">שגיאה בטעינת התצוגה: ${esc(e.message)}</div>`;
@@ -517,6 +588,9 @@
       $("#main").innerHTML = `<div class="banner">לא ניתן לטעון את נתוני הסריקה (${esc(e.message)}). לא מוצגים נתונים חלופיים.</div>`;
       return;
     }
+    const opt = (p) => getJSON(p).catch(() => null);
+    [S.health, S.runs, S.checks] = await Promise.all(["data/health.json", "data/health_runs.json", "data/site_checks.json"].map(opt));
+    S.life = Object.fromEntries((S.scan.lifecycle || []).map((x) => [x.signal_id, x]));
     S.gw = TMData.createGateway(getJSON, S.meta);
     renderFreshness();
     window.addEventListener("hashchange", route);

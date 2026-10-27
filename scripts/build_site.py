@@ -86,6 +86,21 @@ def main() -> int:
         snap = [r for r in csv.DictReader(f) if r["status"] in ("included", "review", "liquidity_suspended")]
     sizes["universe"] += write(data / "universe.json", {"snapshot": snap_path.name, "rows": snap})
 
+    # --- system health (written by scripts/health.py at the end of every run, including failed runs)
+    hdir = ROOT / "data/health"
+    health = json.loads((hdir / "latest.json").read_text()) if (hdir / "latest.json").exists() else None
+    sizes["health"] += write(data / "health.json", health)
+
+    def tail_csv(path: Path, n: int) -> list[dict]:
+        if not path.exists():
+            return []
+        with path.open(newline="") as f:
+            return list(csv.DictReader(f))[-n:]
+    sizes["health"] += write(data / "health_runs.json", tail_csv(hdir / "runs.csv", 60))
+    sizes["health"] += write(data / "site_checks.json", tail_csv(hdir / "site-checks.csv", 20))
+    outbox = sum(len(p.read_text().splitlines()) for p in (ROOT / "data/outbox").glob("*.jsonl")) \
+        if (ROOT / "data/outbox").exists() else 0
+
     # --- full-history engine run (same engine as scan and replay)
     pool = replay.candidate_pool(store, exclusions, review)
     raw = {tf: engine.load_candles(store, pool, tf) for tf in settings["data"]["intervals"]}
@@ -180,7 +195,11 @@ def main() -> int:
             "strategies": strategies, "high_risk_stop_pct": settings["risk"]["high_risk_stop_pct"],
             "candles_index": index, "tm_index": tm_index, "self_check": checks,
             "limits_he": replay.LIMITS_HE, "survivorship_he": SURVIVORSHIP_HE, "not_proof_he": NOT_PROOF_HE,
-            "stale_after_hours": 8}
+            "stale_after_hours": 6, "review_holds": review.get("hold", {}),
+            "review_verified": {k: {"decided": v["decided"], "accepted_flags": v["accepted_flags"]}
+                                for k, v in review.get("verified", {}).items()},
+            "outbox_messages": outbox, "notifications_enabled": settings.get("notifications", {}).get("enabled", False),
+            "schedule_he": "כל 4 שעות, 7 דקות אחרי סגירת נר 4H (00:07, 04:07 … 20:07 UTC). GitHub עשוי להתחיל ריצה מתוזמנת באיחור."}
     sizes["meta"] += write(data / "meta.json", meta)
     print("site built:", {k: f"{v / 1e6:.1f} MB" for k, v in sizes.items()}, "self-check:",
           [(c["timeframe"], c["as_of_utc"], c["replay_items"], c["match"]) for c in checks])

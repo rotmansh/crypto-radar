@@ -1,12 +1,17 @@
 name: "Data sync + scan"
 
-# Manual runs only. A schedule is added in phase 4, after approval.
+# Every 4 hours, 7 minutes after each 4H candle closes (00:07, 04:07, ... 20:07 UTC), and on demand.
+# GitHub may start scheduled runs late. The scan always evaluates the newest candle that has CLOSED at run time,
+# and the sync waits and retries if the exchange has not yet published it. Open candles are never stored.
 on:
+  schedule:
+    - cron: "7 0,4,8,12,16,20 * * *"
   workflow_dispatch:
 
 permissions:
   contents: write
 
+# One writer at a time; a run that arrives while another is in progress waits instead of overlapping.
 concurrency:
   group: radar-writer
   cancel-in-progress: false
@@ -14,16 +19,21 @@ concurrency:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 45
+    outputs:
+      status: ${{ steps.health.outputs.status }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
       - name: Start from the latest main
-        run: git fetch --depth=1 origin main && git checkout -B main FETCH_HEAD
+        run: |
+          git fetch --depth=1 origin main && git checkout -B main FETCH_HEAD
+          echo "RUN_STARTED_UTC=$(date -u +%Y-%m-%dT%H:%M:%S+00:00)" >> "$GITHUB_ENV"
       - run: pip install -r requirements-dev.txt
       - name: Unit tests (offline)
+        id: tests
         run: python -m pytest -q
       - name: Sync universe, liquidity and candle history
         id: sync
@@ -31,9 +41,18 @@ jobs:
         continue-on-error: true
       - name: Scan strategies on the latest closed candles
         id: scan
-        if: always()
+        if: always() && steps.tests.outcome == 'success'
         run: python scripts/scan.py
         continue-on-error: true
+      - name: Record run health
+        id: health
+        if: always()
+        env:
+          SYNC_OUTCOME: ${{ steps.sync.outcome }}
+          SCAN_OUTCOME: ${{ steps.scan.outcome }}
+        run: |
+          python scripts/health.py
+          echo "status=$(python -c 'import json;print(json.load(open("data/health/latest.json"))["last_run"]["status"])')" >> "$GITHUB_OUTPUT"
       - name: Append-only check and commit
         if: always()
         run: |
@@ -42,19 +61,58 @@ jobs:
           git add data reports journal
           python scripts/check_append_only.py
           if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
-          git commit -q -m "Data sync (run ${GITHUB_RUN_ID})"
+          git commit -q -m "Data sync (${GITHUB_EVENT_NAME} run ${GITHUB_RUN_ID}, ${{ steps.health.outputs.status }})"
           for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
           exit 1
-      - name: Fail if sync or scan reported errors
-        if: steps.sync.outcome != 'success' || steps.scan.outcome != 'success'
+      - name: Fail unless the run was a full success
+        if: always() && steps.health.outputs.status != 'success'
         run: |
-          echo "::error::sync=${{ steps.sync.outcome }} scan=${{ steps.scan.outcome }} — see reports/ for details"
+          echo "::error::run status=${{ steps.health.outputs.status }} sync=${{ steps.sync.outcome }} scan=${{ steps.scan.outcome }} — see data/health/latest.json"
           exit 1
 
+  # Published even after a failed run, so the dashboard shows the failure instead of looking current.
   site:
     needs: sync
+    if: always() && needs.sync.result != 'cancelled'
     permissions:
       contents: read
       pages: write
       id-token: write
     uses: ./.github/workflows/site.yml
+
+  # Opens the published site and checks it serves THIS run's data, on a phone-sized and a desktop browser.
+  verify:
+    needs: [sync, site]
+    if: always() && needs.site.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: npm install --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+      - name: Live check of the published dashboard
+        id: live
+        env:
+          SCREENSHOTS: "0"
+          EXPECT_RUN_ID: ${{ github.run_id }}
+        run: node tests/live/site_check.js /tmp/site-check
+        continue-on-error: true
+      - name: Record and commit the check
+        if: always()
+        run: |
+          python scripts/record_site_check.py /tmp/site-check/RESULT.json "${{ steps.live.outcome }}"
+          git config user.name "crypto-radar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/health
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Dashboard live check (run ${GITHUB_RUN_ID}: ${{ steps.live.outcome }})"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
+          exit 1
+      - name: Fail if the live check failed
+        if: steps.live.outcome != 'success'
+        run: exit 1

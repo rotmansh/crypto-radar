@@ -40,3 +40,8 @@ suspend_min_span_hours = 24                      # ... and they must span at lea
 [risk]
 # Presentation only — does not change any strategy rule, stop or signal.
 high_risk_stop_pct = 10.0                        # a SIGNAL whose stop is farther than this from the price is marked high-risk
+
+[notifications]
+# Infrastructure only. Messages are queued in data/outbox/ and never sent. Enabling requires an approved channel.
+enabled = false
+channels = []

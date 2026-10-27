@@ -30,7 +30,7 @@ sys.path.insert(0, str(ROOT))
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 
-from radar import config, engine, indicators  # noqa: E402
+from radar import config, engine, indicators, lifecycle, notify  # noqa: E402
 from radar.store import CandleStore, iso  # noqa: E402
 from radar.strategies import ALL, INSUFFICIENT, SIGNAL, WATCH  # noqa: E402
 from radar.strategies.base import fmt  # noqa: E402
@@ -68,7 +68,10 @@ def latest_snapshot() -> tuple[Path, list[dict]]:
         return path, list(csv.DictReader(f))
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    # The full historical occurrence report (~3 MB) is produced on manual runs or with --history, not every 4 hours.
+    full_history = "--history" in argv or os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch"
     started = dt.datetime.now(dt.timezone.utc)
     now_ms = int(started.timestamp() * 1000)
     run_id = os.environ.get("GITHUB_RUN_ID")
@@ -106,6 +109,7 @@ def main() -> int:
                       "sma200": clean(b["sma200"]), "above_sma200": bool(b["close"] > b["sma200"])}
 
     results, journal_rows, hist_rows = [], [], []
+    evals: dict = {}
     hist_counts: Counter = Counter()
     partial_blocked: list[dict] = []
     for strategy in ALL:
@@ -117,18 +121,23 @@ def main() -> int:
                 if sym not in universe:
                     continue
                 df = res.frames[interval][sym]
+                evals[(strategy.id, interval, sym)] = (strategy, df, ev)
                 last = len(ev) - 1
                 st = ev["state"].iloc[last]
                 s_row = snap.get(sym, {})
                 if st in (SIGNAL, WATCH):
                     it = item(strategy, sym, interval, df, ev, last, s_row, high_risk_pct)
+                    ep = engine.episode_start(ev["state"], last)
+                    it["episode_started_utc"] = iso(int(df["open_time"].iloc[ep]))
                     block["signals" if st == SIGNAL else "watch"].append(it)
-                    journal_rows.append((it, engine.episode_start(ev["state"], last), df))
+                    journal_rows.append((it, ep, df))
                 elif st == INSUFFICIENT:
                     block["insufficient"].append({"symbol": sym, "history_candles": len(df),
                                                   "needs": strategy.min_candles})
                 elif st == engine.NOT_MEMBER:
                     block["not_member_now"].append(sym)
+                if not full_history:
+                    continue
                 # Historical occurrences (rules only; no outcome or performance). Member candles only.
                 for i in np.flatnonzero(ev["state"].to_numpy() == SIGNAL):
                     hist_counts[(strategy.id, interval, pd.Timestamp(df.index[i]).year)] += 1
@@ -152,12 +161,31 @@ def main() -> int:
                               "שום איתות אינו המלצת כניסה. איתות שהסטופ שלו רחוק מ-"
                               f"{high_risk_pct:g}% מסומן 'סיכון גבוה'.",
                               "אין כאן ייעוץ השקעות. המערכת לא מבצעת מסחר ולא מחוברת לחשבון."]}
+    new_rows: list[dict] = []
+    added = append_journal(journal_rows, started, commit, settings["data"]["source"], new_rows)
+    # Lifecycle of every live alert in the journal (new / active / ended), from the same engine states.
+    jrows = load_journal()
+    life = lifecycle.lifecycle(jrows, evals, started)
+    by_id = {x["signal_id"]: x for x in life}
+    for blk in results:
+        for it in blk["signals"] + blk["watch"]:
+            it["signal_id"] = journal_key(it, it["episode_started_utc"])
+            lf = by_id.get(it["signal_id"], {})
+            it["lifecycle"] = lf.get("status", "new" if it["episode_started_utc"] == it["candle_open_utc"] else "active")
+            it["first_seen_utc"] = next((r["detected_at_utc"] for r in jrows if r["signal_id"] == it["signal_id"]), None)
+    out["lifecycle"] = life
+    out["lifecycle_ended"] = [x for x in life if x["status"] == "ended"]
+    out["lifecycle_unknown"] = [x for x in life if x["status"] == "unknown"]
+    ended_new = append_episode_events(out["lifecycle_ended"], started)
+    queued = notify.queue(new_rows, ROOT / "data/outbox", f"{started:%Y-%m}")
+    out["run_stats"] = {"journal_added": added, "episodes_ended_new": ended_new, "notifications_queued": queued,
+                        "notifications_sent": 0, "full_history_report": full_history}
+
     scan_dir = ROOT / "data/scan"
     scan_dir.mkdir(parents=True, exist_ok=True)
     (scan_dir / f"{tag}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
     (scan_dir / "latest.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
 
-    added = append_journal(journal_rows, started, commit, settings["data"]["source"])
     append_csv(ROOT / "journal/runs.csv", [{
         "run": tag, "started_utc": started.isoformat(timespec="seconds"), "code_commit": commit,
         "universe_snapshot": snap_path.name, "universe_size": len(universe), "stale_series": len(stale),
@@ -169,10 +197,11 @@ def main() -> int:
     hist_cols = ["strategy", "strategy_version", "params_hash", "timeframe", "symbol", "candle_open_utc",
                  "ref_price", "stop", "target", "rr", "risk_pct_to_stop", "high_risk", "atr_pct",
                  "partial_in_window", "history_candles", "reason_he"]
-    with (rep / "historical_signals.csv").open("w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=hist_cols, extrasaction="ignore")
-        w.writeheader()
-        w.writerows(hist_rows)
+    if full_history:
+        with (rep / "historical_signals.csv").open("w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=hist_cols, extrasaction="ignore")
+            w.writeheader()
+            w.writerows(hist_rows)
     (rep / "REPORT.md").write_text(render(out, hist_counts, hist_rows, partial_blocked, added))
     print((rep / "REPORT.md").read_text()[:3000])
     return 0
@@ -208,7 +237,7 @@ def journal_ids() -> set[str]:
     return ids
 
 
-def append_journal(rows, started: dt.datetime, commit: str, source: str) -> dict[str, int]:
+def append_journal(rows, started: dt.datetime, commit: str, source: str, out_rows: list | None = None) -> dict[str, int]:
     """Append live alerts to journal/signals-v2.csv (journal/signals.csv is the frozen v1 file).
 
     origin = live_new             the alert's first candle is the candle this scan evaluated
@@ -242,7 +271,48 @@ def append_journal(rows, started: dt.datetime, commit: str, source: str) -> dict
                     "liquidity_warnings": ";".join(it["liquidity_warnings"]),
                     "partial_in_window": it["partial_in_window"], "reason_he": it["reason_he"], "code_commit": commit})
     append_csv(ROOT / "journal/signals-v2.csv", new, JOURNAL_V2_FIELDS)
+    if out_rows is not None:
+        out_rows.extend(new)
     return dict(counts)
+
+
+def load_journal() -> list[dict]:
+    """v1 + v2 live journal rows, normalised (every v1 row was written on its alert's first candle)."""
+    rows = []
+    for name in ("signals.csv", "signals-v2.csv"):
+        p = ROOT / "journal" / name
+        if p.exists():
+            with p.open(newline="") as f:
+                for r in csv.DictReader(f):
+                    r.setdefault("origin", "live_new")
+                    r.setdefault("episode_started_utc", r["candle_open_utc"])
+                    rows.append(r)
+    return rows
+
+
+EPISODE_EVENT_FIELDS = ["event_id", "signal_id", "event", "reason", "ended_candle_utc", "detected_at_utc",
+                        "symbol", "timeframe", "strategy", "strategy_version", "type"]
+
+
+def append_episode_events(ended: list[dict], started: dt.datetime) -> int:
+    """Append-only record of when each live alert ended (first scan that saw it end) and why."""
+    path = ROOT / "journal/episode-events.csv"
+    seen = set()
+    if path.exists():
+        with path.open(newline="") as f:
+            seen = {r["event_id"] for r in csv.DictReader(f)}
+    new = []
+    for e in ended:
+        eid = hashlib.sha256(f"{e['signal_id']}|ended".encode()).hexdigest()[:16]
+        if eid in seen:
+            continue
+        seen.add(eid)
+        new.append({"event_id": eid, "signal_id": e["signal_id"], "event": "ended", "reason": e["reason"],
+                    "ended_candle_utc": e["ended_candle_utc"], "detected_at_utc": started.isoformat(timespec="seconds"),
+                    "symbol": e["symbol"], "timeframe": e["timeframe"], "strategy": e["strategy"],
+                    "strategy_version": e["strategy_version"], "type": e["type"]})
+    append_csv(path, new, EPISODE_EVENT_FIELDS)
+    return len(new)
 
 
 def f(x, d=4):
@@ -294,6 +364,14 @@ def render(out: dict, counts: Counter, hist: list[dict], partial_blocked: list[d
     L += [f"- רשומות חדשות ביומן: {sum(added.values())} (חדשות בזמן אמת: {added.get('live_new', 0)} · "
           f"היו פעילות כבר לפני שנצפו: {added.get('live_already_active', 0)})", ""]
 
+    ended = out.get("lifecycle_ended", [])
+    L += ["## התראות שהסתיימו (7 ימים אחרונים, מהיומן בזמן אמת)", ""]
+    L += [f"- {e['symbol'][:-4]} · {e['strategy']} · {e['timeframe']} · {e['type']} · התחילה {e['episode_started_utc']} · "
+          f"הסתיימה בנר {e['ended_candle_utc']} · {lifecycle.REASONS_HE.get(e['reason'], e['reason'])}" for e in ended] or ["- אין"]
+    L.append("")
+    if not out.get("run_stats", {}).get("full_history_report"):
+        L.append("> הדוח ההיסטורי המלא (היכן הכללים התקיימו בעבר) נוצר רק בהרצה ידנית, כדי לא להגדיל את הריפו בכל 4 שעות.")
+        return "\n".join(L) + "\n"
     L += ["## היכן הכללים התקיימו בהיסטוריה (ספירה בלבד, ללא ביצועים)", "",
           "| אסטרטגיה | טווח | " + " | ".join(str(y) for y in range(2017, 2027)) + " | סה\"כ |",
           "|---|---|" + "---|" * 11]
