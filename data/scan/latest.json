@@ -1,10 +1,10 @@
 {
- "run": "2026-10-27-run-40472776413",
- "generated_utc": "2026-10-27T08:21:51+00:00",
+ "run": "2026-10-27-run-40476699240",
+ "generated_utc": "2026-10-27T08:55:14+00:00",
  "source": "binance",
- "code_commit": "cd4f8523f001",
+ "code_commit": "2210132d0cdb",
  "data_fingerprint": "2baf73a4848f9fa9",
- "universe_snapshot": "2026-10-27-run-40472776413.csv",
+ "universe_snapshot": "2026-10-27-run-40476699240.csv",
  "universe_size": 49,
  "high_risk_stop_pct": 10.0,
  "btc_regime": {
@@ -101,9 +101,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 183759202.0,
-     "spread_pct": 0.0008057855401777486,
-     "depth_bid_1pct_usd": 1795686.63105,
-     "depth_ask_1pct_usd": 2018372.82134,
+     "spread_pct": 0.000807092730918585,
+     "depth_bid_1pct_usd": 2078480.31769,
+     "depth_ask_1pct_usd": 1966539.657,
      "liquidity_warnings": [],
      "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 6.67 (נדרש ≤ 15) · סגירה 1,233.26 מול SMA20 1,208.18 · רמת פריצה 1,385, במרחק 12.30% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
@@ -171,7 +171,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-26T00:00:00Z",
+     "signal_id": "72b21d8a93c5c58d",
+     "lifecycle": "new",
+     "first_seen_utc": "2026-10-27T07:18:54+00:00"
     },
     {
      "symbol": "BNBUSDT",
@@ -199,9 +203,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 74365887.0,
-     "spread_pct": 0.0013556656657322838,
-     "depth_bid_1pct_usd": 2902169.82409,
-     "depth_ask_1pct_usd": 2337384.42847,
+     "spread_pct": 0.0013580221765009072,
+     "depth_bid_1pct_usd": 3411695.71553,
+     "depth_ask_1pct_usd": 3164908.64316,
      "liquidity_warnings": [],
      "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 13.89 (נדרש ≤ 15) · סגירה 742.88 מול SMA20 738.281 · רמת פריצה 788.05, במרחק 6.08% מהסגירה · חסר לאישור: התכנסות ב-5 הנרות שלפני הפריצה, סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
@@ -269,7 +273,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-26T00:00:00Z",
+     "signal_id": "f282203719b15bce",
+     "lifecycle": "new",
+     "first_seen_utc": "2026-10-27T07:18:54+00:00"
     },
     {
      "symbol": "ASTERUSDT",
@@ -297,9 +305,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 9903054.0,
-     "spread_pct": 0.014055801532080817,
-     "depth_bid_1pct_usd": 257324.994646,
-     "depth_ask_1pct_usd": 237725.506997,
+     "spread_pct": 0.014069644741468728,
+     "depth_bid_1pct_usd": 257515.478386,
+     "depth_ask_1pct_usd": 272789.789544,
      "liquidity_warnings": [],
      "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 6.67 (נדרש ≤ 15) · סגירה 0.7131 מול SMA20 0.7052 · רמת פריצה 0.756, במרחק 6.02% מהסגירה · חסר לאישור: התכנסות ב-5 הנרות שלפני הפריצה, סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
@@ -367,7 +375,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-26T00:00:00Z",
+     "signal_id": "28e51fd94c07b8f4",
+     "lifecycle": "new",
+     "first_seen_utc": "2026-10-27T07:18:54+00:00"
     },
     {
      "symbol": "DASHUSDT",
@@ -395,9 +407,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 6748389.0,
-     "spread_pct": 0.054264266980182746,
-     "depth_bid_1pct_usd": 84045.47054,
-     "depth_ask_1pct_usd": 67387.38803,
+     "spread_pct": 0.01824651035490396,
+     "depth_bid_1pct_usd": 153380.19056000002,
+     "depth_ask_1pct_usd": 113852.20457,
      "liquidity_warnings": [],
      "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 14.44 (נדרש ≤ 15) · סגירה 53.47 מול SMA20 50.958 · רמת פריצה 58.08, במרחק 8.62% מהסגירה · חסר לאישור: התכנסות ב-5 הנרות שלפני הפריצה, סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
@@ -465,7 +477,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-26T00:00:00Z",
+     "signal_id": "e7eefa4d67ffb122",
+     "lifecycle": "new",
+     "first_seen_utc": "2026-10-27T07:18:54+00:00"
     }
    ],
    "insufficient": [
@@ -527,9 +543,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 119492235.0,
-     "spread_pct": 0.007672536156825794,
-     "depth_bid_1pct_usd": 2777197.91513,
-     "depth_ask_1pct_usd": 2605886.09685,
+     "spread_pct": 0.007693787266781226,
+     "depth_bid_1pct_usd": 2703237.41278,
+     "depth_ask_1pct_usd": 2780515.51302,
      "liquidity_warnings": [],
      "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 10.00 (נדרש ≤ 15) · סגירה 1.3026 מול SMA20 1.29391 · רמת פריצה 1.3159, במרחק 1.02% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
@@ -597,7 +613,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-26T20:00:00Z",
+     "signal_id": "ca088d8fe7f51ce0",
+     "lifecycle": "active",
+     "first_seen_utc": "2026-10-27T08:07:07+00:00"
     },
     {
      "symbol": "DOGEUSDT",
@@ -625,9 +645,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 49953028.0,
-     "spread_pct": 0.012925741614420118,
-     "depth_bid_1pct_usd": 1404760.2412,
-     "depth_ask_1pct_usd": 1435849.9708699998,
+     "spread_pct": 0.01295924318019325,
+     "depth_bid_1pct_usd": 1348494.00804,
+     "depth_ask_1pct_usd": 1450764.33592,
      "liquidity_warnings": [],
      "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 0.56 (נדרש ≤ 15) · סגירה 0.07743 מול SMA20 0.07729 · רמת פריצה 0.07955, במרחק 2.74% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
@@ -695,7 +715,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-26T20:00:00Z",
+     "signal_id": "cd176ca177949829",
+     "lifecycle": "active",
+     "first_seen_utc": "2026-10-27T08:07:07+00:00"
     },
     {
      "symbol": "ONDOUSDT",
@@ -723,9 +747,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 19317819.0,
-     "spread_pct": 0.02445884798825706,
-     "depth_bid_1pct_usd": 215797.04074,
-     "depth_ask_1pct_usd": 241086.56528,
+     "spread_pct": 0.024512807942147077,
+     "depth_bid_1pct_usd": 279705.17479,
+     "depth_ask_1pct_usd": 201292.53735,
      "liquidity_warnings": [],
      "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 2.22 (נדרש ≤ 15) · סגירה 0.4097 מול SMA20 0.4088 · רמת פריצה 0.4286, במרחק 4.61% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
@@ -793,7 +817,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-27T04:00:00Z",
+     "signal_id": "b8bcaab3b0c038c3",
+     "lifecycle": "new",
+     "first_seen_utc": "2026-10-27T08:07:07+00:00"
     },
     {
      "symbol": "TRUMPUSDT",
@@ -821,9 +849,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 11994049.0,
-     "spread_pct": 0.05929439667952042,
-     "depth_bid_1pct_usd": 160126.221889,
-     "depth_ask_1pct_usd": 162735.167518,
+     "spread_pct": 0.05957700327674185,
+     "depth_bid_1pct_usd": 276626.03475399996,
+     "depth_ask_1pct_usd": 262731.534823,
      "liquidity_warnings": [],
      "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 4.44 (נדרש ≤ 15) · סגירה 1.686 מול SMA20 1.67315 · רמת פריצה 1.758, במרחק 4.27% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות",
      "rules": [
@@ -891,7 +919,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-27T00:00:00Z",
+     "signal_id": "590667537706aa72",
+     "lifecycle": "active",
+     "first_seen_utc": "2026-10-27T07:18:54+00:00"
     },
     {
      "symbol": "ASTERUSDT",
@@ -919,9 +951,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 9903054.0,
-     "spread_pct": 0.014055801532080817,
-     "depth_bid_1pct_usd": 257324.994646,
-     "depth_ask_1pct_usd": 237725.506997,
+     "spread_pct": 0.014069644741468728,
+     "depth_bid_1pct_usd": 257515.478386,
+     "depth_ask_1pct_usd": 272789.789544,
      "liquidity_warnings": [],
      "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 6.11 (נדרש ≤ 15) · סגירה 0.7105 מול SMA20 0.7049 · רמת פריצה 0.7181, במרחק 1.07% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
@@ -989,7 +1021,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-27T04:00:00Z",
+     "signal_id": "990c75f264a73880",
+     "lifecycle": "new",
+     "first_seen_utc": "2026-10-27T08:07:07+00:00"
     },
     {
      "symbol": "BCHUSDT",
@@ -1017,9 +1053,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 9298278.0,
-     "spread_pct": 0.035417035594108685,
-     "depth_bid_1pct_usd": 251546.43500000003,
-     "depth_ask_1pct_usd": 307832.5991,
+     "spread_pct": 0.0355176700408534,
+     "depth_bid_1pct_usd": 351395.3852,
+     "depth_ask_1pct_usd": 381627.9249,
      "liquidity_warnings": [],
      "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 11.67 (נדרש ≤ 15) · סגירה 282.1 מול SMA20 277.525 · רמת פריצה 285.7, במרחק 1.28% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
@@ -1087,7 +1123,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-27T00:00:00Z",
+     "signal_id": "7dae1a6a2e76c2dc",
+     "lifecycle": "active",
+     "first_seen_utc": "2026-10-27T07:18:54+00:00"
     },
     {
      "symbol": "ETHFIUSDT",
@@ -1115,9 +1155,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 5517698.0,
-     "spread_pct": 0.030515715593527306,
-     "depth_bid_1pct_usd": 130155.77339,
-     "depth_ask_1pct_usd": 108723.27678,
+     "spread_pct": 0.045924225028697585,
+     "depth_bid_1pct_usd": 125596.68437,
+     "depth_ask_1pct_usd": 106528.82295,
      "liquidity_warnings": [],
      "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 1.67 (נדרש ≤ 15) · סגירה 0.655 מול SMA20 0.6287 · רמת פריצה 0.6685, במרחק 2.06% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות",
      "rules": [
@@ -1185,7 +1225,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-26T08:00:00Z",
+     "signal_id": "eec39b97e6a0bcec",
+     "lifecycle": "active",
+     "first_seen_utc": "2026-10-27T08:07:07+00:00"
     }
    ],
    "insufficient": [
@@ -1233,8 +1277,8 @@
      "partial_in_window": false,
      "median_qvol_30d": 28675402.0,
      "spread_pct": 0.2333722287047819,
-     "depth_bid_1pct_usd": 1010959.0977193699,
-     "depth_ask_1pct_usd": 506336.27410652,
+     "depth_bid_1pct_usd": 1016759.4412104599,
+     "depth_ask_1pct_usd": 447385.66743658,
      "liquidity_warnings": [],
      "reason_he": "סגירה 0.00000432 · SMA50 0.000004085 · SMA200 0.000003451 · SMA50 עכשיו 0.000004085 מול 0.000003933 לפני 10 נרות · קו RS (מחיר/BTC) 8.19% ביחס לממוצע 50 שלו · תשואה יחסית ל-BTC ב-30 יום: 4.14% · אחוזון 89.58 מתוך 48 מטבעות (נדרש ≥ 80) · סגירה 0.00000432 מול שיא סגירה 20 יום 0.00000463 · חסר לאישור: סגירה בשיא 20 יום",
      "rules": [
@@ -1310,7 +1354,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-23T00:00:00Z",
+     "signal_id": "3eca7d820073662b",
+     "lifecycle": "active",
+     "first_seen_utc": "2026-10-27T08:07:07+00:00"
     },
     {
      "symbol": "QNTUSDT",
@@ -1338,9 +1386,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 25946200.0,
-     "spread_pct": 0.052847774388039705,
-     "depth_bid_1pct_usd": 122995.44748,
-     "depth_ask_1pct_usd": 102478.15565,
+     "spread_pct": 0.05309264666844301,
+     "depth_bid_1pct_usd": 170966.51414,
+     "depth_ask_1pct_usd": 109788.7491,
      "liquidity_warnings": [],
      "reason_he": "סגירה 204.01 · SMA50 164.76 · SMA200 91.9657 · SMA50 עכשיו 164.76 מול 138.919 לפני 10 נרות · קו RS (מחיר/BTC) 27.66% ביחס לממוצע 50 שלו · תשואה יחסית ל-BTC ב-30 יום: 41.84% · אחוזון 100.00 מתוך 48 מטבעות (נדרש ≥ 80) · סגירה 204.01 מול שיא סגירה 20 יום 265.52 · חסר לאישור: סגירה בשיא 20 יום",
      "rules": [
@@ -1416,7 +1464,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-10T00:00:00Z",
+     "signal_id": "4bb58d15b506001a",
+     "lifecycle": "active",
+     "first_seen_utc": "2026-10-27T08:07:07+00:00"
     },
     {
      "symbol": "ZROUSDT",
@@ -1444,9 +1496,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 14217077.0,
-     "spread_pct": 0.06088280060883482,
-     "depth_bid_1pct_usd": 168066.584,
-     "depth_ask_1pct_usd": 122734.08383999999,
+     "spread_pct": 0.12224938875305634,
+     "depth_bid_1pct_usd": 147955.9615,
+     "depth_ask_1pct_usd": 117299.04753,
      "liquidity_warnings": [],
      "reason_he": "סגירה 1.63 · SMA50 1.61398 · SMA200 1.23889 · SMA50 עכשיו 1.61398 מול 1.4612 לפני 10 נרות · קו RS (מחיר/BTC) 3.63% ביחס לממוצע 50 שלו · תשואה יחסית ל-BTC ב-30 יום: 7.52% · אחוזון 91.67 מתוך 48 מטבעות (נדרש ≥ 80) · סגירה 1.63 מול שיא סגירה 20 יום 2.253 · חסר לאישור: סגירה בשיא 20 יום",
      "rules": [
@@ -1522,7 +1574,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-07T00:00:00Z",
+     "signal_id": "217f22aa12efde71",
+     "lifecycle": "active",
+     "first_seen_utc": "2026-10-27T08:07:07+00:00"
     },
     {
      "symbol": "INJUSDT",
@@ -1550,9 +1606,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 14180916.0,
-     "spread_pct": 0.012834499133664194,
-     "depth_bid_1pct_usd": 271762.23069,
-     "depth_ask_1pct_usd": 233842.18884,
+     "spread_pct": 0.012867528791099966,
+     "depth_bid_1pct_usd": 270326.6369,
+     "depth_ask_1pct_usd": 280398.55249,
      "liquidity_warnings": [],
      "reason_he": "סגירה 8.058 · SMA50 7.42082 · SMA200 5.39391 · SMA50 עכשיו 7.42082 מול 6.76136 לפני 10 נרות · קו RS (מחיר/BTC) 11.12% ביחס לממוצע 50 שלו · תשואה יחסית ל-BTC ב-30 יום: 9.16% · אחוזון 93.75 מתוך 48 מטבעות (נדרש ≥ 80) · סגירה 8.058 מול שיא סגירה 20 יום 8.948 · חסר לאישור: סגירה בשיא 20 יום",
      "rules": [
@@ -1628,7 +1684,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-25T00:00:00Z",
+     "signal_id": "64cbf1153e19e95e",
+     "lifecycle": "active",
+     "first_seen_utc": "2026-10-27T08:07:07+00:00"
     },
     {
      "symbol": "TIAUSDT",
@@ -1656,9 +1716,9 @@
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 10876381.0,
-     "spread_pct": 0.01888395807761099,
-     "depth_bid_1pct_usd": 132923.779758,
-     "depth_ask_1pct_usd": 122288.375317,
+     "spread_pct": 0.018944775978021973,
+     "depth_bid_1pct_usd": 268838.947165,
+     "depth_ask_1pct_usd": 243630.946009,
      "liquidity_warnings": [],
      "reason_he": "סגירה 0.5468 · SMA50 0.484 · SMA200 0.3964 · SMA50 עכשיו 0.484 מול 0.4392 לפני 10 נרות · קו RS (מחיר/BTC) 15.61% ביחס לממוצע 50 שלו · תשואה יחסית ל-BTC ב-30 יום: 16.91% · אחוזון 95.83 מתוך 48 מטבעות (נדרש ≥ 80) · סגירה 0.5468 מול שיא סגירה 20 יום 0.6885 · חסר לאישור: סגירה בשיא 20 יום",
      "rules": [
@@ -1734,7 +1794,11 @@
        "in_signal": true,
        "detail_he": "נר שלם"
       }
-     ]
+     ],
+     "episode_started_utc": "2026-10-17T00:00:00Z",
+     "signal_id": "5eb3051de63b1d95",
+     "lifecycle": "active",
+     "first_seen_utc": "2026-10-27T08:07:07+00:00"
     }
    ],
    "insufficient": [
@@ -1768,5 +1832,352 @@
   "התראת מעקב (WATCH) אינה נקודת כניסה. רק איתות מאושר (SIGNAL) עומד בכל התנאים.",
   "שום איתות אינו המלצת כניסה. איתות שהסטופ שלו רחוק מ-10% מסומן 'סיכון גבוה'.",
   "אין כאן ייעוץ השקעות. המערכת לא מבצעת מסחר ולא מחוברת לחשבון."
- ]
+ ],
+ "lifecycle": [
+  {
+   "signal_id": "28e51fd94c07b8f4",
+   "origin": "live_new",
+   "symbol": "ASTERUSDT",
+   "timeframe": "1d",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "0.7131",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": null,
+   "breakout_level": null,
+   "high_risk": null,
+   "detected_at_utc": "2026-10-27T07:18:54+00:00",
+   "episode_started_utc": "2026-10-26T00:00:00Z",
+   "candles_since_start": 0,
+   "status": "new",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "f282203719b15bce",
+   "origin": "live_new",
+   "symbol": "BNBUSDT",
+   "timeframe": "1d",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "742.88",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": null,
+   "breakout_level": null,
+   "high_risk": null,
+   "detected_at_utc": "2026-10-27T07:18:54+00:00",
+   "episode_started_utc": "2026-10-26T00:00:00Z",
+   "candles_since_start": 0,
+   "status": "new",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "e7eefa4d67ffb122",
+   "origin": "live_new",
+   "symbol": "DASHUSDT",
+   "timeframe": "1d",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "53.47",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": null,
+   "breakout_level": null,
+   "high_risk": null,
+   "detected_at_utc": "2026-10-27T07:18:54+00:00",
+   "episode_started_utc": "2026-10-26T00:00:00Z",
+   "candles_since_start": 0,
+   "status": "new",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "72b21d8a93c5c58d",
+   "origin": "live_new",
+   "symbol": "ZECUSDT",
+   "timeframe": "1d",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "1233.26",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": null,
+   "breakout_level": null,
+   "high_risk": null,
+   "detected_at_utc": "2026-10-27T07:18:54+00:00",
+   "episode_started_utc": "2026-10-26T00:00:00Z",
+   "candles_since_start": 0,
+   "status": "new",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "7dae1a6a2e76c2dc",
+   "origin": "live_new",
+   "symbol": "BCHUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "281.9",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": null,
+   "breakout_level": null,
+   "high_risk": null,
+   "detected_at_utc": "2026-10-27T07:18:54+00:00",
+   "episode_started_utc": "2026-10-27T00:00:00Z",
+   "candles_since_start": 1,
+   "status": "active",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "590667537706aa72",
+   "origin": "live_new",
+   "symbol": "TRUMPUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "1.691",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": null,
+   "breakout_level": null,
+   "high_risk": null,
+   "detected_at_utc": "2026-10-27T07:18:54+00:00",
+   "episode_started_utc": "2026-10-27T00:00:00Z",
+   "candles_since_start": 1,
+   "status": "active",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "990c75f264a73880",
+   "origin": "live_new",
+   "symbol": "ASTERUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "0.7105",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "0.704945",
+   "breakout_level": "0.7181",
+   "high_risk": "False",
+   "detected_at_utc": "2026-10-27T08:07:07+00:00",
+   "episode_started_utc": "2026-10-27T04:00:00Z",
+   "candles_since_start": 0,
+   "status": "new",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "cd176ca177949829",
+   "origin": "live_already_active",
+   "symbol": "DOGEUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "0.07743",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "0.077292",
+   "breakout_level": "0.07955",
+   "high_risk": "False",
+   "detected_at_utc": "2026-10-27T08:07:07+00:00",
+   "episode_started_utc": "2026-10-26T20:00:00Z",
+   "candles_since_start": 2,
+   "status": "active",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "eec39b97e6a0bcec",
+   "origin": "live_already_active",
+   "symbol": "ETHFIUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "0.655",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "0.6287",
+   "breakout_level": "0.6685",
+   "high_risk": "False",
+   "detected_at_utc": "2026-10-27T08:07:07+00:00",
+   "episode_started_utc": "2026-10-26T08:00:00Z",
+   "candles_since_start": 5,
+   "status": "active",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "b8bcaab3b0c038c3",
+   "origin": "live_new",
+   "symbol": "ONDOUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "0.4097",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "0.40876",
+   "breakout_level": "0.4286",
+   "high_risk": "False",
+   "detected_at_utc": "2026-10-27T08:07:07+00:00",
+   "episode_started_utc": "2026-10-27T04:00:00Z",
+   "candles_since_start": 0,
+   "status": "new",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "ca088d8fe7f51ce0",
+   "origin": "live_already_active",
+   "symbol": "XRPUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "1.3026",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "1.29391",
+   "breakout_level": "1.3159",
+   "high_risk": "False",
+   "detected_at_utc": "2026-10-27T08:07:07+00:00",
+   "episode_started_utc": "2026-10-26T20:00:00Z",
+   "candles_since_start": 2,
+   "status": "active",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "64cbf1153e19e95e",
+   "origin": "live_already_active",
+   "symbol": "INJUSDT",
+   "timeframe": "1d",
+   "strategy": "C-TRS",
+   "strategy_version": "1.1.0",
+   "type": "WATCH",
+   "ref_price": "8.058",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "7.42082",
+   "breakout_level": "",
+   "high_risk": "False",
+   "detected_at_utc": "2026-10-27T08:07:07+00:00",
+   "episode_started_utc": "2026-10-25T00:00:00Z",
+   "candles_since_start": 1,
+   "status": "active",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "3eca7d820073662b",
+   "origin": "live_already_active",
+   "symbol": "PEPEUSDT",
+   "timeframe": "1d",
+   "strategy": "C-TRS",
+   "strategy_version": "1.1.0",
+   "type": "WATCH",
+   "ref_price": "4.32e-06",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "4.09e-06",
+   "breakout_level": "",
+   "high_risk": "False",
+   "detected_at_utc": "2026-10-27T08:07:07+00:00",
+   "episode_started_utc": "2026-10-23T00:00:00Z",
+   "candles_since_start": 3,
+   "status": "active",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "4bb58d15b506001a",
+   "origin": "live_already_active",
+   "symbol": "QNTUSDT",
+   "timeframe": "1d",
+   "strategy": "C-TRS",
+   "strategy_version": "1.1.0",
+   "type": "WATCH",
+   "ref_price": "204.01",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "164.76",
+   "breakout_level": "",
+   "high_risk": "False",
+   "detected_at_utc": "2026-10-27T08:07:07+00:00",
+   "episode_started_utc": "2026-10-10T00:00:00Z",
+   "candles_since_start": 16,
+   "status": "active",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "5eb3051de63b1d95",
+   "origin": "live_already_active",
+   "symbol": "TIAUSDT",
+   "timeframe": "1d",
+   "strategy": "C-TRS",
+   "strategy_version": "1.1.0",
+   "type": "WATCH",
+   "ref_price": "0.5468",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "0.48401",
+   "breakout_level": "",
+   "high_risk": "False",
+   "detected_at_utc": "2026-10-27T08:07:07+00:00",
+   "episode_started_utc": "2026-10-17T00:00:00Z",
+   "candles_since_start": 9,
+   "status": "active",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "217f22aa12efde71",
+   "origin": "live_already_active",
+   "symbol": "ZROUSDT",
+   "timeframe": "1d",
+   "strategy": "C-TRS",
+   "strategy_version": "1.1.0",
+   "type": "WATCH",
+   "ref_price": "1.63",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "1.61398",
+   "breakout_level": "",
+   "high_risk": "False",
+   "detected_at_utc": "2026-10-27T08:07:07+00:00",
+   "episode_started_utc": "2026-10-07T00:00:00Z",
+   "candles_since_start": 19,
+   "status": "active",
+   "reason": null,
+   "ended_candle_utc": null
+  }
+ ],
+ "lifecycle_ended": [],
+ "lifecycle_unknown": [],
+ "run_stats": {
+  "journal_added": {},
+  "episodes_ended_new": 0,
+  "notifications_queued": 0,
+  "notifications_sent": 0,
+  "full_history_report": true
+ }
 }
