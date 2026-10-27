@@ -1,0 +1,41 @@
+name: "Dashboard live check"
+
+# Opens the published site in a real browser (phone + desktop), walks the dashboard and the Time Machine,
+# and commits the screenshots and result under reports/site-check/<run>/. Manual runs only.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar-writer
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - run: npm install --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+      - name: Check https://rotmansh.github.io/crypto-radar/
+        id: check
+        run: node tests/live/site_check.js "reports/site-check/run-${GITHUB_RUN_ID}"
+        continue-on-error: true
+      - name: Commit result
+        if: always()
+        run: |
+          git config user.name "crypto-radar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/site-check
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Dashboard live check (run ${GITHUB_RUN_ID})"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
+          exit 1
+      - name: Fail if the live check failed
+        if: steps.check.outcome != 'success'
+        run: exit 1
