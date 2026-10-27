@@ -1,0 +1,155 @@
+{
+  "env": {
+    "runner": "github-actions",
+    "runner_os": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.43",
+    "hostname_hint": "runnervmr9t6",
+    "github_run_id": "40457223902",
+    "started_utc": "2026-10-27T05:46:39+00:00"
+  },
+  "reachability": {
+    "binance_vision": {
+      "url": "https://data-api.binance.vision/api/v3/ping",
+      "ok_rounds": 3,
+      "rounds": 3,
+      "statuses": [
+        200,
+        200,
+        200
+      ],
+      "latency_ms": [
+        459,
+        463,
+        445
+      ],
+      "errors": []
+    },
+    "binance_api": {
+      "url": "https://api.binance.com/api/v3/ping",
+      "ok_rounds": 0,
+      "rounds": 3,
+      "statuses": [],
+      "latency_ms": [],
+      "errors": [
+        "HTTP 451 from https://api.binance.com/api/v3/ping: {\n  \"code\": 0,\n  \"msg\": \"Service unavailable from a restricted location according to 'b. Eligibility' in https://www.binance.com/en/terms. Please contact customer service if you believe you received t",
+        "HTTP 451 from https://api.binance.com/api/v3/ping: {\n  \"code\": 0,\n  \"msg\": \"Service unavailable from a restricted location according to 'b. Eligibility' in https://www.binance.com/en/terms. Please contact customer service if you believe you received t",
+        "HTTP 451 from https://api.binance.com/api/v3/ping: {\n  \"code\": 0,\n  \"msg\": \"Service unavailable from a restricted location according to 'b. Eligibility' in https://www.binance.com/en/terms. Please contact customer service if you believe you received t"
+      ]
+    },
+    "okx": {
+      "url": "https://www.okx.com/api/v5/public/time",
+      "ok_rounds": 3,
+      "rounds": 3,
+      "statuses": [
+        200,
+        200,
+        200
+      ],
+      "latency_ms": [
+        270,
+        155,
+        164
+      ],
+      "errors": []
+    },
+    "coinbase": {
+      "url": "https://api.exchange.coinbase.com/time",
+      "ok_rounds": 3,
+      "rounds": 3,
+      "statuses": [
+        200,
+        200,
+        200
+      ],
+      "latency_ms": [
+        199,
+        132,
+        105
+      ],
+      "errors": []
+    },
+    "kraken": {
+      "url": "https://api.kraken.com/0/public/Time",
+      "ok_rounds": 3,
+      "rounds": 3,
+      "statuses": [
+        200,
+        200,
+        200
+      ],
+      "latency_ms": [
+        226,
+        243,
+        237
+      ],
+      "errors": []
+    }
+  },
+  "ohlcv_btc": {
+    "binance_vision": {
+      "1d": {
+        "count": 999,
+        "first": "2024-02-01 00:00 UTC",
+        "last": "2026-10-26 00:00 UTC",
+        "last_close": 80150.56,
+        "issues": []
+      },
+      "4h": {
+        "count": 999,
+        "first": "2026-05-13 16:00 UTC",
+        "last": "2026-10-27 00:00 UTC",
+        "last_close": 79819.56,
+        "issues": []
+      }
+    },
+    "okx": {
+      "1d": {
+        "count": 299,
+        "first": "2026-01-01 00:00 UTC",
+        "last": "2026-10-26 00:00 UTC",
+        "last_close": 80146.0,
+        "issues": []
+      },
+      "4h": {
+        "error": "unexpected OKX payload for BTCUSDT: {'code': '51000', 'data': [], 'msg': 'Parameter bar error'}"
+      }
+    }
+  },
+  "cross_check_btc_1d": {
+    "available": true,
+    "common_days": 299,
+    "max_diff_pct": 0.0305,
+    "mean_diff_pct": 0.0062,
+    "within_0_2pct": true
+  },
+  "decision": {
+    "chosen_source": "binance_vision",
+    "reason_he": "Binance (data-api.binance.vision) נגיש ביציבות ונתוני BTC תקינים"
+  },
+  "universe": {
+    "pairs_total": 516,
+    "excluded": {
+      "TUSDUSDT": "stable_or_pegged",
+      "USDCUSDT": "stable_or_pegged",
+      "EURUSDT": "stable_or_pegged",
+      "PAXGUSDT": "stable_or_pegged",
+      "USTCUSDT": "stable_or_pegged",
+      "WBTCUSDT": "wrapped",
+      "WBETHUSDT": "wrapped",
+      "FDUSDUSDT": "stable_or_pegged",
+      "EURIUSDT": "stable_or_pegged",
+      "BNSOLUSDT": "wrapped",
+      "XUSDUSDT": "stable_or_pegged",
+      "USD1USDT": "stable_or_pegged",
+      "BFUSDUSDT": "stable_or_pegged",
+      "USDEUSDT": "stable_or_pegged",
+      "FRAXUSDT": "stable_or_pegged",
+      "RLUSDUSDT": "stable_or_pegged",
+      "XAUTUSDT": "stable_or_pegged",
+      "USDSUSDT": "stable_or_pegged"
+    },
+    "prefiltered": 155,
+    "fetch_failures": {},
+    "size": 60,
+    "file": "data/universe/universe-2026-10-27.csv"
+  }
+}
