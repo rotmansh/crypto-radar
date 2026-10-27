@@ -6,15 +6,75 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 13219,
    "first": "2020-10-15T00:00:00Z",
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 79.835,
+     "close_time_ms": 1608558445227,
+     "expected_close_time_ms": 1608566399999,
+     "h": 80.0,
+     "l": 77.6,
+     "o": 78.856,
+     "open_time": "2020-12-21T12:00:00Z",
+     "open_time_ms": 1608552000000,
+     "v": 22939.503
+    },
+    {
+     "c": 525.003,
+     "close_time_ms": 1613014853842,
+     "expected_close_time_ms": 1613015999999,
+     "h": 527.0,
+     "l": 507.434,
+     "o": 523.34,
+     "open_time": "2021-02-11T00:00:00Z",
+     "open_time_ms": 1613001600000,
+     "v": 17345.708
+    },
+    {
+     "c": 327.144,
+     "close_time_ms": 1618883999999,
+     "expected_close_time_ms": 1618891199999,
+     "h": 347.479,
+     "l": 309.05,
+     "o": 344.602,
+     "open_time": "2021-04-20T00:00:00Z",
+     "open_time_ms": 1618876800000,
+     "v": 61151.211
+    },
+    {
+     "c": 317.547,
+     "close_time_ms": 1619323257120,
+     "expected_close_time_ms": 1619337599999,
+     "h": 317.617,
+     "l": 316.24,
+     "o": 316.436,
+     "open_time": "2021-04-25T04:00:00Z",
+     "open_time_ms": 1619323200000,
+     "v": 98.98
+    },
+    {
+     "c": 400.1,
+     "close_time_ms": 1628819999000,
+     "expected_close_time_ms": 1628827199999,
+     "h": 400.1,
+     "l": 387.87,
+     "o": 392.27,
+     "open_time": "2021-08-13T00:00:00Z",
+     "open_time_ms": 1628812800000,
+     "v": 15108.2093
+    }
+   ],
+   "partial_count": 6
   }
  },
  "ADAUSDT": {
@@ -24,7 +84,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 18681,
@@ -67,8 +129,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 0.13308,
+     "close_time_ms": 1529978399999,
+     "expected_close_time_ms": 1529985599999,
+     "h": 0.13571,
+     "l": 0.132,
+     "o": 0.13521,
+     "open_time": "2018-06-26T00:00:00Z",
+     "open_time_ms": 1529971200000,
+     "v": 8868097.4
+    },
+    {
+     "c": 0.14843,
+     "close_time_ms": 1530663748561,
+     "expected_close_time_ms": 1530676799999,
+     "h": 0.15006,
+     "l": 0.14788,
+     "o": 0.14973,
+     "open_time": "2018-07-04T00:00:00Z",
+     "open_time_ms": 1530662400000,
+     "v": 2397532.6
+    },
+    {
+     "c": 0.07621,
+     "close_time_ms": 1539928799999,
+     "expected_close_time_ms": 1539935999999,
+     "h": 0.07698,
+     "l": 0.07609,
+     "o": 0.07641,
+     "open_time": "2018-10-19T04:00:00Z",
+     "open_time_ms": 1539921600000,
+     "v": 6712699.6
+    },
+    {
+     "c": 0.07445,
+     "close_time_ms": 1542160799999,
+     "expected_close_time_ms": 1542167999999,
+     "h": 0.0747,
+     "l": 0.07418,
+     "o": 0.07465,
+     "open_time": "2018-11-14T00:00:00Z",
+     "open_time_ms": 1542153600000,
+     "v": 3023540.6
+    },
+    {
+     "c": 0.04594,
+     "close_time_ms": 1552355999999,
+     "expected_close_time_ms": 1552363199999,
+     "h": 0.04752,
+     "l": 0.04566,
+     "o": 0.04732,
+     "open_time": "2019-03-12T00:00:00Z",
+     "open_time_ms": 1552348800000,
+     "v": 46106849.5
+    }
+   ],
+   "partial_count": 18
   }
  },
  "AEROUSDT": {
@@ -78,7 +198,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 609,
@@ -86,7 +208,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "APTUSDT": {
@@ -96,7 +220,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 8815,
@@ -104,7 +230,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "ARBUSDT": {
@@ -114,7 +242,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 7882,
@@ -122,7 +252,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "ASTERUSDT": {
@@ -132,7 +264,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 2314,
@@ -140,7 +274,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "AVAXUSDT": {
@@ -150,15 +286,75 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 13356,
    "first": "2020-09-22T04:00:00Z",
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 3.1171,
+     "close_time_ms": 1608558444992,
+     "expected_close_time_ms": 1608566399999,
+     "h": 3.1243,
+     "l": 3.03,
+     "o": 3.0811,
+     "open_time": "2020-12-21T12:00:00Z",
+     "open_time_ms": 1608552000000,
+     "v": 73421.82
+    },
+    {
+     "c": 50.6725,
+     "close_time_ms": 1613014854246,
+     "expected_close_time_ms": 1613015999999,
+     "h": 55.4103,
+     "l": 47.9,
+     "o": 54.6872,
+     "open_time": "2021-02-11T00:00:00Z",
+     "open_time_ms": 1613001600000,
+     "v": 714969.38
+    },
+    {
+     "c": 24.4635,
+     "close_time_ms": 1618883999999,
+     "expected_close_time_ms": 1618891199999,
+     "h": 26.389,
+     "l": 23.8766,
+     "o": 26.2029,
+     "open_time": "2021-04-20T00:00:00Z",
+     "open_time_ms": 1618876800000,
+     "v": 466736.13
+    },
+    {
+     "c": 21.7131,
+     "close_time_ms": 1619323257599,
+     "expected_close_time_ms": 1619337599999,
+     "h": 21.7153,
+     "l": 21.5963,
+     "o": 21.5963,
+     "open_time": "2021-04-25T04:00:00Z",
+     "open_time_ms": 1619323200000,
+     "v": 929.83
+    },
+    {
+     "c": 16.887,
+     "close_time_ms": 1628819999000,
+     "expected_close_time_ms": 1628827199999,
+     "h": 17.108,
+     "l": 16.389,
+     "o": 16.574,
+     "open_time": "2021-08-13T00:00:00Z",
+     "open_time_ms": 1628812800000,
+     "v": 143769.477
+    }
+   ],
+   "partial_count": 6
   }
  },
  "BCHUSDT": {
@@ -168,7 +364,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 15148,
@@ -181,8 +379,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 417.4,
+     "close_time_ms": 1582112138305,
+     "expected_close_time_ms": 1582113599999,
+     "h": 419.39,
+     "l": 407.0,
+     "o": 412.4,
+     "open_time": "2020-02-19T08:00:00Z",
+     "open_time_ms": 1582099200000,
+     "v": 19358.22213
+    },
+    {
+     "c": 236.19,
+     "close_time_ms": 1587779999999,
+     "expected_close_time_ms": 1587787199999,
+     "h": 238.23,
+     "l": 235.04,
+     "o": 237.9,
+     "open_time": "2020-04-25T00:00:00Z",
+     "open_time_ms": 1587772800000,
+     "v": 5795.38056
+    },
+    {
+     "c": 214.19,
+     "close_time_ms": 1593309599999,
+     "expected_close_time_ms": 1593316799999,
+     "h": 216.4,
+     "l": 213.4,
+     "o": 216.34,
+     "open_time": "2020-06-28T00:00:00Z",
+     "open_time_ms": 1593302400000,
+     "v": 6753.32319
+    },
+    {
+     "c": 320.84,
+     "close_time_ms": 1608558442984,
+     "expected_close_time_ms": 1608566399999,
+     "h": 325.0,
+     "l": 307.0,
+     "o": 314.89,
+     "open_time": "2020-12-21T12:00:00Z",
+     "open_time_ms": 1608552000000,
+     "v": 95577.47056
+    },
+    {
+     "c": 502.49,
+     "close_time_ms": 1613014854403,
+     "expected_close_time_ms": 1613015999999,
+     "h": 508.21,
+     "l": 490.51,
+     "o": 495.08,
+     "open_time": "2021-02-11T00:00:00Z",
+     "open_time_ms": 1613001600000,
+     "v": 34935.42975
+    }
+   ],
+   "partial_count": 9
   }
  },
  "BNBUSDT": {
@@ -191,8 +447,22 @@
    "first": "2017-11-06T00:00:00Z",
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 8.2791,
+     "close_time_ms": 1518049695786,
+     "expected_close_time_ms": 1518134399999,
+     "h": 8.3887,
+     "l": 8.0012,
+     "o": 8.0979,
+     "open_time": "2018-02-08T00:00:00Z",
+     "open_time_ms": 1518048000000,
+     "v": 91986.49
+    }
+   ],
+   "partial_count": 1
   },
   "4h": {
    "count": 19647,
@@ -240,8 +510,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 9.2335,
+     "close_time_ms": 1515034815836,
+     "expected_close_time_ms": 1515038399999,
+     "h": 9.46,
+     "l": 8.5595,
+     "o": 9.304,
+     "open_time": "2018-01-04T00:00:00Z",
+     "open_time_ms": 1515024000000,
+     "v": 204732.01
+    },
+    {
+     "c": 8.2791,
+     "close_time_ms": 1518049695786,
+     "expected_close_time_ms": 1518062399999,
+     "h": 8.3887,
+     "l": 8.0012,
+     "o": 8.0979,
+     "open_time": "2018-02-08T00:00:00Z",
+     "open_time_ms": 1518048000000,
+     "v": 91986.49
+    },
+    {
+     "c": 14.7011,
+     "close_time_ms": 1529978399999,
+     "expected_close_time_ms": 1529985599999,
+     "h": 15.0098,
+     "l": 14.575,
+     "o": 14.8982,
+     "open_time": "2018-06-26T00:00:00Z",
+     "open_time_ms": 1529971200000,
+     "v": 194262.52
+    },
+    {
+     "c": 14.0206,
+     "close_time_ms": 1530663746472,
+     "expected_close_time_ms": 1530676799999,
+     "h": 14.1798,
+     "l": 13.94,
+     "o": 14.17,
+     "open_time": "2018-07-04T00:00:00Z",
+     "open_time_ms": 1530662400000,
+     "v": 54037.01
+    },
+    {
+     "c": 9.8914,
+     "close_time_ms": 1539928799999,
+     "expected_close_time_ms": 1539935999999,
+     "h": 9.9698,
+     "l": 9.875,
+     "o": 9.9496,
+     "open_time": "2018-10-19T04:00:00Z",
+     "open_time_ms": 1539921600000,
+     "v": 50989.01
+    }
+   ],
+   "partial_count": 20
   }
  },
  "BTCUSDT": {
@@ -250,8 +578,22 @@
    "first": "2017-08-17T00:00:00Z",
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 7784.02,
+     "close_time_ms": 1518049694788,
+     "expected_close_time_ms": 1518134399999,
+     "h": 7844.0,
+     "l": 7572.09,
+     "o": 7599.0,
+     "open_time": "2018-02-08T00:00:00Z",
+     "open_time_ms": 1518048000000,
+     "v": 1521.537318
+    }
+   ],
+   "partial_count": 1
   },
   "4h": {
    "count": 20132,
@@ -299,8 +641,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 4619.43,
+     "close_time_ms": 1504713600000,
+     "expected_close_time_ms": 1504727999999,
+     "h": 4619.43,
+     "l": 4619.43,
+     "o": 4619.43,
+     "open_time": "2017-09-06T16:00:00Z",
+     "open_time_ms": 1504713600000,
+     "v": 0.0
+    },
+    {
+     "c": 15119.97,
+     "close_time_ms": 1515034814838,
+     "expected_close_time_ms": 1515038399999,
+     "h": 15280.0,
+     "l": 14649.99,
+     "o": 14919.51,
+     "open_time": "2018-01-04T00:00:00Z",
+     "open_time_ms": 1515024000000,
+     "v": 3062.535646
+    },
+    {
+     "c": 7784.02,
+     "close_time_ms": 1518049694788,
+     "expected_close_time_ms": 1518062399999,
+     "h": 7844.0,
+     "l": 7572.09,
+     "o": 7599.0,
+     "open_time": "2018-02-08T00:00:00Z",
+     "open_time_ms": 1518048000000,
+     "v": 1521.537318
+    },
+    {
+     "c": 6227.99,
+     "close_time_ms": 1529978399999,
+     "expected_close_time_ms": 1529985599999,
+     "h": 6266.47,
+     "l": 6180.0,
+     "o": 6252.0,
+     "open_time": "2018-06-26T00:00:00Z",
+     "open_time_ms": 1529971200000,
+     "v": 2669.964853
+    },
+    {
+     "c": 6481.69,
+     "close_time_ms": 1530663745551,
+     "expected_close_time_ms": 1530676799999,
+     "h": 6524.6,
+     "l": 6441.11,
+     "o": 6511.01,
+     "open_time": "2018-07-04T00:00:00Z",
+     "open_time_ms": 1530662400000,
+     "v": 1543.484402
+    }
+   ],
+   "partial_count": 21
   }
  },
  "DOGEUSDT": {
@@ -310,7 +710,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 16022,
@@ -328,8 +730,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 0.0026832,
+     "close_time_ms": 1565834399999,
+     "expected_close_time_ms": 1565841599999,
+     "h": 0.0027695,
+     "l": 0.002678,
+     "o": 0.002723,
+     "open_time": "2019-08-15T00:00:00Z",
+     "open_time_ms": 1565827200000,
+     "v": 12617041.0
+    },
+    {
+     "c": 0.0026585,
+     "close_time_ms": 1573610399999,
+     "expected_close_time_ms": 1573617599999,
+     "h": 0.0027078,
+     "l": 0.0026585,
+     "o": 0.0027078,
+     "open_time": "2019-11-13T00:00:00Z",
+     "open_time_ms": 1573603200000,
+     "v": 6104509.0
+    },
+    {
+     "c": 0.0022019,
+     "close_time_ms": 1574647199999,
+     "expected_close_time_ms": 1574654399999,
+     "h": 0.0022375,
+     "l": 0.0021851,
+     "o": 0.0022368,
+     "open_time": "2019-11-25T00:00:00Z",
+     "open_time_ms": 1574640000000,
+     "v": 9413730.0
+    },
+    {
+     "c": 0.002813,
+     "close_time_ms": 1582112137239,
+     "expected_close_time_ms": 1582113599999,
+     "h": 0.0028299,
+     "l": 0.0027846,
+     "o": 0.0027904,
+     "open_time": "2020-02-19T08:00:00Z",
+     "open_time_ms": 1582099200000,
+     "v": 17683841.0
+    },
+    {
+     "c": 0.0020713,
+     "close_time_ms": 1587779999999,
+     "expected_close_time_ms": 1587787199999,
+     "h": 0.0020831,
+     "l": 0.0020682,
+     "o": 0.002083,
+     "open_time": "2020-04-25T00:00:00Z",
+     "open_time_ms": 1587772800000,
+     "v": 2903413.0
+    }
+   ],
+   "partial_count": 12
   }
  },
  "DOTUSDT": {
@@ -339,15 +799,75 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 13562,
    "first": "2020-08-18T20:00:00Z",
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 4.9677,
+     "close_time_ms": 1608558444432,
+     "expected_close_time_ms": 1608566399999,
+     "h": 4.969,
+     "l": 4.7732,
+     "o": 4.8859,
+     "open_time": "2020-12-21T12:00:00Z",
+     "open_time_ms": 1608552000000,
+     "v": 1292926.32
+    },
+    {
+     "c": 24.7922,
+     "close_time_ms": 1613014855543,
+     "expected_close_time_ms": 1613015999999,
+     "h": 24.82,
+     "l": 23.2357,
+     "o": 23.5784,
+     "open_time": "2021-02-11T00:00:00Z",
+     "open_time_ms": 1613001600000,
+     "v": 1957606.08
+    },
+    {
+     "c": 33.1484,
+     "close_time_ms": 1618883999999,
+     "expected_close_time_ms": 1618891199999,
+     "h": 34.9832,
+     "l": 32.0796,
+     "o": 34.7371,
+     "open_time": "2021-04-20T00:00:00Z",
+     "open_time_ms": 1618876800000,
+     "v": 2498795.79
+    },
+    {
+     "c": 29.1214,
+     "close_time_ms": 1619323258962,
+     "expected_close_time_ms": 1619337599999,
+     "h": 29.1214,
+     "l": 28.9689,
+     "o": 28.9857,
+     "open_time": "2021-04-25T04:00:00Z",
+     "open_time_ms": 1619323200000,
+     "v": 3517.83
+    },
+    {
+     "c": 21.129,
+     "close_time_ms": 1628819999000,
+     "expected_close_time_ms": 1628827199999,
+     "h": 21.245,
+     "l": 20.503,
+     "o": 20.759,
+     "open_time": "2021-08-13T00:00:00Z",
+     "open_time_ms": 1628812800000,
+     "v": 1198282.833
+    }
+   ],
+   "partial_count": 6
   }
  },
  "ENAUSDT": {
@@ -357,7 +877,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 5627,
@@ -365,7 +887,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "ETHFIUSDT": {
@@ -375,7 +899,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 5716,
@@ -383,7 +909,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "ETHUSDT": {
@@ -392,8 +920,22 @@
    "first": "2017-08-17T00:00:00Z",
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 781.66,
+     "close_time_ms": 1518049694799,
+     "expected_close_time_ms": 1518134399999,
+     "h": 786.93,
+     "l": 751.0,
+     "o": 753.19,
+     "open_time": "2018-02-08T00:00:00Z",
+     "open_time_ms": 1518048000000,
+     "v": 10516.2619
+    }
+   ],
+   "partial_count": 1
   },
   "4h": {
    "count": 20132,
@@ -441,8 +983,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 335.0,
+     "close_time_ms": 1504713600000,
+     "expected_close_time_ms": 1504727999999,
+     "h": 335.0,
+     "l": 335.0,
+     "o": 335.0,
+     "open_time": "2017-09-06T16:00:00Z",
+     "open_time_ms": 1504713600000,
+     "v": 0.0
+    },
+    {
+     "c": 927.57,
+     "close_time_ms": 1515034814849,
+     "expected_close_time_ms": 1515038399999,
+     "h": 935.19,
+     "l": 900.02,
+     "o": 934.03,
+     "open_time": "2018-01-04T00:00:00Z",
+     "open_time_ms": 1515024000000,
+     "v": 13290.75778
+    },
+    {
+     "c": 781.66,
+     "close_time_ms": 1518049694799,
+     "expected_close_time_ms": 1518062399999,
+     "h": 786.93,
+     "l": 751.0,
+     "o": 753.19,
+     "open_time": "2018-02-08T00:00:00Z",
+     "open_time_ms": 1518048000000,
+     "v": 10516.2619
+    },
+    {
+     "c": 455.92,
+     "close_time_ms": 1529978399999,
+     "expected_close_time_ms": 1529985599999,
+     "h": 460.81,
+     "l": 452.07,
+     "o": 459.04,
+     "open_time": "2018-06-26T00:00:00Z",
+     "open_time_ms": 1529971200000,
+     "v": 9200.14356
+    },
+    {
+     "c": 460.63,
+     "close_time_ms": 1530663745562,
+     "expected_close_time_ms": 1530676799999,
+     "h": 464.32,
+     "l": 458.02,
+     "o": 461.78,
+     "open_time": "2018-07-04T00:00:00Z",
+     "open_time_ms": 1530662400000,
+     "v": 2287.1044
+    }
+   ],
+   "partial_count": 21
   }
  },
  "FETUSDT": {
@@ -452,7 +1052,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 16782,
@@ -480,8 +1082,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 0.2133,
+     "close_time_ms": 1552355999999,
+     "expected_close_time_ms": 1552363199999,
+     "h": 0.223,
+     "l": 0.2087,
+     "o": 0.2173,
+     "open_time": "2019-03-12T00:00:00Z",
+     "open_time_ms": 1552348800000,
+     "v": 3116840.89
+    },
+    {
+     "c": 0.1344,
+     "close_time_ms": 1557889199999,
+     "expected_close_time_ms": 1557892799999,
+     "h": 0.1434,
+     "l": 0.1326,
+     "o": 0.143,
+     "open_time": "2019-05-15T00:00:00Z",
+     "open_time_ms": 1557878400000,
+     "v": 8966639.15
+    },
+    {
+     "c": 0.07,
+     "close_time_ms": 1565834399999,
+     "expected_close_time_ms": 1565841599999,
+     "h": 0.0707,
+     "l": 0.0689,
+     "o": 0.0694,
+     "open_time": "2019-08-15T00:00:00Z",
+     "open_time_ms": 1565827200000,
+     "v": 499047.79
+    },
+    {
+     "c": 0.04022,
+     "close_time_ms": 1573610399999,
+     "expected_close_time_ms": 1573617599999,
+     "h": 0.04057,
+     "l": 0.04009,
+     "o": 0.04046,
+     "open_time": "2019-11-13T00:00:00Z",
+     "open_time_ms": 1573603200000,
+     "v": 4607426.6
+    },
+    {
+     "c": 0.03554,
+     "close_time_ms": 1574647199999,
+     "expected_close_time_ms": 1574654399999,
+     "h": 0.03728,
+     "l": 0.0347,
+     "o": 0.03705,
+     "open_time": "2019-11-25T00:00:00Z",
+     "open_time_ms": 1574640000000,
+     "v": 14242768.8
+    }
+   ],
+   "partial_count": 14
   }
  },
  "FILUSDT": {
@@ -491,15 +1151,75 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 13215,
    "first": "2020-10-15T16:00:00Z",
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 26.3547,
+     "close_time_ms": 1608558445303,
+     "expected_close_time_ms": 1608566399999,
+     "h": 26.608,
+     "l": 25.9322,
+     "o": 26.0002,
+     "open_time": "2020-12-21T12:00:00Z",
+     "open_time_ms": 1608552000000,
+     "v": 91408.96
+    },
+    {
+     "c": 37.9509,
+     "close_time_ms": 1613014855907,
+     "expected_close_time_ms": 1613015999999,
+     "h": 40.1378,
+     "l": 36.8,
+     "o": 39.7404,
+     "open_time": "2021-02-11T00:00:00Z",
+     "open_time_ms": 1613001600000,
+     "v": 413438.75
+    },
+    {
+     "c": 149.2107,
+     "close_time_ms": 1618883999999,
+     "expected_close_time_ms": 1618891199999,
+     "h": 154.8845,
+     "l": 147.333,
+     "o": 154.798,
+     "open_time": "2021-04-20T00:00:00Z",
+     "open_time_ms": 1618876800000,
+     "v": 196657.02
+    },
+    {
+     "c": 132.7254,
+     "close_time_ms": 1619323259337,
+     "expected_close_time_ms": 1619337599999,
+     "h": 132.7254,
+     "l": 132.1438,
+     "o": 132.1439,
+     "open_time": "2021-04-25T04:00:00Z",
+     "open_time_ms": 1619323200000,
+     "v": 232.44
+    },
+    {
+     "c": 69.4,
+     "close_time_ms": 1628819999000,
+     "expected_close_time_ms": 1628827199999,
+     "h": 69.83,
+     "l": 68.29,
+     "o": 68.33,
+     "open_time": "2021-08-13T00:00:00Z",
+     "open_time_ms": 1628812800000,
+     "v": 275702.9796
+    }
+   ],
+   "partial_count": 6
   }
  },
  "GRAMUSDT": {
@@ -509,7 +1229,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 701,
@@ -517,7 +1239,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "HBARUSDT": {
@@ -527,7 +1251,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 15509,
@@ -540,8 +1266,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 0.03498,
+     "close_time_ms": 1573610399999,
+     "expected_close_time_ms": 1573617599999,
+     "h": 0.03513,
+     "l": 0.03482,
+     "o": 0.03513,
+     "open_time": "2019-11-13T00:00:00Z",
+     "open_time_ms": 1573603200000,
+     "v": 110458.1
+    },
+    {
+     "c": 0.02268,
+     "close_time_ms": 1574647199999,
+     "expected_close_time_ms": 1574654399999,
+     "h": 0.02374,
+     "l": 0.02261,
+     "o": 0.02374,
+     "open_time": "2019-11-25T00:00:00Z",
+     "open_time_ms": 1574640000000,
+     "v": 1367353.9
+    },
+    {
+     "c": 0.05259,
+     "close_time_ms": 1582112137927,
+     "expected_close_time_ms": 1582113599999,
+     "h": 0.054,
+     "l": 0.04996,
+     "o": 0.05014,
+     "open_time": "2020-02-19T08:00:00Z",
+     "open_time_ms": 1582099200000,
+     "v": 22910986.9
+    },
+    {
+     "c": 0.03306,
+     "close_time_ms": 1587779999999,
+     "expected_close_time_ms": 1587787199999,
+     "h": 0.03316,
+     "l": 0.03277,
+     "o": 0.03309,
+     "open_time": "2020-04-25T00:00:00Z",
+     "open_time_ms": 1587772800000,
+     "v": 1151131.1
+    },
+    {
+     "c": 0.0376,
+     "close_time_ms": 1593309599999,
+     "expected_close_time_ms": 1593316799999,
+     "h": 0.03939,
+     "l": 0.03605,
+     "o": 0.03726,
+     "open_time": "2020-06-28T00:00:00Z",
+     "open_time_ms": 1593302400000,
+     "v": 7851464.7
+    }
+   ],
+   "partial_count": 11
   }
  },
  "HYPEUSDT": {
@@ -551,7 +1335,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 197,
@@ -559,7 +1345,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "ICPUSDT": {
@@ -569,15 +1357,42 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 11971,
    "first": "2021-05-11T00:00:00Z",
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 64.32,
+     "close_time_ms": 1628819999000,
+     "expected_close_time_ms": 1628827199999,
+     "h": 65.87,
+     "l": 63.3,
+     "o": 64.2,
+     "open_time": "2021-08-13T00:00:00Z",
+     "open_time_ms": 1628812800000,
+     "v": 252178.98
+    },
+    {
+     "c": 43.2,
+     "close_time_ms": 1632898799999,
+     "expected_close_time_ms": 1632902399999,
+     "h": 43.2,
+     "l": 42.31,
+     "o": 42.63,
+     "open_time": "2021-09-29T04:00:00Z",
+     "open_time_ms": 1632888000000,
+     "v": 102474.66
+    }
+   ],
+   "partial_count": 2
   }
  },
  "INJUSDT": {
@@ -587,15 +1402,75 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 13182,
    "first": "2020-10-21T04:00:00Z",
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 2.8,
+     "close_time_ms": 1608558445351,
+     "expected_close_time_ms": 1608566399999,
+     "h": 2.8,
+     "l": 2.6939,
+     "o": 2.7977,
+     "open_time": "2020-12-21T12:00:00Z",
+     "open_time_ms": 1608552000000,
+     "v": 119312.92
+    },
+    {
+     "c": 14.1636,
+     "close_time_ms": 1613014856324,
+     "expected_close_time_ms": 1613015999999,
+     "h": 14.4189,
+     "l": 13.8396,
+     "o": 14.3585,
+     "open_time": "2021-02-11T00:00:00Z",
+     "open_time_ms": 1613001600000,
+     "v": 74476.35
+    },
+    {
+     "c": 11.3999,
+     "close_time_ms": 1618883999999,
+     "expected_close_time_ms": 1618891199999,
+     "h": 12.1999,
+     "l": 11.1664,
+     "o": 12.1633,
+     "open_time": "2021-04-20T00:00:00Z",
+     "open_time_ms": 1618876800000,
+     "v": 68886.24
+    },
+    {
+     "c": 14.9057,
+     "close_time_ms": 1619323259794,
+     "expected_close_time_ms": 1619337599999,
+     "h": 14.9058,
+     "l": 14.9,
+     "o": 14.9,
+     "open_time": "2021-04-25T04:00:00Z",
+     "open_time_ms": 1619323200000,
+     "v": 30.52
+    },
+    {
+     "c": 9.442,
+     "close_time_ms": 1628819999000,
+     "expected_close_time_ms": 1628827199999,
+     "h": 9.599,
+     "l": 9.32,
+     "o": 9.438,
+     "open_time": "2021-08-13T00:00:00Z",
+     "open_time_ms": 1628812800000,
+     "v": 118704.3
+    }
+   ],
+   "partial_count": 6
   }
  },
  "LINKUSDT": {
@@ -605,7 +1480,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 17040,
@@ -633,8 +1510,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 0.4669,
+     "close_time_ms": 1552355999999,
+     "expected_close_time_ms": 1552363199999,
+     "h": 0.4851,
+     "l": 0.4503,
+     "o": 0.4641,
+     "open_time": "2019-03-12T00:00:00Z",
+     "open_time_ms": 1552348800000,
+     "v": 737554.35
+    },
+    {
+     "c": 0.7875,
+     "close_time_ms": 1557889199999,
+     "expected_close_time_ms": 1557892799999,
+     "h": 0.831,
+     "l": 0.7772,
+     "o": 0.8251,
+     "open_time": "2019-05-15T00:00:00Z",
+     "open_time_ms": 1557878400000,
+     "v": 652427.19
+    },
+    {
+     "c": 2.2978,
+     "close_time_ms": 1565834399999,
+     "expected_close_time_ms": 1565841599999,
+     "h": 2.3263,
+     "l": 2.2565,
+     "o": 2.284,
+     "open_time": "2019-08-15T00:00:00Z",
+     "open_time_ms": 1565827200000,
+     "v": 292255.59
+    },
+    {
+     "c": 2.7854,
+     "close_time_ms": 1573610399999,
+     "expected_close_time_ms": 1573617599999,
+     "h": 2.8205,
+     "l": 2.7851,
+     "o": 2.8177,
+     "open_time": "2019-11-13T00:00:00Z",
+     "open_time_ms": 1573603200000,
+     "v": 250966.78
+    },
+    {
+     "c": 2.167,
+     "close_time_ms": 1574647199999,
+     "expected_close_time_ms": 1574654399999,
+     "h": 2.2387,
+     "l": 2.11,
+     "o": 2.2218,
+     "open_time": "2019-11-25T00:00:00Z",
+     "open_time_ms": 1574640000000,
+     "v": 1158402.71
+    }
+   ],
+   "partial_count": 14
   }
  },
  "LTCUSDT": {
@@ -643,8 +1578,22 @@
    "first": "2017-12-13T00:00:00Z",
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 142.37,
+     "close_time_ms": 1518049696811,
+     "expected_close_time_ms": 1518134399999,
+     "h": 143.5,
+     "l": 137.2,
+     "o": 137.97,
+     "open_time": "2018-02-08T00:00:00Z",
+     "open_time_ms": 1518048000000,
+     "v": 3877.47235
+    }
+   ],
+   "partial_count": 1
   },
   "4h": {
    "count": 19425,
@@ -692,8 +1641,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 234.0,
+     "close_time_ms": 1515034816865,
+     "expected_close_time_ms": 1515038399999,
+     "h": 240.0,
+     "l": 230.05,
+     "o": 238.89,
+     "open_time": "2018-01-04T00:00:00Z",
+     "open_time_ms": 1515024000000,
+     "v": 10534.34346
+    },
+    {
+     "c": 142.37,
+     "close_time_ms": 1518049696811,
+     "expected_close_time_ms": 1518062399999,
+     "h": 143.5,
+     "l": 137.2,
+     "o": 137.97,
+     "open_time": "2018-02-08T00:00:00Z",
+     "open_time_ms": 1518048000000,
+     "v": 3877.47235
+    },
+    {
+     "c": 81.44,
+     "close_time_ms": 1529978399999,
+     "expected_close_time_ms": 1529985599999,
+     "h": 81.99,
+     "l": 80.7,
+     "o": 81.48,
+     "open_time": "2018-06-26T00:00:00Z",
+     "open_time_ms": 1529971200000,
+     "v": 15552.138
+    },
+    {
+     "c": 84.53,
+     "close_time_ms": 1530663747434,
+     "expected_close_time_ms": 1530676799999,
+     "h": 85.3,
+     "l": 84.13,
+     "o": 84.87,
+     "open_time": "2018-07-04T00:00:00Z",
+     "open_time_ms": 1530662400000,
+     "v": 3469.04919
+    },
+    {
+     "c": 53.33,
+     "close_time_ms": 1539928799999,
+     "expected_close_time_ms": 1539935999999,
+     "h": 53.71,
+     "l": 53.31,
+     "o": 53.45,
+     "open_time": "2018-10-19T04:00:00Z",
+     "open_time_ms": 1539921600000,
+     "v": 10582.63546
+    }
+   ],
+   "partial_count": 20
   }
  },
  "NEARUSDT": {
@@ -703,15 +1710,75 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 13224,
    "first": "2020-10-14T04:00:00Z",
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 1.2322,
+     "close_time_ms": 1608558445256,
+     "expected_close_time_ms": 1608566399999,
+     "h": 1.2736,
+     "l": 1.1842,
+     "o": 1.1957,
+     "open_time": "2020-12-21T12:00:00Z",
+     "open_time_ms": 1608552000000,
+     "v": 2963935.68
+    },
+    {
+     "c": 3.2903,
+     "close_time_ms": 1613014857091,
+     "expected_close_time_ms": 1613015999999,
+     "h": 3.3074,
+     "l": 3.1581,
+     "o": 3.2461,
+     "open_time": "2021-02-11T00:00:00Z",
+     "open_time_ms": 1613001600000,
+     "v": 1169620.42
+    },
+    {
+     "c": 4.4861,
+     "close_time_ms": 1618883999999,
+     "expected_close_time_ms": 1618891199999,
+     "h": 4.7681,
+     "l": 4.4321,
+     "o": 4.7319,
+     "open_time": "2021-04-20T00:00:00Z",
+     "open_time_ms": 1618876800000,
+     "v": 1005653.96
+    },
+    {
+     "c": 4.3132,
+     "close_time_ms": 1619323260575,
+     "expected_close_time_ms": 1619337599999,
+     "h": 4.3132,
+     "l": 4.294,
+     "o": 4.2979,
+     "open_time": "2021-04-25T04:00:00Z",
+     "open_time_ms": 1619323200000,
+     "v": 2198.8
+    },
+    {
+     "c": 3.2598,
+     "close_time_ms": 1628819999000,
+     "expected_close_time_ms": 1628827199999,
+     "h": 3.4634,
+     "l": 3.2548,
+     "o": 3.3381,
+     "open_time": "2021-08-13T00:00:00Z",
+     "open_time_ms": 1628812800000,
+     "v": 1264833.59
+    }
+   ],
+   "partial_count": 6
   }
  },
  "ONDOUSDT": {
@@ -721,7 +1788,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 3382,
@@ -729,7 +1798,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "OPUSDT": {
@@ -739,7 +1810,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 9653,
@@ -747,7 +1820,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "PENGUUSDT": {
@@ -757,7 +1832,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 4072,
@@ -765,7 +1842,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "PEPEUSDT": {
@@ -775,7 +1854,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 7623,
@@ -783,7 +1864,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "POLUSDT": {
@@ -811,7 +1894,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 2464,
@@ -819,7 +1904,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "QNTUSDT": {
@@ -829,15 +1916,42 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 11496,
    "first": "2021-07-29T04:00:00Z",
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 150.8,
+     "close_time_ms": 1628819999000,
+     "expected_close_time_ms": 1628827199999,
+     "h": 151.6,
+     "l": 147.4,
+     "o": 150.6,
+     "open_time": "2021-08-13T00:00:00Z",
+     "open_time_ms": 1628812800000,
+     "v": 3338.652
+    },
+    {
+     "c": 293.6,
+     "close_time_ms": 1632898799999,
+     "expected_close_time_ms": 1632902399999,
+     "h": 294.0,
+     "l": 282.7,
+     "o": 288.6,
+     "open_time": "2021-09-29T04:00:00Z",
+     "open_time_ms": 1632888000000,
+     "v": 4230.951
+    }
+   ],
+   "partial_count": 2
   }
  },
  "RAYUSDT": {
@@ -847,15 +1961,42 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 11424,
    "first": "2021-08-10T04:00:00Z",
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 4.572,
+     "close_time_ms": 1628819999000,
+     "expected_close_time_ms": 1628827199999,
+     "h": 4.581,
+     "l": 4.468,
+     "o": 4.509,
+     "open_time": "2021-08-13T00:00:00Z",
+     "open_time_ms": 1628812800000,
+     "v": 122918.3
+    },
+    {
+     "c": 9.531,
+     "close_time_ms": 1632898799999,
+     "expected_close_time_ms": 1632902399999,
+     "h": 9.554,
+     "l": 9.407,
+     "o": 9.425,
+     "open_time": "2021-09-29T04:00:00Z",
+     "open_time_ms": 1632888000000,
+     "v": 176401.6
+    }
+   ],
+   "partial_count": 2
   }
  },
  "SEIUSDT": {
@@ -865,7 +2006,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 7012,
@@ -873,7 +2016,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "SOLUSDT": {
@@ -883,15 +2028,75 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 13608,
    "first": "2020-08-11T04:00:00Z",
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 1.5186,
+     "close_time_ms": 1608558443498,
+     "expected_close_time_ms": 1608566399999,
+     "h": 1.5305,
+     "l": 1.49,
+     "o": 1.5111,
+     "open_time": "2020-12-21T12:00:00Z",
+     "open_time_ms": 1608552000000,
+     "v": 163471.04
+    },
+    {
+     "c": 8.9489,
+     "close_time_ms": 1613014857968,
+     "expected_close_time_ms": 1613015999999,
+     "h": 9.26,
+     "l": 8.72,
+     "o": 9.0897,
+     "open_time": "2021-02-11T00:00:00Z",
+     "open_time_ms": 1613001600000,
+     "v": 728202.72
+    },
+    {
+     "c": 30.4787,
+     "close_time_ms": 1618883999999,
+     "expected_close_time_ms": 1618891199999,
+     "h": 31.9068,
+     "l": 28.81,
+     "o": 31.5303,
+     "open_time": "2021-04-20T00:00:00Z",
+     "open_time_ms": 1618876800000,
+     "v": 1243373.67
+    },
+    {
+     "c": 41.2849,
+     "close_time_ms": 1619323261539,
+     "expected_close_time_ms": 1619337599999,
+     "h": 41.3333,
+     "l": 40.9747,
+     "o": 40.9857,
+     "open_time": "2021-04-25T04:00:00Z",
+     "open_time_ms": 1619323200000,
+     "v": 1393.58
+    },
+    {
+     "c": 42.253,
+     "close_time_ms": 1628819999000,
+     "expected_close_time_ms": 1628827199999,
+     "h": 42.332,
+     "l": 40.668,
+     "o": 41.105,
+     "open_time": "2021-08-13T00:00:00Z",
+     "open_time_ms": 1628812800000,
+     "v": 209983.413
+    }
+   ],
+   "partial_count": 6
   }
  },
  "STRKUSDT": {
@@ -901,7 +2106,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 5878,
@@ -909,7 +2116,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "SUIUSDT": {
@@ -919,7 +2128,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 7636,
@@ -927,7 +2138,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "TAOUSDT": {
@@ -937,7 +2150,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 5572,
@@ -945,7 +2160,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "TIAUSDT": {
@@ -955,7 +2172,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 6549,
@@ -963,7 +2182,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "TRUMPUSDT": {
@@ -973,7 +2194,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 3875,
@@ -981,7 +2204,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "TRXUSDT": {
@@ -991,7 +2216,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 18350,
@@ -1034,8 +2261,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 0.0409,
+     "close_time_ms": 1529978399999,
+     "expected_close_time_ms": 1529985599999,
+     "h": 0.0423,
+     "l": 0.0403,
+     "o": 0.04208,
+     "open_time": "2018-06-26T00:00:00Z",
+     "open_time_ms": 1529971200000,
+     "v": 32089653.9
+    },
+    {
+     "c": 0.03792,
+     "close_time_ms": 1530663749105,
+     "expected_close_time_ms": 1530676799999,
+     "h": 0.0383,
+     "l": 0.03777,
+     "o": 0.03808,
+     "open_time": "2018-07-04T00:00:00Z",
+     "open_time_ms": 1530662400000,
+     "v": 7128845.2
+    },
+    {
+     "c": 0.02444,
+     "close_time_ms": 1539928799999,
+     "expected_close_time_ms": 1539935999999,
+     "h": 0.02473,
+     "l": 0.02442,
+     "o": 0.02452,
+     "open_time": "2018-10-19T04:00:00Z",
+     "open_time_ms": 1539921600000,
+     "v": 11170195.8
+    },
+    {
+     "c": 0.02203,
+     "close_time_ms": 1542160799999,
+     "expected_close_time_ms": 1542167999999,
+     "h": 0.02224,
+     "l": 0.02194,
+     "o": 0.02222,
+     "open_time": "2018-11-14T00:00:00Z",
+     "open_time_ms": 1542153600000,
+     "v": 23880150.8
+    },
+    {
+     "c": 0.02176,
+     "close_time_ms": 1552355999999,
+     "expected_close_time_ms": 1552363199999,
+     "h": 0.02211,
+     "l": 0.02171,
+     "o": 0.0221,
+     "open_time": "2019-03-12T00:00:00Z",
+     "open_time_ms": 1552348800000,
+     "v": 25811826.0
+    }
+   ],
+   "partial_count": 18
   }
  },
  "UNIUSDT": {
@@ -1045,15 +2330,75 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 13387,
    "first": "2020-09-17T00:00:00Z",
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 3.5299,
+     "close_time_ms": 1608558444934,
+     "expected_close_time_ms": 1608566399999,
+     "h": 3.5546,
+     "l": 3.4156,
+     "o": 3.5036,
+     "open_time": "2020-12-21T12:00:00Z",
+     "open_time_ms": 1608552000000,
+     "v": 1400751.93
+    },
+    {
+     "c": 20.3757,
+     "close_time_ms": 1613014858534,
+     "expected_close_time_ms": 1613015999999,
+     "h": 20.8886,
+     "l": 20.122,
+     "o": 20.6808,
+     "open_time": "2021-02-11T00:00:00Z",
+     "open_time_ms": 1613001600000,
+     "v": 332755.66
+    },
+    {
+     "c": 30.0082,
+     "close_time_ms": 1618883999999,
+     "expected_close_time_ms": 1618891199999,
+     "h": 31.5892,
+     "l": 29.4608,
+     "o": 31.3854,
+     "open_time": "2021-04-20T00:00:00Z",
+     "open_time_ms": 1618876800000,
+     "v": 487180.97
+    },
+    {
+     "c": 30.3016,
+     "close_time_ms": 1619323262247,
+     "expected_close_time_ms": 1619337599999,
+     "h": 30.3117,
+     "l": 30.1701,
+     "o": 30.185,
+     "open_time": "2021-04-25T04:00:00Z",
+     "open_time_ms": 1619323200000,
+     "v": 725.71
+    },
+    {
+     "c": 28.307,
+     "close_time_ms": 1628819999000,
+     "expected_close_time_ms": 1628827199999,
+     "h": 28.484,
+     "l": 27.845,
+     "o": 28.092,
+     "open_time": "2021-08-13T00:00:00Z",
+     "open_time_ms": 1628812800000,
+     "v": 290082.762
+    }
+   ],
+   "partial_count": 6
   }
  },
  "WLDUSDT": {
@@ -1063,7 +2408,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 7145,
@@ -1071,7 +2418,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "XLMUSDT": {
@@ -1081,7 +2430,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 18416,
@@ -1124,8 +2475,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 0.19469,
+     "close_time_ms": 1529978399999,
+     "expected_close_time_ms": 1529985599999,
+     "h": 0.19832,
+     "l": 0.18948,
+     "o": 0.19751,
+     "open_time": "2018-06-26T00:00:00Z",
+     "open_time_ms": 1529971200000,
+     "v": 1860290.43
+    },
+    {
+     "c": 0.20399,
+     "close_time_ms": 1530663748950,
+     "expected_close_time_ms": 1530676799999,
+     "h": 0.20577,
+     "l": 0.2036,
+     "o": 0.2053,
+     "open_time": "2018-07-04T00:00:00Z",
+     "open_time_ms": 1530662400000,
+     "v": 229123.58
+    },
+    {
+     "c": 0.24018,
+     "close_time_ms": 1539928799999,
+     "expected_close_time_ms": 1539935999999,
+     "h": 0.24484,
+     "l": 0.239,
+     "o": 0.24378,
+     "open_time": "2018-10-19T04:00:00Z",
+     "open_time_ms": 1539921600000,
+     "v": 2070757.5
+    },
+    {
+     "c": 0.25902,
+     "close_time_ms": 1542160799999,
+     "expected_close_time_ms": 1542167999999,
+     "h": 0.26184,
+     "l": 0.255,
+     "o": 0.26121,
+     "open_time": "2018-11-14T00:00:00Z",
+     "open_time_ms": 1542153600000,
+     "v": 3990120.1
+    },
+    {
+     "c": 0.09745,
+     "close_time_ms": 1552355999999,
+     "expected_close_time_ms": 1552363199999,
+     "h": 0.1045,
+     "l": 0.09647,
+     "o": 0.10199,
+     "open_time": "2019-03-12T00:00:00Z",
+     "open_time_ms": 1552348800000,
+     "v": 24893355.7
+    }
+   ],
+   "partial_count": 18
   }
  },
  "XPLUSDT": {
@@ -1135,7 +2544,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 2380,
@@ -1143,7 +2554,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  },
  "XRPUSDT": {
@@ -1153,7 +2566,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 18578,
@@ -1196,8 +2611,66 @@
     }
    ],
    "last": "2026-10-27T00:00:00Z",
-   "last_error": "validation failed \u2014 nothing written",
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_error": null,
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [
+    {
+     "c": 0.47879,
+     "close_time_ms": 1529978399999,
+     "expected_close_time_ms": 1529985599999,
+     "h": 0.48241,
+     "l": 0.474,
+     "o": 0.48125,
+     "open_time": "2018-06-26T00:00:00Z",
+     "open_time_ms": 1529971200000,
+     "v": 2156242.4
+    },
+    {
+     "c": 0.48214,
+     "close_time_ms": 1530663748667,
+     "expected_close_time_ms": 1530676799999,
+     "h": 0.48599,
+     "l": 0.48028,
+     "o": 0.48469,
+     "open_time": "2018-07-04T00:00:00Z",
+     "open_time_ms": 1530662400000,
+     "v": 461357.7
+    },
+    {
+     "c": 0.46056,
+     "close_time_ms": 1539928799999,
+     "expected_close_time_ms": 1539935999999,
+     "h": 0.46823,
+     "l": 0.46011,
+     "o": 0.46598,
+     "open_time": "2018-10-19T04:00:00Z",
+     "open_time_ms": 1539921600000,
+     "v": 5014946.9
+    },
+    {
+     "c": 0.51852,
+     "close_time_ms": 1542160799999,
+     "expected_close_time_ms": 1542167999999,
+     "h": 0.52012,
+     "l": 0.512,
+     "o": 0.51817,
+     "open_time": "2018-11-14T00:00:00Z",
+     "open_time_ms": 1542153600000,
+     "v": 3874216.8
+    },
+    {
+     "c": 0.30821,
+     "close_time_ms": 1552355999999,
+     "expected_close_time_ms": 1552363199999,
+     "h": 0.31128,
+     "l": 0.30766,
+     "o": 0.30991,
+     "open_time": "2019-03-12T00:00:00Z",
+     "open_time_ms": 1552348800000,
+     "v": 3403118.4
+    }
+   ],
+   "partial_count": 18
   }
  },
  "ZROUSDT": {
@@ -1207,7 +2680,9 @@
    "gaps": [],
    "last": "2026-10-26T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   },
   "4h": {
    "count": 5152,
@@ -1215,7 +2690,9 @@
    "gaps": [],
    "last": "2026-10-27T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-10-27T06:44:48+00:00"
+   "last_sync_utc": "2026-10-27T06:48:43+00:00",
+   "partial_candles": [],
+   "partial_count": 0
   }
  }
 }
