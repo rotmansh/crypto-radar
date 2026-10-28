@@ -553,7 +553,7 @@
       ${h && h.detail && h.detail.stale_series && h.detail.stale_series.length ? `<h3>נתונים לא עדכניים בריצה האחרונה</h3><ul class="limits">${h.detail.stale_series.map((x) => `<li>${esc(x.symbol)} ${esc(x.interval)}: אחרון ${esc(x.last || "—")}, צפוי ${esc(x.expected)}${x.error ? " · " + esc(x.error) : ""}</li>`).join("")}</ul>` : ""}
       <h3>חלונות סריקה שהוחמצו (48 שעות)</h3>
       ${missed.length ? `<ul class="limits">${missed.map((m) => `<li>${ilTime(new Date(m))} — לא נרשמה ריצה לחלון</li>`).join("")}</ul>` : `<div class="empty">לא הוחמץ אף חלון.</div>`}
-      <p class="note">מנגנונים: תזמון של GitHub ב-23 דקות אחרי כל סגירה; גיבוי (watchdog) שבודק כל שעה ומפעיל סריקה אם החלון לא כוסה — שניהם תלויים במתזמן של GitHub; וגיבוי חיצוני (Claude Routine) שמפעיל סריקה 25 דקות אחרי כל סגירה ואינו תלוי במתזמן של GitHub. הפעלות כפולות לאותו חלון מדולגות בשער.</p>
+      <p class="note">מנגנונים: תזמון של GitHub ב-23 דקות אחרי כל סגירה; גיבוי (watchdog) שבודק כל שעה ומפעיל סריקה אם החלון לא כוסה — שניהם תלויים במתזמן של GitHub. גיבוי חיצוני שאינו תלוי במתזמן של GitHub עדיין לא פעיל. הפעלות כפולות לאותו חלון מדולגות בשער.</p>
       <h3>ריצות אחרונות</h3>
       ${runs.length ? `<div class="table-wrap jt"><table><thead><tr><th>התחלה</th><th>סוג</th><th>מצב</th><th>נר צפוי</th><th>לא עדכניות</th><th>חדשות</th><th>הסתיימו</th><th>משך</th></tr></thead><tbody>
         ${runs.slice(0, 30).map((r) => `<tr><td data-l="התחלה">${ilTime(new Date(r.started_utc))}</td><td data-l="סוג">${ev(r.event)}</td><td data-l="מצב">${st(r.status)}</td>

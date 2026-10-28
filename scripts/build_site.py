@@ -201,7 +201,7 @@ def main() -> int:
             "review_verified": {k: {"decided": v["decided"], "accepted_flags": v["accepted_flags"]}
                                 for k, v in review.get("verified", {}).items()},
             "outbox_messages": outbox, "notifications_enabled": settings.get("notifications", {}).get("enabled", False),
-            "schedule_he": "כל 4 שעות, 23 דקות אחרי סגירת נר 4H (00:23, 04:23 … 20:23 UTC), גיבוי שבודק כל שעה, וגיבוי חיצוני ב-25 דקות אחרי הסגירה. GitHub עשוי לעכב או לדלג על ריצות מתוזמנות."}
+            "schedule_he": "כל 4 שעות, 23 דקות אחרי סגירת נר 4H (00:23, 04:23 … 20:23 UTC), ובנוסף גיבוי שבודק כל שעה. GitHub עשוי לעכב או לדלג על ריצות מתוזמנות."}
     sizes["meta"] += write(data / "meta.json", meta)
     print("site built:", {k: f"{v / 1e6:.1f} MB" for k, v in sizes.items()}, "self-check:",
           [(c["timeframe"], c["as_of_utc"], c["replay_items"], c["match"]) for c in checks])
