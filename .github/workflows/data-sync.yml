@@ -2,8 +2,8 @@ name: "Data sync + scan"
 
 # Every 4 hours, 23 minutes after each 4H candle closes (00:23, 04:23, ... 20:23 UTC), away from the top-of-hour
 # peak when GitHub delays or drops scheduled runs; plus manual runs, runs dispatched by the watchdog
-# (scan-watchdog.yml) when a slot was missed, and runs dispatched by an external Claude Routine at :25 that does not
-# depend on GitHub's scheduler (trigger=claude_routine). Duplicates are skipped by the gate. The scan always evaluates the newest candle that has CLOSED at run
+# (scan-watchdog.yml) when a slot was missed, and runs dispatched from outside GitHub at :25 by cron-job.org through
+# the REST API (trigger=external_cron; claude_routine was tried and is not in use). Duplicates are skipped by the gate. The scan always evaluates the newest candle that has CLOSED at run
 # time, and the sync waits and retries if the exchange has not yet published it. Open candles are never stored.
 on:
   schedule:
@@ -13,7 +13,7 @@ on:
       trigger:
         description: "Who started this run"
         type: choice
-        options: [manual, watchdog, claude_routine]
+        options: [manual, watchdog, claude_routine, external_cron]
         default: manual
       reason:
         description: "Why (filled in by the watchdog / routine)"

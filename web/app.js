@@ -535,7 +535,7 @@
     const lr = h && h.last_run;
     const sched = runs.filter((r) => r.event === "schedule");
     const card = (label, value, sub) => `<div class="card kpi"><div class="label">${label}</div><div class="value" style="font-size:20px">${value}</div><div class="sub">${sub || ""}</div></div>`;
-    const ev = (e) => (e === "schedule" ? "מתוזמנת" : e === "watchdog" ? "גיבוי (watchdog)" : e === "claude_routine" ? "גיבוי חיצוני (Claude Routine)" : e === "workflow_dispatch" || e === "manual" ? "ידנית" : esc(e));
+    const ev = (e) => (e === "schedule" ? "מתוזמנת" : e === "watchdog" ? "גיבוי (watchdog)" : e === "external_cron" ? "גיבוי חיצוני (cron-job.org)" : e === "claude_routine" ? "גיבוי חיצוני (Claude Routine)" : e === "workflow_dispatch" || e === "manual" ? "ידנית" : esc(e));
     // site checks before 2026-10-28 logged the GitHub event (watchdog runs appeared as workflow_dispatch); the run
     // record in runs.csv holds the real trigger, so it takes precedence when both exist
     const trigOf = Object.fromEntries((S.runs || []).map((r) => [r.run_id, r.event]));

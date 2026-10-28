@@ -216,7 +216,7 @@ def test_schedule_runs_after_each_4h_close_and_never_overlaps():
     assert w["concurrency"]["cancel-in-progress"] is False
     assert w["jobs"]["sync"]["needs"] == "gate" and w["jobs"]["sync"]["if"] == "needs.gate.outputs.run == 'true'"
     assert "'skipped'" in w["jobs"]["site"]["if"]  # a gated-off run publishes nothing
-    assert on["workflow_dispatch"]["inputs"]["trigger"]["options"] == ["manual", "watchdog", "claude_routine"]
+    assert on["workflow_dispatch"]["inputs"]["trigger"]["options"] == ["manual", "watchdog", "claude_routine", "external_cron"]
     steps = {s.get("id"): s for s in w["jobs"]["sync"]["steps"] if s.get("id")}
     assert steps["health"]["if"] == "always()"
     assert "always()" in w["jobs"]["site"]["if"]  # the dashboard is republished to show a failure

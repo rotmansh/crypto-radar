@@ -14,7 +14,7 @@ FIELDS = ["run_id", "event", "checked_utc", "outcome", "published_run_matches", 
 def main() -> int:
     result_path, outcome = Path(sys.argv[1]), sys.argv[2]
     res = json.loads(result_path.read_text()) if result_path.exists() else {}
-    row = {"run_id": os.environ.get("GITHUB_RUN_ID", "local"), # the mechanism that started the run (schedule | watchdog | claude_routine | manual), not the GitHub event:
+    row = {"run_id": os.environ.get("GITHUB_RUN_ID", "local"), # the mechanism that started the run (schedule | watchdog | external_cron | manual), not the GitHub event:
            # watchdog and routine runs arrive as workflow_dispatch
            "event": os.environ.get("RUN_TRIGGER") or os.environ.get("GITHUB_EVENT_NAME", "local"),
            "checked_utc": res.get("checked_utc"), "outcome": outcome,
