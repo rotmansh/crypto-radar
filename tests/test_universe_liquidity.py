@@ -1,5 +1,7 @@
 import dataclasses
 
+import pytest
+
 from conftest import DAY, make_candles
 
 from radar import config, liquidity, universe
@@ -170,4 +172,41 @@ def test_tradability():
 
 def test_review_file_loads():
     r = config.load_review()
-    assert set(r["verified"]) == {"ZEC", "DASH"} and {"GTC", "POL", "MUBARAK", "牛来"} <= set(r["hold"])
+    assert set(r["verified"]) == {"ZEC", "DASH"} and not r["hold"]
+    # decisions of 2026-10-28: POL back under the normal rules; GTC/MUBARAK/牛来 temporarily suspended
+    assert r["suspended"]["GTC"]["lift_when"] == r["suspended"]["MUBARAK"]["lift_when"] == "liquidity_ok"
+    assert r["suspended"]["牛来"]["lift_when"] == "asset_verified_and_liquidity_ok" and "POL" not in r["suspended"]
+
+
+SUSP = {"verified": {}, "hold": {}, "suspended": {
+    "L": {"decided": "d", "lift_when": "liquidity_ok", "reason": "thin", "evidence": "e"},
+    "N": {"decided": "d", "lift_when": "asset_verified_and_liquidity_ok", "reason": "type?", "evidence": "e"}}}
+
+
+def test_liquidity_suspension_follows_the_rule_and_lifts_by_itself():
+    thin = Candidate("LUSDT", "L", median_qvol_30d=9e6, days=30, tradable=True, liquidity_suspended=True)
+    better = Candidate("LUSDT", "L", median_qvol_30d=9e6, days=30, tradable=True, liquidity_suspended=False)
+    for c in (thin, better):
+        universe.finalize([c], floor=5e6, max_size=10, lookback_days=30, review=SUSP)
+    assert thin.status == "liquidity_suspended" and "suspended d" in thin.notes[0]
+    assert better.status == "included" and "lifted" in better.notes[0]
+
+
+def test_suspension_pending_asset_verification_needs_a_verified_decision_first():
+    clean = Candidate("NUSDT", "N", median_qvol_30d=9e6, days=30, tradable=True)   # flags gone, still unverified
+    universe.finalize([clean], floor=5e6, max_size=10, lookback_days=30, review=SUSP)
+    assert clean.status == "review" and clean.review_reason.startswith("suspended_pending_asset_verification")
+    verified = {**SUSP, "verified": {"N": {"accepted_flags": ["permission_profile_anomaly"], "decided": "d2", "evidence": "e"}}}
+    thin = Candidate("NUSDT", "N", median_qvol_30d=9e6, days=30, tradable=True, flags=["permission_profile_anomaly"],
+                     liquidity_suspended=True)
+    ok = Candidate("NUSDT", "N", median_qvol_30d=9e6, days=30, tradable=True, flags=["permission_profile_anomaly"])
+    for c in (thin, ok):
+        universe.finalize([c], floor=5e6, max_size=10, lookback_days=30, review=verified)
+    assert thin.status == "liquidity_suspended" and ok.status == "included"
+
+
+def test_unknown_lift_rule_is_rejected(tmp_path):
+    p = tmp_path / "review.toml"
+    p.write_text('[suspended.X]\ndecided="d"\nlift_when="never"\nreason="r"\nevidence="e"\n')
+    with pytest.raises(config.ConfigError):
+        config.load_review(p)

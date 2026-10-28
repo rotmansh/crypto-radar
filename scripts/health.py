@@ -57,7 +57,7 @@ def build_row(env: dict, now: dt.datetime) -> tuple[dict, dict]:
     added = stats.get("journal_added", {})
     strategies = scan.get("strategies", [])
     row = {
-        # schedule | watchdog | manual — which mechanism started the run
+        # schedule | watchdog | claude_routine | manual — which mechanism started the run
         "run_id": run_id, "event": env.get("RUN_TRIGGER") or env.get("GITHUB_EVENT_NAME", "local"),
         "started_utc": started.isoformat(timespec="seconds"), "finished_utc": now.isoformat(timespec="seconds"),
         "status": status, "sync_outcome": env.get("SYNC_OUTCOME", "unknown"),
@@ -113,6 +113,7 @@ def status_md(runs: list[dict], latest: dict) -> str:
          f"- ריצות שנרשמו: {len(runs)} (מתוזמנות: {len(sched)}) · הצליחו: {len(ok)} · חלקיות: "
          f"{sum(r['status'] == 'partial' for r in runs)} · נכשלו: {sum(r['status'] == 'failed' for r in runs)}",
          f"- הפעלות: מתוזמנות {len(sched)} · גיבוי (watchdog) {sum(r['event'] == 'watchdog' for r in runs)} · "
+         f"גיבוי חיצוני (Claude Routine) {sum(r['event'] == 'claude_routine' for r in runs)} · "
          f"ידניות {sum(r['event'] in ('manual', 'workflow_dispatch') for r in runs)}",
          f"- חלונות סריקה שהוחמצו ב-48 השעות האחרונות: {', '.join(m[11:16] + ' UTC ' + m[5:10] for m in missed) or 'אין'}",
          f"- עיכוב התחלה של ריצות מתוזמנות אחרי סגירת נר 4H: "

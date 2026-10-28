@@ -98,6 +98,7 @@ def main() -> int:
             return list(csv.DictReader(f))[-n:]
     sizes["health"] += write(data / "health_runs.json", tail_csv(hdir / "runs.csv", 60))
     sizes["health"] += write(data / "site_checks.json", tail_csv(hdir / "site-checks.csv", 20))
+    sizes["health"] += write(data / "gate_decisions.json", tail_csv(hdir / "gate-decisions.csv", 30))
     outbox = sum(len(p.read_text().splitlines()) for p in (ROOT / "data/outbox").glob("*.jsonl")) \
         if (ROOT / "data/outbox").exists() else 0
 
@@ -196,10 +197,11 @@ def main() -> int:
             "candles_index": index, "tm_index": tm_index, "self_check": checks,
             "limits_he": replay.LIMITS_HE, "survivorship_he": SURVIVORSHIP_HE, "not_proof_he": NOT_PROOF_HE,
             "stale_after_hours": 6, "review_holds": review.get("hold", {}),
+            "review_suspended": review.get("suspended", {}),
             "review_verified": {k: {"decided": v["decided"], "accepted_flags": v["accepted_flags"]}
                                 for k, v in review.get("verified", {}).items()},
             "outbox_messages": outbox, "notifications_enabled": settings.get("notifications", {}).get("enabled", False),
-            "schedule_he": "כל 4 שעות, 23 דקות אחרי סגירת נר 4H (00:23, 04:23 … 20:23 UTC), ובנוסף גיבוי שבודק כל שעה. GitHub עשוי לעכב או לדלג על ריצות מתוזמנות."}
+            "schedule_he": "כל 4 שעות, 23 דקות אחרי סגירת נר 4H (00:23, 04:23 … 20:23 UTC), גיבוי שבודק כל שעה, וגיבוי חיצוני ב-25 דקות אחרי הסגירה. GitHub עשוי לעכב או לדלג על ריצות מתוזמנות."}
     sizes["meta"] += write(data / "meta.json", meta)
     print("site built:", {k: f"{v / 1e6:.1f} MB" for k, v in sizes.items()}, "self-check:",
           [(c["timeframe"], c["as_of_utc"], c["replay_items"], c["match"]) for c in checks])

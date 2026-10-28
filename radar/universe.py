@@ -109,6 +109,9 @@ def apply_review(c: Candidate, review: dict) -> str | None:
     """Return a review reason, or None if the pair may proceed. Mutates c.notes for verified pairs."""
     if c.base in review.get("hold", {}):
         return "manual_hold: " + review["hold"][c.base]["question"]
+    s = review.get("suspended", {}).get(c.base)
+    if s and s["lift_when"] == "asset_verified_and_liquidity_ok" and c.base not in review.get("verified", {}):
+        return f"suspended_pending_asset_verification ({s['decided']}): {s['reason']}"
     if c.tradable is False:
         return "not_tradable"
     if c.flags:
@@ -136,7 +139,11 @@ def finalize(candidates: list[Candidate], floor: float, max_size: int, lookback_
             c.status, c.review_reason = "review", reason
         elif c.liquidity_suspended:
             c.status = "liquidity_suspended"
+            if s := review.get("suspended", {}).get(c.base):
+                c.notes.append(f"suspended {s['decided']}: {s['reason']}; lifts automatically when the liquidity rule clears")
         else:
+            if s := review.get("suspended", {}).get(c.base):
+                c.notes.append(f"suspension of {s['decided']} lifted: liquidity rule no longer holds")
             pool.append(c)
     pool.sort(key=lambda c: c.median_qvol_30d, reverse=True)
     for i, c in enumerate(pool):

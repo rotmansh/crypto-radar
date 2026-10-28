@@ -11,7 +11,8 @@ import subprocess
 import sys
 
 PROTECTED = ("data/ohlcv/", "data/universe/", "data/liquidity/", "data/scan/", "data/replays/", "data/outbox/",
-             "data/health/runs.csv", "data/health/site-checks.csv", "journal/", "reports/")
+             "data/health/runs.csv", "data/health/site-checks.csv",
+             "data/health/gate-decisions.csv", "journal/", "reports/")
 UNPROTECTED = ("data/ohlcv/binance/manifest.json", "data/scan/latest.json")
 
 

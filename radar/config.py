@@ -54,11 +54,14 @@ def load_exclusions(path: Path = EXCLUSIONS_PATH) -> dict[str, dict]:
     return out
 
 
+LIFT_RULES = ("liquidity_ok", "asset_verified_and_liquidity_ok")
+
+
 def load_review(path: Path = REVIEW_PATH) -> dict:
-    """{"verified": {base: {...}}, "hold": {base: {...}}}"""
+    """{"verified": {base: {...}}, "hold": {base: {...}}, "suspended": {base: {...}}}"""
     with open(path, "rb") as f:
         raw = tomllib.load(f)
-    out = {"verified": raw.get("verified", {}), "hold": raw.get("hold", {})}
+    out = {"verified": raw.get("verified", {}), "hold": raw.get("hold", {}), "suspended": raw.get("suspended", {})}
     for base, v in out["verified"].items():
         for field in ("accepted_flags", "decided", "evidence"):
             if field not in v:
@@ -67,6 +70,12 @@ def load_review(path: Path = REVIEW_PATH) -> dict:
         for field in ("decided", "question"):
             if field not in v:
                 raise ConfigError(f"review.hold.{base} is missing '{field}'")
+    for base, v in out["suspended"].items():
+        for field in ("decided", "lift_when", "reason", "evidence"):
+            if field not in v:
+                raise ConfigError(f"review.suspended.{base} is missing '{field}'")
+        if v["lift_when"] not in LIFT_RULES:
+            raise ConfigError(f"review.suspended.{base}: unknown lift_when '{v['lift_when']}'")
     both = set(out["verified"]) & set(out["hold"])
     if both:
         raise ConfigError(f"both verified and on hold: {sorted(both)}")

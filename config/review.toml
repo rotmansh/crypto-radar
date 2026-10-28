@@ -4,6 +4,13 @@
 #                    while (a) its flags are a subset of `accepted_flags` and (b) it passes the tradability check
 #                    on every run. Any new flag, or failing tradability, sends it back to review automatically.
 # [hold.<BASE>]      Kept in review (not scanned) until the stated question is answered.
+# [suspended.<BASE>] A documented temporary suspension. It never sets a status by itself: the pair stays out of the
+#                    scan while the rule named in `lift_when` still holds, re-checked on every run, and returns
+#                    automatically once it no longer does. Nothing here removes a coin permanently.
+#                      liquidity_ok                  lifts when the liquidity persistence rule ([liquidity] in
+#                                                    settings.toml: >=5 of the last 6 measurements over >=24h) clears
+#                      asset_verified_and_liquidity_ok  additionally needs a [verified.<BASE>] decision first; until
+#                                                    then the pair stays in review even if its flags disappear
 #
 # Decisions are based on measured evidence, never on the asset's name.
 
@@ -21,18 +28,24 @@ evidence = """Missing groups TRD_GRP_004/006 differ from the tokenized-equity pa
 40462417068..40463572930: spread 0.04–0.05%, ±1% depth bid $98K–173K / ask $38K–59K, weekend/weekday volume 0.47,
 30d range 41.3%, status TRADING with spot allowed. Re-verified by the tradability check on every run."""
 
-[hold.GTC]
-decided = "2026-10-27"
-question = "Flagged only for ask-side ±1% depth $20K–26K (< $50K) in all 4 measurements. Is this persistent?"
+# ---- Decisions of 2026-10-28 on the 2026-10-27 holds (evidence: runs 40462417068..40713975651, 6 measurements
+# over 30.9h). POL: hold removed, scanned under the normal liquidity rules (0/6 problem measurements, ±1% depth
+# $116K / $73K in run 40713975651).
 
-[hold.POL]
-decided = "2026-10-27"
-question = "Flagged only for ask-side ±1% depth $47K–61K oscillating around the $50K threshold."
+[suspended.GTC]
+decided = "2026-10-28"
+lift_when = "liquidity_ok"
+reason = "Persistent thin order book"
+evidence = "6/6 measurements with ±1% depth below $50K over 30.9h; last bid $24K / ask $27K (run 40713975651)."
 
-[hold.MUBARAK]
-decided = "2026-10-27"
-question = "Flagged only for ±1% depth bid $30K–45K / ask $24K–27K (< $50K) in all 4 measurements."
+[suspended.MUBARAK]
+decided = "2026-10-28"
+lift_when = "liquidity_ok"
+reason = "Persistent thin order book"
+evidence = "6/6 measurements with ±1% depth below $50K over 30.9h; last bid $42K / ask $25K (run 40713975651)."
 
-[hold."牛来"]
-decided = "2026-10-27"
-question = "Missing permission group TRD_GRP_004 plus ±1% depth $30K–43K both sides. Asset type not yet established."
+[suspended."牛来"]
+decided = "2026-10-28"
+lift_when = "asset_verified_and_liquidity_ok"
+reason = "Asset type not established (missing permission group TRD_GRP_004) and persistent thin order book"
+evidence = "6/6 measurements with ±1% depth below $50K over 30.9h; last bid $39K / ask $29K (run 40713975651)."

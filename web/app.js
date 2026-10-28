@@ -535,7 +535,11 @@
     const lr = h && h.last_run;
     const sched = runs.filter((r) => r.event === "schedule");
     const card = (label, value, sub) => `<div class="card kpi"><div class="label">${label}</div><div class="value" style="font-size:20px">${value}</div><div class="sub">${sub || ""}</div></div>`;
-    const ev = (e) => (e === "schedule" ? "מתוזמנת" : e === "watchdog" ? "גיבוי (watchdog)" : e === "workflow_dispatch" || e === "manual" ? "ידנית" : esc(e));
+    const ev = (e) => (e === "schedule" ? "מתוזמנת" : e === "watchdog" ? "גיבוי (watchdog)" : e === "claude_routine" ? "גיבוי חיצוני (Claude Routine)" : e === "workflow_dispatch" || e === "manual" ? "ידנית" : esc(e));
+    // site checks before 2026-10-28 logged the GitHub event (watchdog runs appeared as workflow_dispatch); the run
+    // record in runs.csv holds the real trigger, so it takes precedence when both exist
+    const trigOf = Object.fromEntries((S.runs || []).map((r) => [r.run_id, r.event]));
+    const gates = (S.gates || []).slice().reverse();
     const missed = missedSlots(S.runs || [], new Date());
     $("#main").innerHTML = `<h2>מצב המערכת</h2><p class="lead">${esc(S.meta.schedule_he)}</p>
       ${!h ? `<div class="empty">אין עדיין רשומת תקינות. היא נוצרת בסוף כל ריצה.</div>` : `<div class="grid">
@@ -549,19 +553,22 @@
       ${h && h.detail && h.detail.stale_series && h.detail.stale_series.length ? `<h3>נתונים לא עדכניים בריצה האחרונה</h3><ul class="limits">${h.detail.stale_series.map((x) => `<li>${esc(x.symbol)} ${esc(x.interval)}: אחרון ${esc(x.last || "—")}, צפוי ${esc(x.expected)}${x.error ? " · " + esc(x.error) : ""}</li>`).join("")}</ul>` : ""}
       <h3>חלונות סריקה שהוחמצו (48 שעות)</h3>
       ${missed.length ? `<ul class="limits">${missed.map((m) => `<li>${ilTime(new Date(m))} — לא נרשמה ריצה לחלון</li>`).join("")}</ul>` : `<div class="empty">לא הוחמץ אף חלון.</div>`}
-      <p class="note">מנגנונים: תזמון של GitHub ב-23 דקות אחרי כל סגירה; גיבוי (watchdog) שבודק כל שעה ומפעיל סריקה אם החלון לא כוסה. שניהם תלויים במתזמן של GitHub — אם הוא נעצר לגמרי, ההתראות כאן הן מה שיראה זאת.</p>
+      <p class="note">מנגנונים: תזמון של GitHub ב-23 דקות אחרי כל סגירה; גיבוי (watchdog) שבודק כל שעה ומפעיל סריקה אם החלון לא כוסה — שניהם תלויים במתזמן של GitHub; וגיבוי חיצוני (Claude Routine) שמפעיל סריקה 25 דקות אחרי כל סגירה ואינו תלוי במתזמן של GitHub. הפעלות כפולות לאותו חלון מדולגות בשער.</p>
       <h3>ריצות אחרונות</h3>
       ${runs.length ? `<div class="table-wrap jt"><table><thead><tr><th>התחלה</th><th>סוג</th><th>מצב</th><th>נר צפוי</th><th>לא עדכניות</th><th>חדשות</th><th>הסתיימו</th><th>משך</th></tr></thead><tbody>
         ${runs.slice(0, 30).map((r) => `<tr><td data-l="התחלה">${ilTime(new Date(r.started_utc))}</td><td data-l="סוג">${ev(r.event)}</td><td data-l="מצב">${st(r.status)}</td>
         <td data-l="נר צפוי" class="num">${esc(r.expected_4h_candle_utc.slice(5, 16).replace("T", " "))}</td><td data-l="לא עדכניות">${r.stale_series}</td>
         <td data-l="חדשות">${r.journal_live_new}</td><td data-l="הסתיימו">${r.episodes_ended}</td><td data-l="משך">${r.duration_s} ש׳</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">אין ריצות רשומות.</div>`}
+      <h3>החלטות שער (מניעת כפילויות)</h3>
+      <p class="note">כל הפעלה עוברת שער: הפעלה שאינה ידנית מדולגת אם החלון כבר כוסה בריצה מוצלחת. הדילוגים נרשמים כאן עם מקור ההפעלה.</p>
+      ${gates.length ? `<ul class="limits">${gates.slice(0, 12).map((g) => `<li>${ilTime(new Date(g.decided_utc))} · ${ev(g.trigger)} · ${g.run === "True" ? "רצה" : "דולגה"} · <span class="ltr">${esc(g.reason)}</span></li>`).join("")}</ul>` : `<div class="empty">עדיין לא נרשמו החלטות שער.</div>`}
       <h3>בדיקות חיות של האתר</h3>
-      ${checks.length ? `<ul class="limits">${checks.slice(0, 10).map((c) => `<li>${esc(c.checked_utc ? ilTime(new Date(c.checked_utc)) : "—")} · ${c.outcome === "success" ? "✓ תקין" : "✗ " + esc(c.problems)} · האתר הציג את נתוני הריצה: ${c.published_run_matches === "True" ? "כן" : esc(c.published_run_matches)}</li>`).join("")}</ul>` : `<div class="empty">אין עדיין בדיקות חיות רשומות.</div>`}
+      ${checks.length ? `<ul class="limits">${checks.slice(0, 10).map((c) => `<li>${esc(c.checked_utc ? ilTime(new Date(c.checked_utc)) : "—")} · ${ev(trigOf[c.run_id] || c.event)} · ${c.outcome === "success" ? "✓ תקין" : "✗ " + esc(c.problems)} · האתר הציג את נתוני הריצה: ${c.published_run_matches === "True" ? "כן" : esc(c.published_run_matches)}</li>`).join("")}</ul>` : `<div class="empty">אין עדיין בדיקות חיות רשומות.</div>`}
       <h3>תור בדיקת חריגים — ראיות נזילות לאורך זמן</h3>
-      <p class="note">השעיה דורשת לפחות 5 מדידות בעייתיות מתוך 6 האחרונות, על פני 24 שעות לפחות. מטבע לא מוסר לצמיתות בלי החלטה מתועדת ב-config/review.toml.</p>
+      <p class="note">השעיה דורשת לפחות 5 מדידות בעייתיות מתוך 6 האחרונות, על פני 24 שעות לפחות, ונבדקת מחדש בכל ריצה. מטבע לא מוסר לצמיתות; כל השעיה מתועדת ב-config/review.toml עם הראיות ותנאי החזרה.</p>
       ${h && h.review_evidence && h.review_evidence.length ? `<div class="table-wrap jt"><table><thead><tr><th>מטבע</th><th>סטטוס</th><th>שאלה פתוחה / סיבה</th><th>מדידות בעייתיות</th><th>טווח זמן</th><th>עומק ±1% (קנייה/מכירה)</th></tr></thead><tbody>
-        ${h.review_evidence.map((r) => { const base = r.symbol.replace(/USDT$/, ""); const hold = S.meta.review_holds[base];
-          return `<tr><td data-l="מטבע"><b>${esc(base)}</b></td><td data-l="סטטוס">${esc(r.status)}</td><td data-l="שאלה">${esc(hold ? hold.question : r.review_reason || "")}</td>
+        ${h.review_evidence.map((r) => { const base = r.symbol.replace(/USDT$/, ""); const hold = S.meta.review_holds[base]; const sus = (S.meta.review_suspended || {})[base];
+          return `<tr><td data-l="מטבע"><b>${esc(base)}</b></td><td data-l="סטטוס">${esc(r.status)}</td><td data-l="שאלה">${esc(hold ? hold.question : sus ? `השעיה זמנית מ-${sus.decided}: ${sus.reason}. ${sus.lift_when === "liquidity_ok" ? "חוזר אוטומטית כשכלל הנזילות מפסיק להתקיים." : "חוזר רק אחרי אימות סוג הנכס ושיפור הנזילות."}` : r.review_reason || "")}</td>
           <td data-l="בעייתיות">${esc(r.liquidity_hits || 0)}/${esc(r.liquidity_measurements || 0)}</td><td data-l="טווח">${esc(r.liquidity_span_hours || 0)} שעות</td>
           <td data-l="עומק" class="num">${usd(r.depth_bid_1pct_usd)} / ${usd(r.depth_ask_1pct_usd)}</td></tr>`; }).join("")}</tbody></table></div>` : `<div class="empty">התור ריק.</div>`}`;
   }
@@ -611,7 +618,7 @@
       return;
     }
     const opt = (p) => getJSON(p).catch(() => null);
-    [S.health, S.runs, S.checks] = await Promise.all(["data/health.json", "data/health_runs.json", "data/site_checks.json"].map(opt));
+    [S.health, S.runs, S.checks, S.gates] = await Promise.all(["data/health.json", "data/health_runs.json", "data/site_checks.json", "data/gate_decisions.json"].map(opt));
     S.life = Object.fromEntries((S.scan.lifecycle || []).map((x) => [x.signal_id, x]));
     S.gw = TMData.createGateway(getJSON, S.meta);
     renderFreshness();

@@ -1,8 +1,9 @@
 name: "Data sync + scan"
 
 # Every 4 hours, 23 minutes after each 4H candle closes (00:23, 04:23, ... 20:23 UTC), away from the top-of-hour
-# peak when GitHub delays or drops scheduled runs; plus manual runs and runs dispatched by the watchdog
-# (scan-watchdog.yml) when a slot was missed. The scan always evaluates the newest candle that has CLOSED at run
+# peak when GitHub delays or drops scheduled runs; plus manual runs, runs dispatched by the watchdog
+# (scan-watchdog.yml) when a slot was missed, and runs dispatched by an external Claude Routine at :25 that does not
+# depend on GitHub's scheduler (trigger=claude_routine). Duplicates are skipped by the gate. The scan always evaluates the newest candle that has CLOSED at run
 # time, and the sync waits and retries if the exchange has not yet published it. Open candles are never stored.
 on:
   schedule:
@@ -12,10 +13,10 @@ on:
       trigger:
         description: "Who started this run"
         type: choice
-        options: [manual, watchdog]
+        options: [manual, watchdog, claude_routine]
         default: manual
       reason:
-        description: "Why (filled in by the watchdog)"
+        description: "Why (filled in by the watchdog / routine)"
         type: string
         default: ""
 
@@ -35,6 +36,7 @@ jobs:
     outputs:
       run: ${{ steps.g.outputs.run }}
       trigger: ${{ steps.t.outputs.trigger }}
+      decision: ${{ steps.g.outputs.decision }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -45,7 +47,21 @@ jobs:
       - id: t
         run: echo "trigger=${{ github.event_name == 'workflow_dispatch' && inputs.trigger || github.event_name }}" >> "$GITHUB_OUTPUT"
       - id: g
+        env:
+          DISPATCH_REASON: ${{ inputs.reason }}
         run: python scripts/slot_gate.py gate "${{ steps.t.outputs.trigger }}" >> "$GITHUB_OUTPUT"
+      # A skipped run commits its decision here (no other writer runs: same concurrency group). A run that
+      # proceeds leaves it to the sync job, which re-records the decision on the latest main.
+      - name: Record a skipped run
+        if: steps.g.outputs.run != 'true'
+        run: |
+          git config user.name "crypto-radar-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/health/gate-decisions.csv
+          python scripts/check_append_only.py
+          git commit -q -m "Gate skip (${{ steps.t.outputs.trigger }} run ${GITHUB_RUN_ID}): ${{ steps.g.outputs.reason }}"
+          for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
+          exit 1
 
   sync:
     needs: gate
@@ -60,9 +76,12 @@ jobs:
         with:
           python-version: "3.12"
       - name: Start from the latest main
+        env:
+          GATE_DECISION: ${{ needs.gate.outputs.decision }}
         run: |
           git fetch --depth=1 origin main && git checkout -B main FETCH_HEAD
           echo "RUN_STARTED_UTC=$(date -u +%Y-%m-%dT%H:%M:%S+00:00)" >> "$GITHUB_ENV"
+          python scripts/slot_gate.py record
       - run: pip install -r requirements-dev.txt
       - name: Unit tests (offline)
         id: tests
@@ -116,7 +135,7 @@ jobs:
 
   # Opens the published site and checks it serves THIS run's data, on a phone-sized and a desktop browser.
   verify:
-    needs: [sync, site]
+    needs: [gate, sync, site]
     if: always() && needs.site.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -138,6 +157,8 @@ jobs:
         continue-on-error: true
       - name: Record and commit the check
         if: always()
+        env:
+          RUN_TRIGGER: ${{ needs.gate.outputs.trigger }}
         run: |
           python scripts/record_site_check.py /tmp/site-check/RESULT.json "${{ steps.live.outcome }}"
           git config user.name "crypto-radar-bot"

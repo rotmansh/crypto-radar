@@ -38,8 +38,9 @@ def parse_utc(s: str) -> int:
 
 
 def candidate_pool(store: CandleStore, exclusions: dict, review: dict) -> list[str]:
-    """Coins we hold data for, minus explicit exclusions (asset type) and pairs on manual hold."""
-    holds = set(review.get("hold", {}))
+    """Coins we hold data for, minus explicit exclusions (asset type) and pairs on manual hold or under a documented
+    suspension (order-book history does not exist, so the current decision is applied to the whole replay)."""
+    holds = set(review.get("hold", {})) | set(review.get("suspended", {}))
     return [s for s in store.symbols("1d") if s[:-4] not in exclusions and s[:-4] not in holds]
 
 

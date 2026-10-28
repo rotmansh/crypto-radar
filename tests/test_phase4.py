@@ -216,11 +216,42 @@ def test_schedule_runs_after_each_4h_close_and_never_overlaps():
     assert w["concurrency"]["cancel-in-progress"] is False
     assert w["jobs"]["sync"]["needs"] == "gate" and w["jobs"]["sync"]["if"] == "needs.gate.outputs.run == 'true'"
     assert "'skipped'" in w["jobs"]["site"]["if"]  # a gated-off run publishes nothing
-    assert on["workflow_dispatch"]["inputs"]["trigger"]["options"] == ["manual", "watchdog"]
+    assert on["workflow_dispatch"]["inputs"]["trigger"]["options"] == ["manual", "watchdog", "claude_routine"]
     steps = {s.get("id"): s for s in w["jobs"]["sync"]["steps"] if s.get("id")}
     assert steps["health"]["if"] == "always()"
     assert "always()" in w["jobs"]["site"]["if"]  # the dashboard is republished to show a failure
-    assert w["jobs"]["verify"]["needs"] == ["sync", "site"]
+    assert w["jobs"]["verify"]["needs"] == ["gate", "sync", "site"]
+    # the live-check record names the mechanism (watchdog/routine runs are workflow_dispatch events to GitHub)
+    rec = next(st for st in w["jobs"]["verify"]["steps"] if st.get("name") == "Record and commit the check")
+    assert rec["env"]["RUN_TRIGGER"] == "${{ needs.gate.outputs.trigger }}"
+    skip = next(st for st in w["jobs"]["gate"]["steps"] if st.get("name") == "Record a skipped run")
+    assert "check_append_only.py" in skip["run"] and "gate-decisions.csv" in skip["run"]
+
+
+def test_site_check_records_the_trigger_not_the_github_event(tmp_path, monkeypatch):
+    import record_site_check
+    monkeypatch.setattr(record_site_check, "ROOT", tmp_path)
+    monkeypatch.setenv("GITHUB_EVENT_NAME", "workflow_dispatch")
+    monkeypatch.setenv("RUN_TRIGGER", "claude_routine")
+    (tmp_path / "r.json").write_text('{"checked_utc": "t", "published_run_matches": true}')
+    monkeypatch.setattr("sys.argv", ["x", str(tmp_path / "r.json"), "success"])
+    record_site_check.main()
+    assert ",claude_routine," in (tmp_path / "data/health/site-checks.csv").read_text()
+
+
+def test_gate_decisions_are_logged_including_skips(tmp_path, monkeypatch, capsys):
+    import slot_gate
+    monkeypatch.setattr(slot_gate, "ROOT", tmp_path)
+    monkeypatch.setenv("DISPATCH_REASON", "routine fired")
+    slot_gate.main(["gate", "claude_routine"])
+    out = capsys.readouterr().out
+    assert "run=true" in out and "decision=" in out
+    rows = (tmp_path / "data/health/gate-decisions.csv").read_text().splitlines()
+    assert rows[0].startswith("run_id,trigger") and ",claude_routine," in rows[1] and "routine fired" in rows[1]
+    # the sync job re-appends the same decision on the latest main
+    monkeypatch.setenv("GATE_DECISION", next(l for l in out.splitlines() if l.startswith("decision="))[9:])
+    slot_gate.main(["record"])
+    assert len((tmp_path / "data/health/gate-decisions.csv").read_text().splitlines()) == 3
 
 
 def test_watchdog_only_dispatches_and_cannot_write():
