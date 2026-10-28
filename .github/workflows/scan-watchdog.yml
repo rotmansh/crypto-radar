@@ -1,0 +1,46 @@
+name: "Scan watchdog"
+
+# Backup trigger for "Data sync + scan". Every hour it checks whether the current 4H slot has a successful run;
+# if not (the scheduled run was delayed or dropped), it dispatches the regular workflow with trigger=watchdog.
+# It never scans or writes data itself, so every safety mechanism of the regular workflow still applies
+# (tests, freshness check, append-only guard, single-writer concurrency, gate against duplicate slots).
+#
+# LIMITATION: this watchdog is itself started by GitHub's schedule. It adds redundancy (different minute, every
+# hour), but if GitHub's scheduler stops entirely, both stop — it is not an independent backup. The dashboard's
+# missed-slot and stale-data alerts are what reveal that case.
+on:
+  schedule:
+    - cron: "47 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: scan-watchdog
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Runs of Data sync + scan that are queued or in progress
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run list --repo "$GITHUB_REPOSITORY" --workflow data-sync.yml --limit 20 --json databaseId,status,event,createdAt > /tmp/active.json
+      - id: decide
+        run: python scripts/slot_gate.py watchdog /tmp/active.json >> "$GITHUB_OUTPUT"
+      - name: Dispatch the regular workflow
+        if: steps.decide.outputs.dispatch == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run data-sync.yml --repo "$GITHUB_REPOSITORY" -f trigger=watchdog -f reason="${{ steps.decide.outputs.reason }}"
+      - name: Summary
+        if: always()
+        run: echo "dispatch=${{ steps.decide.outputs.dispatch }} — ${{ steps.decide.outputs.reason }}" >> "$GITHUB_STEP_SUMMARY"

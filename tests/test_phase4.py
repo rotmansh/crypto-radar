@@ -211,10 +211,82 @@ def test_schedule_runs_after_each_4h_close_and_never_overlaps():
     on = w[True] if True in w else w["on"]  # YAML 1.1 reads the key `on` as boolean True
     cron = on["schedule"][0]["cron"]
     minute, hours = cron.split()[:2]
-    assert int(minute) > 0 and sorted(int(h) for h in hours.split(",")) == [0, 4, 8, 12, 16, 20]
+    assert int(minute) == 23 and sorted(int(h) for h in hours.split(",")) == [0, 4, 8, 12, 16, 20]
     assert "workflow_dispatch" in on
     assert w["concurrency"]["cancel-in-progress"] is False
+    assert w["jobs"]["sync"]["needs"] == "gate" and w["jobs"]["sync"]["if"] == "needs.gate.outputs.run == 'true'"
+    assert "'skipped'" in w["jobs"]["site"]["if"]  # a gated-off run publishes nothing
+    assert on["workflow_dispatch"]["inputs"]["trigger"]["options"] == ["manual", "watchdog"]
     steps = {s.get("id"): s for s in w["jobs"]["sync"]["steps"] if s.get("id")}
     assert steps["health"]["if"] == "always()"
     assert "always()" in w["jobs"]["site"]["if"]  # the dashboard is republished to show a failure
     assert w["jobs"]["verify"]["needs"] == ["sync", "site"]
+
+
+def test_watchdog_only_dispatches_and_cannot_write():
+    w = wf("scan-watchdog.yml")
+    on = w[True] if True in w else w["on"]
+    assert on["schedule"][0]["cron"].split()[0] == "47"            # a different minute than the main schedule
+    assert w["permissions"] == {"contents": "read", "actions": "write"}  # cannot push data
+    runs = " ".join(st.get("run", "") for st in w["jobs"]["check"]["steps"])
+    assert "gh workflow run data-sync.yml" in runs and "-f trigger=watchdog" in runs
+    assert "scan.py" not in runs and "sync_data.py" not in runs  # never bypasses the regular workflow
+
+
+# ---------------------------------------------------------------- slots, gate, watchdog
+
+from radar import slots  # noqa: E402
+
+U = dt.timezone.utc
+
+
+def run(key, status="success", event="schedule", started="2026-10-26T00:30:00+00:00"):
+    return {"expected_4h_candle_utc": key, "status": status, "event": event, "started_utc": started}
+
+
+def test_slot_keys_match_health_records():
+    now = dt.datetime(2026, 10, 27, 23, 42, tzinfo=U)
+    assert slots.last_close(now) == dt.datetime(2026, 10, 27, 20, tzinfo=U)
+    assert slots.slot_key(slots.last_close(now)) == "2026-10-27T16:00+00:00"  # as written by health.py
+    row, _ = health.build_row({"RUN_STARTED_UTC": now.isoformat(), "RUN_TRIGGER": "watchdog"}, now)
+    assert row["expected_4h_candle_utc"] == "2026-10-27T16:00+00:00" and row["event"] == "watchdog"
+
+
+def test_gate_skips_covered_slots_except_manual_runs():
+    now = dt.datetime(2026, 10, 27, 23, 42, tzinfo=U)
+    key = "2026-10-27T16:00+00:00"
+    assert slots.gate([], now, "schedule")[0]
+    assert not slots.gate([run(key)], now, "schedule")[0]            # watchdog already covered it
+    assert not slots.gate([run(key)], now, "watchdog")[0]
+    assert slots.gate([run(key, "failed")], now, "schedule")[0]      # a failed run does not cover a slot
+    assert slots.gate([run(key)], now, "manual")[0]
+
+
+def test_watchdog_decisions():
+    key = "2026-10-27T16:00+00:00"
+    early = dt.datetime(2026, 10, 27, 20, 30, tzinfo=U)
+    late = dt.datetime(2026, 10, 27, 20, 47, tzinfo=U)
+    assert slots.watchdog_decision([], [], early) == (False, f"waiting: slot {key} closed less than 40 min ago")
+    assert slots.watchdog_decision([], [], late)[0]                                  # missed -> dispatch
+    assert not slots.watchdog_decision([run(key)], [], late)[0]                      # covered
+    assert not slots.watchdog_decision([], [{"status": "queued"}], late)[0]          # never two at once
+    assert slots.watchdog_decision([run(key, "failed")], [], late)[0]                # one retry
+    two = [run(key, "failed"), run(key, "partial")]
+    ok, why = slots.watchdog_decision(two, [], late)
+    assert not ok and "not retrying" in why                                           # bounded
+
+
+def test_missed_slots_need_grace_and_any_run_counts():
+    now = dt.datetime(2026, 10, 28, 4, 36, tzinfo=U)
+    runs = [run("2026-10-27T12:00+00:00"), run("2026-10-27T16:00+00:00", "failed")]
+    missed = slots.missed_slots(runs, now, hours=24)
+    # closes in the last 24h: 04:00 (within grace), 00:00, 20:00 (failed run = attempted), 16:00 (run), 12:00, 08:00
+    assert missed == ["2026-10-28T00:00+00:00", "2026-10-27T12:00+00:00", "2026-10-27T08:00+00:00"]
+
+
+def test_slots_before_the_first_run_are_not_missed():
+    now = dt.datetime(2026, 10, 28, 4, 36, tzinfo=U)
+    runs = [run("2026-10-27T04:00+00:00", started="2026-10-27T08:53:00+00:00")]
+    assert slots.missed_slots(runs, now) == ["2026-10-28T00:00+00:00", "2026-10-27T20:00+00:00",
+                                            "2026-10-27T16:00+00:00", "2026-10-27T12:00+00:00"]
+    assert slots.missed_slots([], now) == []

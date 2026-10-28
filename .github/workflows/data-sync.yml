@@ -1,12 +1,23 @@
 name: "Data sync + scan"
 
-# Every 4 hours, 7 minutes after each 4H candle closes (00:07, 04:07, ... 20:07 UTC), and on demand.
-# GitHub may start scheduled runs late. The scan always evaluates the newest candle that has CLOSED at run time,
-# and the sync waits and retries if the exchange has not yet published it. Open candles are never stored.
+# Every 4 hours, 23 minutes after each 4H candle closes (00:23, 04:23, ... 20:23 UTC), away from the top-of-hour
+# peak when GitHub delays or drops scheduled runs; plus manual runs and runs dispatched by the watchdog
+# (scan-watchdog.yml) when a slot was missed. The scan always evaluates the newest candle that has CLOSED at run
+# time, and the sync waits and retries if the exchange has not yet published it. Open candles are never stored.
 on:
   schedule:
-    - cron: "7 0,4,8,12,16,20 * * *"
+    - cron: "23 0,4,8,12,16,20 * * *"
   workflow_dispatch:
+    inputs:
+      trigger:
+        description: "Who started this run"
+        type: choice
+        options: [manual, watchdog]
+        default: manual
+      reason:
+        description: "Why (filled in by the watchdog)"
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -17,7 +28,28 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Skip a scheduled/watchdog run whose slot already has a successful run (e.g. a schedule that arrives hours
+  # late after the watchdog covered it). Manual runs always proceed. All safety checks stay in the sync job.
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.g.outputs.run }}
+      trigger: ${{ steps.t.outputs.trigger }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Read the latest run records (an earlier run may have committed since this one was triggered)
+        run: git fetch --depth=1 origin main && git checkout -B main FETCH_HEAD
+      - id: t
+        run: echo "trigger=${{ github.event_name == 'workflow_dispatch' && inputs.trigger || github.event_name }}" >> "$GITHUB_OUTPUT"
+      - id: g
+        run: python scripts/slot_gate.py gate "${{ steps.t.outputs.trigger }}" >> "$GITHUB_OUTPUT"
+
   sync:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     outputs:
@@ -50,6 +82,8 @@ jobs:
         env:
           SYNC_OUTCOME: ${{ steps.sync.outcome }}
           SCAN_OUTCOME: ${{ steps.scan.outcome }}
+          RUN_TRIGGER: ${{ needs.gate.outputs.trigger }}
+          DISPATCH_REASON: ${{ inputs.reason }}
         run: |
           python scripts/health.py
           echo "status=$(python -c 'import json;print(json.load(open("data/health/latest.json"))["last_run"]["status"])')" >> "$GITHUB_OUTPUT"
@@ -61,7 +95,7 @@ jobs:
           git add data reports journal
           python scripts/check_append_only.py
           if git diff --cached --quiet; then echo "nothing to commit"; exit 0; fi
-          git commit -q -m "Data sync (${GITHUB_EVENT_NAME} run ${GITHUB_RUN_ID}, ${{ steps.health.outputs.status }})"
+          git commit -q -m "Data sync (${{ needs.gate.outputs.trigger }} run ${GITHUB_RUN_ID}, ${{ steps.health.outputs.status }})"
           for i in 1 2 3; do git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0; sleep $((i*5)); done
           exit 1
       - name: Fail unless the run was a full success
@@ -73,7 +107,7 @@ jobs:
   # Published even after a failed run, so the dashboard shows the failure instead of looking current.
   site:
     needs: sync
-    if: always() && needs.sync.result != 'cancelled'
+    if: always() && needs.sync.result != 'cancelled' && needs.sync.result != 'skipped'
     permissions:
       contents: read
       pages: write

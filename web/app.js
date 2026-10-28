@@ -132,10 +132,28 @@
       const what = lr.status === "partial" ? "הושלמה חלקית" : "נכשלה";
       b.push(`<div class="banner">⚠️ הריצה האחרונה (${ilTime(new Date(lr.started_utc))}) ${what}. מוצגת הסריקה המוצלחת האחרונה מ-${ilTime(gen)}. <a href="#system">פרטים</a></div>`);
     }
+    const missed = missedSlots(S.runs || [], new Date());
+    if (missed.length) b.push(`<div class="banner">⏰ ${missed.length === 1 ? "חלון סריקה הוחמץ" : `${missed.length} חלונות סריקה הוחמצו`}: ${missed.map((m) => ilTime(new Date(m))).join(" · ")} — לא נרשמה שום ריצה לחלון (בדיקה ${SLOT_GRACE_MIN / 60} שעות אחרי סגירת הנר). <a href="#system">מצב המערכת</a></div>`);
     if (ageH > S.meta.stale_after_hours) b.push(`<div class="banner">⚠️ הנתונים אינם עדכניים: הסריקה האחרונה לפני ${ageH.toFixed(1)} שעות (צפויה כל 4 שעות). <a href="#system">מצב המערכת</a></div>`);
     if (S.scan.stale && S.scan.stale.length) b.push(`<div class="banner">⚠️ ${S.scan.stale.length} סדרות לא עודכנו ולא נסרקו: ${esc(S.scan.stale.slice(0, 8).map((s) => s.symbol + " " + s.timeframe).join(", "))}</div>`);
     if (S.meta.self_check.some((c) => !c.match)) b.push(`<div class="banner">⚠️ בדיקת התאמה של מכונת הזמן נכשלה</div>`);
     $("#banner").innerHTML = b.join("");
+  }
+
+  // Missed scan slots: a 4H close with no recorded run at all, SLOT_GRACE_MIN after the close (mirrors
+  // radar/slots.py missed_slots). Computed against the viewer's clock, so it still works if runs stop entirely.
+  const SLOT_GRACE_MIN = 120;
+  function missedSlots(runs, now, hours = 48) {
+    const H4 = 4 * 3600e3;
+    const keys = new Set(runs.map((r) => r.expected_4h_candle_utc));
+    const out = [];
+    if (!runs.length) return out;
+    const since = Math.min(...runs.map((r) => Date.parse(r.started_utc)));  // slots before the automation don't count
+    for (let c = Math.floor(now.getTime() / H4) * H4; c > now.getTime() - hours * 3600e3 && c > since; c -= H4) {
+      const key = new Date(c - H4).toISOString().slice(0, 16) + "+00:00";
+      if (now.getTime() >= c + SLOT_GRACE_MIN * 60e3 && !keys.has(key)) out.push(new Date(c).toISOString());
+    }
+    return out;
   }
 
   // ------------------------------------------------------------------ views
@@ -517,7 +535,8 @@
     const lr = h && h.last_run;
     const sched = runs.filter((r) => r.event === "schedule");
     const card = (label, value, sub) => `<div class="card kpi"><div class="label">${label}</div><div class="value" style="font-size:20px">${value}</div><div class="sub">${sub || ""}</div></div>`;
-    const ev = (e) => (e === "schedule" ? "מתוזמנת" : e === "workflow_dispatch" ? "ידנית" : esc(e));
+    const ev = (e) => (e === "schedule" ? "מתוזמנת" : e === "watchdog" ? "גיבוי (watchdog)" : e === "workflow_dispatch" || e === "manual" ? "ידנית" : esc(e));
+    const missed = missedSlots(S.runs || [], new Date());
     $("#main").innerHTML = `<h2>מצב המערכת</h2><p class="lead">${esc(S.meta.schedule_he)}</p>
       ${!h ? `<div class="empty">אין עדיין רשומת תקינות. היא נוצרת בסוף כל ריצה.</div>` : `<div class="grid">
         ${card("הריצה האחרונה", lr ? st(lr.status) : "—", lr ? `${ilTime(new Date(lr.started_utc))} · ${ev(lr.event)} · ${lr.duration_s} ש׳` : "")}
@@ -528,6 +547,9 @@
         ${card("התראות חיצוניות", "כבויות", `${S.meta.outbox_messages} הודעות בתור, לא נשלחו`)}
       </div>`}
       ${h && h.detail && h.detail.stale_series && h.detail.stale_series.length ? `<h3>נתונים לא עדכניים בריצה האחרונה</h3><ul class="limits">${h.detail.stale_series.map((x) => `<li>${esc(x.symbol)} ${esc(x.interval)}: אחרון ${esc(x.last || "—")}, צפוי ${esc(x.expected)}${x.error ? " · " + esc(x.error) : ""}</li>`).join("")}</ul>` : ""}
+      <h3>חלונות סריקה שהוחמצו (48 שעות)</h3>
+      ${missed.length ? `<ul class="limits">${missed.map((m) => `<li>${ilTime(new Date(m))} — לא נרשמה ריצה לחלון</li>`).join("")}</ul>` : `<div class="empty">לא הוחמץ אף חלון.</div>`}
+      <p class="note">מנגנונים: תזמון של GitHub ב-23 דקות אחרי כל סגירה; גיבוי (watchdog) שבודק כל שעה ומפעיל סריקה אם החלון לא כוסה. שניהם תלויים במתזמן של GitHub — אם הוא נעצר לגמרי, ההתראות כאן הן מה שיראה זאת.</p>
       <h3>ריצות אחרונות</h3>
       ${runs.length ? `<div class="table-wrap jt"><table><thead><tr><th>התחלה</th><th>סוג</th><th>מצב</th><th>נר צפוי</th><th>לא עדכניות</th><th>חדשות</th><th>הסתיימו</th><th>משך</th></tr></thead><tbody>
         ${runs.slice(0, 30).map((r) => `<tr><td data-l="התחלה">${ilTime(new Date(r.started_utc))}</td><td data-l="סוג">${ev(r.event)}</td><td data-l="מצב">${st(r.status)}</td>

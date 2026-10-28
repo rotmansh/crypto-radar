@@ -57,7 +57,8 @@ def build_row(env: dict, now: dt.datetime) -> tuple[dict, dict]:
     added = stats.get("journal_added", {})
     strategies = scan.get("strategies", [])
     row = {
-        "run_id": run_id, "event": env.get("GITHUB_EVENT_NAME", "local"),
+        # schedule | watchdog | manual — which mechanism started the run
+        "run_id": run_id, "event": env.get("RUN_TRIGGER") or env.get("GITHUB_EVENT_NAME", "local"),
         "started_utc": started.isoformat(timespec="seconds"), "finished_utc": now.isoformat(timespec="seconds"),
         "status": status, "sync_outcome": env.get("SYNC_OUTCOME", "unknown"),
         "scan_outcome": env.get("SCAN_OUTCOME", "unknown"),
@@ -75,7 +76,8 @@ def build_row(env: dict, now: dt.datetime) -> tuple[dict, dict]:
         "duration_s": round((now - started).total_seconds()), "code_commit": (env.get("GITHUB_SHA") or "")[:12],
     }
     detail = {"stale_series": stale, "scan_run": scan.get("run"), "scan_generated_utc": scan.get("generated_utc"),
-              "sync_run": sync.get("run"), "exchange_snapshot": sync.get("exchange_snapshot")}
+              "sync_run": sync.get("run"), "exchange_snapshot": sync.get("exchange_snapshot"),
+              "dispatch_reason": env.get("DISPATCH_REASON") or None}
     return row, detail
 
 
@@ -99,7 +101,9 @@ def read_runs() -> list[dict]:
 
 
 def status_md(runs: list[dict], latest: dict) -> str:
+    from radar import slots
     sched = [r for r in runs if r["event"] == "schedule"]
+    missed = slots.missed_slots(runs, dt.datetime.now(dt.timezone.utc))
     ok = [r for r in runs if r["status"] == "success"]
     delays = [float(r["start_delay_min"]) for r in sched if r["start_delay_min"]]
     L = ["# מצב המערכת", "",
@@ -108,6 +112,9 @@ def status_md(runs: list[dict], latest: dict) -> str:
          f"- ריצה מוצלחת אחרונה: {latest['last_success_utc'] or 'אין'}",
          f"- ריצות שנרשמו: {len(runs)} (מתוזמנות: {len(sched)}) · הצליחו: {len(ok)} · חלקיות: "
          f"{sum(r['status'] == 'partial' for r in runs)} · נכשלו: {sum(r['status'] == 'failed' for r in runs)}",
+         f"- הפעלות: מתוזמנות {len(sched)} · גיבוי (watchdog) {sum(r['event'] == 'watchdog' for r in runs)} · "
+         f"ידניות {sum(r['event'] in ('manual', 'workflow_dispatch') for r in runs)}",
+         f"- חלונות סריקה שהוחמצו ב-48 השעות האחרונות: {', '.join(m[11:16] + ' UTC ' + m[5:10] for m in missed) or 'אין'}",
          f"- עיכוב התחלה של ריצות מתוזמנות אחרי סגירת נר 4H: "
          + (f"חציון {statistics.median(delays):.1f} דק׳, מקסימום {max(delays):.1f} דק׳" if delays else "אין עדיין ריצות מתוזמנות"),
          "", "| התחלה (UTC) | סוג | מצב | נר צפוי | סדרות לא עדכניות | התראות חדשות | שהסתיימו | משך (ש׳) |", "|---|---|---|---|---|---|---|---|"]
@@ -132,7 +139,9 @@ def main() -> int:
         w.writerow(row)
     runs = read_runs()
     last_ok = next((r for r in reversed(runs) if r["status"] == "success"), None)
+    from radar import slots
     latest = {"updated_utc": now.isoformat(timespec="seconds"), "last_run": row, "detail": detail,
+              "missed_slots_48h": slots.missed_slots(runs, now),
               "last_success_utc": last_ok["started_utc"] if last_ok else None,
               "review_evidence": review_evidence()}
     (hdir / "latest.json").write_text(json.dumps(latest, ensure_ascii=False, indent=1))
