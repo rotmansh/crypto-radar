@@ -565,7 +565,7 @@
       <h3>בדיקות חיות של האתר</h3>
       ${checks.length ? `<ul class="limits">${checks.slice(0, 10).map((c) => `<li>${esc(c.checked_utc ? ilTime(new Date(c.checked_utc)) : "—")} · ${ev(trigOf[c.run_id] || c.event)} · ${c.outcome === "success" ? "✓ תקין" : "✗ " + esc(c.problems)} · האתר הציג את נתוני הריצה: ${c.published_run_matches === "True" ? "כן" : esc(c.published_run_matches)}</li>`).join("")}</ul>` : `<div class="empty">אין עדיין בדיקות חיות רשומות.</div>`}
       <h3>תור בדיקת חריגים — ראיות נזילות לאורך זמן</h3>
-      <p class="note">השעיה דורשת לפחות 5 מדידות בעייתיות מתוך 6 האחרונות, על פני 24 שעות לפחות, ונבדקת מחדש בכל ריצה. מטבע לא מוסר לצמיתות; כל השעיה מתועדת ב-config/review.toml עם הראיות ותנאי החזרה.</p>
+      <p class="note">השעיה דורשת לפחות 5 מכל 6 מדידות בעייתיות בחלון של 24 שעות לפחות (ולפחות 6 מדידות), ונבדקת מחדש בכל ריצה. מטבע לא מוסר לצמיתות; כל השעיה מתועדת ב-config/review.toml עם הראיות ותנאי החזרה.</p>
       ${h && h.review_evidence && h.review_evidence.length ? `<div class="table-wrap jt"><table><thead><tr><th>מטבע</th><th>סטטוס</th><th>שאלה פתוחה / סיבה</th><th>מדידות בעייתיות</th><th>טווח זמן</th><th>עומק ±1% (קנייה/מכירה)</th></tr></thead><tbody>
         ${h.review_evidence.map((r) => { const base = r.symbol.replace(/USDT$/, ""); const hold = S.meta.review_holds[base]; const sus = (S.meta.review_suspended || {})[base];
           return `<tr><td data-l="מטבע"><b>${esc(base)}</b></td><td data-l="סטטוס">${esc(r.status)}</td><td data-l="שאלה">${esc(hold ? hold.question : sus ? `השעיה זמנית מ-${sus.decided}: ${sus.reason}. ${sus.lift_when === "liquidity_ok" ? "חוזר אוטומטית כשכלל הנזילות מפסיק להתקיים." : "חוזר רק אחרי אימות סוג הנכס ושיפור הנזילות."}` : r.review_reason || "")}</td>

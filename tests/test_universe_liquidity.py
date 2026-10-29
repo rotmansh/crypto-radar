@@ -121,6 +121,18 @@ def test_suspension_needs_window_hits_and_span():
     assert not liquidity.persistence(mixed, LIQ)["suspended"]
 
 
+def test_suspension_holds_at_a_4h_cadence():
+    # regression (2026-10-29): runs every 4h put 6 measurements only 20h apart, which lifted GTC/MUBARAK at 6/6 thin
+    every_4h = [snap(h * 4, True) for h in range(9)]               # 32h of thin books
+    p = liquidity.persistence(every_4h, LIQ)
+    assert p["suspended"] and p["measurements"] == 7 and p["span_hours"] == 24.0
+    assert not liquidity.persistence(every_4h[:6], LIQ)["suspended"]  # only 20h of evidence: not yet
+    recovering = every_4h[:5] + [snap(h * 4, False) for h in range(5, 9)]   # 4 of the last 7 healthy
+    assert not liquidity.persistence(recovering, LIQ)["suspended"]
+    one_good = every_4h[:8] + [snap(32, False)]                      # 6 of 7 thin still >= 5/6
+    assert liquidity.persistence(one_good, LIQ)["suspended"]
+
+
 def test_parse_measurement_round_trip_from_csv_strings():
     row = {"measured_utc": "2026-10-27T06:00:00+00:00", "spread_pct": "0.05", "depth_bid_1.0pct_usd": "",
            "depth_ask_1.0pct_usd": "40000.0", "depth_ask_1.0pct_lower_bound": "False"}

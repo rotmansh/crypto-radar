@@ -81,19 +81,28 @@ def parse_measurement(row: dict) -> dict:
 
 
 def persistence(measurements: list[dict], cfg: dict) -> dict:
-    """Suspension rule over the last `suspend_window` measurements (oldest first, each with measured_utc).
+    """Suspension rule over the recent measurements (oldest first, each with measured_utc).
 
-    Suspended only when there are at least `suspend_window` measurements, at least `suspend_min_hits` of them
-    carry a warning, and they span at least `suspend_min_span_hours`. A single snapshot can never suspend.
+    The window is the last `suspend_window` measurements, extended further back until it spans at least
+    `suspend_min_span_hours` (runs every 4h give ~20h for 6 measurements, so a fixed 6 could never reach 24h).
+    Suspended only when the window has at least `suspend_window` measurements, spans at least
+    `suspend_min_span_hours`, and at least `suspend_min_hits` of every `suspend_window` carry a warning
+    (5 of 6 -> 5/6 of the window). A single snapshot can never suspend.
     """
     import datetime as dt
 
-    last = measurements[-cfg["suspend_window"]:]
+    def span(ms: list[dict]) -> float:
+        if len(ms) < 2:
+            return 0.0
+        t0, t1 = (dt.datetime.fromisoformat(ms[i]["measured_utc"]) for i in (0, -1))
+        return (t1 - t0).total_seconds() / 3600
+
+    start = max(0, len(measurements) - cfg["suspend_window"])
+    while start > 0 and span(measurements[start:]) < cfg["suspend_min_span_hours"]:
+        start -= 1
+    last = measurements[start:]
     hits = sum(1 for m in last if liquidity_warnings(m, cfg["max_spread_pct"], cfg["min_depth_1pct_usd"]))
-    span_h = 0.0
-    if len(last) >= 2:
-        t0, t1 = (dt.datetime.fromisoformat(last[i]["measured_utc"]) for i in (0, -1))
-        span_h = (t1 - t0).total_seconds() / 3600
-    suspended = (len(last) >= cfg["suspend_window"] and hits >= cfg["suspend_min_hits"]
-                 and span_h >= cfg["suspend_min_span_hours"])
+    span_h = span(last)
+    suspended = (len(last) >= cfg["suspend_window"] and span_h >= cfg["suspend_min_span_hours"]
+                 and hits * cfg["suspend_window"] >= cfg["suspend_min_hits"] * len(last))
     return {"measurements": len(last), "hits": hits, "span_hours": round(span_h, 1), "suspended": suspended}
