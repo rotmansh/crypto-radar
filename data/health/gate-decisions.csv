@@ -4,3 +4,4 @@ run_id,trigger,decided_utc,slot,run,reason,dispatch_reason
 40803512901,watchdog,2026-10-29T01:57:53+00:00,2026-10-28T20:00+00:00,True,slot 2026-10-28T20:00+00:00 not yet covered,slot 2026-10-28T20:00+00:00 uncovered 117 min after close
 40827075597,schedule,2026-10-29T06:05:09+00:00,2026-10-29T00:00+00:00,True,slot 2026-10-29T00:00+00:00 not yet covered,
 40827809150,external_cron,2026-10-29T06:12:32+00:00,2026-10-29T00:00+00:00,False,slot 2026-10-29T00:00+00:00 already covered by a successful run,cron-job.org
+40842008577,external_cron,2026-10-29T08:25:33+00:00,2026-10-29T04:00+00:00,True,slot 2026-10-29T04:00+00:00 not yet covered,cron-job.org
