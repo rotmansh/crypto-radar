@@ -72,8 +72,8 @@ def relative_strength(coin: pd.DataFrame, btc: pd.DataFrame) -> pd.Series:
     return joined["close"] / joined["close_btc"]
 
 
-PERIODS_PER_YEAR = {"1d": 365, "4h": 365 * 6}
-INTERVAL_MS = {"1d": 86_400_000, "4h": 14_400_000}
+PERIODS_PER_YEAR = {"1d": 365, "4h": 365 * 6, "1h": 365 * 24}
+INTERVAL_MS = {"1d": 86_400_000, "4h": 14_400_000, "1h": 3_600_000}  # 1h: research only (strategy D)
 
 
 def compute_all(df: pd.DataFrame, interval: str = "1d") -> pd.DataFrame:

@@ -123,7 +123,10 @@ def run(raw_by_tf: dict[str, dict[str, pd.DataFrame]], universe_cfg: dict, candi
             for s, f in res.frames.get(tf, {}).items():
                 if strat.id.startswith("C-") and s == btc:
                     continue
-                ev = strat.evaluate(f, {"rs": panel.get(s)})
+                # `series`: the same coin on every timeframe (strategy D reads its higher-timeframe trend and the daily
+                # volume from it; values are aligned to candles closed by then inside the strategy)
+                ev = strat.evaluate(f, {"rs": panel.get(s), "timeframe": tf,
+                                        "series": {t: res.frames[t].get(s) for t in res.frames}})
                 member = membership_for(f, membership, s)
                 ev["member"] = member.to_numpy()
                 ev.loc[~member.to_numpy(), "state"] = NOT_MEMBER

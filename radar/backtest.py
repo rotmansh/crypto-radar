@@ -22,6 +22,7 @@ FEE = 0.001  # per side (§6)
 SLIP_TIERS = ((500e6, 0.0002), (50e6, 0.0005), (10e6, 0.0010), (0.0, 0.0020))  # per side, by 30d median $ volume
 COST_SCENARIOS = (0.0, 1.0, 2.0)
 TIME_EXIT = {"1d": 20, "4h": 30}  # A and B (§4)
+REVIEW_D = {"1h": 72, "4h": 18}  # strategy D: 72 hours (SPEC D §5.6)
 C_TRAIL_ATR = 3.0
 LEVERAGED_SUFFIXES = ("UP", "DOWN", "BULL", "BEAR")
 STABLE_RANGE_PCT = 3.0
@@ -188,13 +189,81 @@ def simulate(kind: str, tf: str, f: pd.DataFrame, ev: pd.DataFrame, i: int, medi
     return done(n - 1, c[n - 1], "period_end" if series_ends_at_is_end else "data_end", 3)
 
 
+def break_even_level(entry_raw: float, slip: float) -> float:
+    """Exit price at which a trade covers its fees and slippage at 1× costs (strategy D, SPEC D §5.6)."""
+    return entry_raw * (1 + slip) * (1 + FEE) / ((1 - slip) * (1 - FEE))
+
+
+def simulate_d(tf: str, f: pd.DataFrame, ev: pd.DataFrame, i: int, median_qvol: float, stream: str, symbol: str,
+               series_ends_at_is_end: bool, mgmt: dict, high_risk_pct: float = 10.0) -> tuple[Trade | None, str | None]:
+    """Strategy D trade from SIGNAL at candle i (SPEC D §5.5–5.6). The stop used inside candle k was fixed at the
+    close of k-1; every close-based decision at k uses candles <= k and executes at the next open."""
+    n = len(f)
+    if i + 1 >= n:
+        return None, "no_next_candle"
+    o, h, lo, c = (f[k].to_numpy(dtype=float) for k in ("open", "high", "low", "close"))
+    sma50, atr = f["sma50"].to_numpy(dtype=float), f["atr14"].to_numpy(dtype=float)
+    htf_ok = ((ev["c_htf_trend"] == 1) & (ev["c_htf_rising"] == 1)).to_numpy()
+    stop0 = float(ev["stop"].iloc[i])
+    e = i + 1
+    entry = o[e]
+    if not np.isfinite(stop0) or entry <= stop0:
+        return None, "gap_below_stop"
+    s = slippage(median_qvol)
+    r_unit = planned_risk(entry, stop0, s)
+    if not r_unit > 0:
+        return None, "no_risk"
+    one_r = entry - stop0
+    close_sig = float(f["close"].iloc[i])
+    t = Trade(stream, symbol, i, int(f["open_time"].iloc[i]), e, int(f["open_time"].iloc[e]), entry, stop0, math.nan,
+              s, median_qvol, r_unit, partial_in_window=bool(f["partial"].iloc[max(0, i - 19): i + 1].any()),
+              high_risk=(close_sig - stop0) / close_sig * 100 > high_risk_pct)
+
+    def done(j, price, how, phase):
+        t.exit_i, t.exit_time, t.exit_raw, t.exit_kind, t.exit_phase = j, int(f["open_time"].iloc[j]), price, how, phase
+        return apply_costs(t), None
+
+    be, m = mgmt["break_even_after_1r"], mgmt["trail_atr"]
+    review_n = REVIEW_D[tf]
+    stop, stop_kind, be_done, max_close, below, pending = stop0, "stop", False, -math.inf, 0, None
+    for j in range(e, n):
+        if pending:
+            return done(j, o[j], pending, 0)
+        if o[j] <= stop:
+            return done(j, o[j], stop_kind + "_gap", 0)
+        if lo[j] <= stop:
+            return done(j, stop, stop_kind, 2)
+        # at the close of j: decisions for candle j+1
+        max_close = max(max_close, c[j])
+        new_stop, new_kind = stop, stop_kind
+        if be and not be_done and c[j] >= entry + one_r:
+            be_done = True
+            lvl = break_even_level(entry, s)
+            if lvl > new_stop:
+                new_stop, new_kind = lvl, "breakeven"
+        if m is not None and (be_done or not be):
+            lvl = max_close - m * atr[j]
+            if lvl > new_stop:
+                new_stop, new_kind = lvl, "trail"
+        stop, stop_kind = new_stop, new_kind
+        below = below + 1 if c[j] < sma50[j] - mgmt["trend_exit_atr"] * atr[j] else 0
+        if below >= mgmt["trend_exit_closes"]:
+            pending = "trend"
+        elif j - e + 1 == review_n:
+            keep = (c[j] > sma50[j] and j >= 10 and sma50[j] > sma50[j - 10] and htf_ok[j]
+                    and c[j] >= entry + mgmt["review_min_r"] * one_r)
+            if not keep:
+                pending = "review"
+    return done(n - 1, c[n - 1], "period_end" if series_ends_at_is_end else "data_end", 3)
+
+
 def apply_costs(t: Trade) -> Trade:
     t.r = {m: t.net_per_unit(m) / t.r_unit for m in COST_SCENARIOS}
     return t
 
 
 def stream_trades(kind: str, tf: str, frames: dict, evaluated: dict, med_daily: pd.DataFrame, stream: str,
-                  start_ms: int) -> tuple[list[Trade], dict]:
+                  start_ms: int, mgmt: dict | None = None) -> tuple[list[Trade], dict]:
     """Level 1: every member SIGNAL from `start_ms` on, one open trade per coin at a time (§3)."""
     trades, skipped = [], {}
     for sym, ev in evaluated.items():
@@ -211,7 +280,10 @@ def stream_trades(kind: str, tf: str, frames: dict, evaluated: dict, med_daily: 
             if i + 1 <= busy_until:
                 skipped["already_in_position"] = skipped.get("already_in_position", 0) + 1
                 continue
-            t, why = simulate(kind, tf, f, ev, int(i), float(med[i]), stream, sym, ends_at_is_end)
+            if kind == "D":
+                t, why = simulate_d(tf, f, ev, int(i), float(med[i]), stream, sym, ends_at_is_end, mgmt)
+            else:
+                t, why = simulate(kind, tf, f, ev, int(i), float(med[i]), stream, sym, ends_at_is_end)
             if t is None:
                 skipped[why] = skipped.get(why, 0) + 1
                 continue

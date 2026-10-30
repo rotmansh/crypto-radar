@@ -9,3 +9,7 @@ ALL: tuple[Strategy, ...] = (SMA50Pullback(), BollingerSqueeze(), TrendRelativeS
 BY_ID = {s.id: s for s in ALL}
 # Research variants: never run by the live scan or shown on the dashboard; evaluated in phase 5 (SPEC §3.1.1).
 RESEARCH: tuple[Strategy, ...] = tuple(SMA50PullbackTail(v) for v in SMA50PullbackTail.TAIL_K)
+# Strategy D (docs/STRATEGY_D_SPEC.md): research only — six management versions, one entry rule set.
+from .sma50_swing import SMA50Swing  # noqa: E402
+
+SWING_RESEARCH: tuple[Strategy, ...] = tuple(SMA50Swing(v) for v in SMA50Swing.MANAGEMENT)

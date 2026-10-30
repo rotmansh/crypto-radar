@@ -71,10 +71,10 @@ def segments(candles: list, interval: str) -> list[list]:
     return out
 
 
-def download(symbols: list[str], interval: str, manifest: list[dict]) -> tuple[dict, dict]:
+def download(symbols: list[str], interval: str, manifest: list[dict], first_month: str = "") -> tuple[dict, dict]:
     """symbol -> candles (<= LAST_MONTH, deduplicated, ordered); problems per symbol."""
     def months(s):
-        return s, [m for m in archive.list_months(s, interval) if m <= LAST_MONTH]
+        return s, [m for m in archive.list_months(s, interval) if first_month <= m <= LAST_MONTH]
     with ThreadPoolExecutor(WORKERS) as ex:
         month_map = dict(ex.map(months, symbols))
     jobs = [(s, m) for s, ms in month_map.items() for m in ms]
