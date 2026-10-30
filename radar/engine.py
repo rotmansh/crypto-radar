@@ -89,12 +89,14 @@ def fingerprint(raw_by_tf: dict[str, dict[str, pd.DataFrame]]) -> str:
 
 
 def run(raw_by_tf: dict[str, dict[str, pd.DataFrame]], universe_cfg: dict, candidates: set[str],
-        strategies: tuple[Strategy, ...], as_of_ms: int | None = None, btc: str = "BTCUSDT") -> EngineResult:
+        strategies: tuple[Strategy, ...], as_of_ms: int | None = None, btc: str = "BTCUSDT",
+        membership: pd.DataFrame | None = None) -> EngineResult:
     """Evaluate every strategy on every candle, using only candles closed by `as_of_ms` (None = all stored).
 
     `raw_by_tf` holds raw candle frames (indicators.to_frame); they are truncated here before any indicator or the
     universe is computed, so a replay never sees a later candle even indirectly. Membership comes from
-    pit_membership on the truncated daily candles, restricted to `candidates`. A candle whose coin was not a member
+    pit_membership on the truncated daily candles, restricted to `candidates` (the phase 5 backtest may pass its own
+    point-in-time `membership`, built from the same truncated candles). A candle whose coin was not a member
     at that time gets state NOT_IN_UNIVERSE (its rules are still computed for transparency).
     """
     res = EngineResult(as_of_ms)
@@ -104,8 +106,9 @@ def run(raw_by_tf: dict[str, dict[str, pd.DataFrame]], universe_cfg: dict, candi
     res.data_fingerprint = fingerprint(trunc)
     res.frames = {tf: {s: indicators.compute_all(df, tf) for s, df in d.items()} for tf, d in trunc.items()}
     raw_daily = {s: df for s, df in trunc.get("1d", {}).items() if s in candidates}
-    membership = pit_membership(raw_daily, universe_cfg["min_median_quote_volume_usd"],
-                                universe_cfg["volume_lookback_days"], universe_cfg["max_size"])
+    if membership is None:
+        membership = pit_membership(raw_daily, universe_cfg["min_median_quote_volume_usd"],
+                                    universe_cfg["volume_lookback_days"], universe_cfg["max_size"])
     res.membership = membership
 
     daily = res.frames.get("1d", {})
