@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-10-30T12:27:33+00:00",
+ "updated_utc": "2026-10-30T16:28:12+00:00",
  "last_run": {
-  "run_id": "41055210745",
+  "run_id": "41089733198",
   "event": "external_cron",
-  "started_utc": "2026-10-30T12:25:42+00:00",
-  "finished_utc": "2026-10-30T12:27:33+00:00",
+  "started_utc": "2026-10-30T16:25:42+00:00",
+  "finished_utc": "2026-10-30T16:28:12+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-10-30T08:00+00:00",
+  "expected_4h_candle_utc": "2026-10-30T12:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -23,19 +23,19 @@
   "episodes_ended": 0,
   "notifications_queued": 0,
   "start_delay_min": 25.7,
-  "duration_s": 111,
-  "code_commit": "f673fcd75df3"
+  "duration_s": 151,
+  "code_commit": "e3e68c056e77"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-10-30-run-41055210745",
-  "scan_generated_utc": "2026-10-30T12:27:23+00:00",
-  "sync_run": "2026-10-30-run-41055210745",
+  "scan_run": "2026-10-30-run-41089733198",
+  "scan_generated_utc": "2026-10-30T16:27:55+00:00",
+  "sync_run": "2026-10-30-run-41089733198",
   "exchange_snapshot": "unchanged since 2026-10-30-run-41002798937.csv",
   "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-10-30T12:25:42+00:00",
+ "last_success_utc": "2026-10-30T16:25:42+00:00",
  "review_evidence": [
   {
    "symbol": "GTCUSDT",
@@ -46,9 +46,9 @@
    "liquidity_hits": "8",
    "liquidity_measurements": "8",
    "liquidity_span_hours": "28.0",
-   "spread_pct": "0.03355946017210573",
-   "depth_bid_1pct_usd": "13723.946632",
-   "depth_ask_1pct_usd": "9827.874579000001",
+   "spread_pct": "0.10497184845882145",
+   "depth_bid_1pct_usd": "26050.125711",
+   "depth_ask_1pct_usd": "5942.100831",
    "median_quote_volume_30d": "8738602"
   }
  ]
