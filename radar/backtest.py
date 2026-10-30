@@ -412,6 +412,9 @@ def trade_metrics(trades: list[Trade], m: float) -> dict:
         "exits": kinds, "same_candle_stop_target": sum(t.same_candle_stop_target for t in trades),
         "high_risk": sum(t.high_risk for t in trades),
         "cost_r": float(np.mean([t.r[0.0] - t.r[m] for t in trades])),
+        # concentration: how much of the result rests on a handful of trades
+        "top10_share_of_sum": float(np.sort(r)[-10:].sum() / r.sum()) if r.sum() != 0 else math.nan,
+        "exp_r_without_top5": float(np.sort(r)[:-5].mean()) if n > 5 else math.nan,
         "r_hist": {b: int(((r >= lo) & (r < hi)).sum()) for b, lo, hi in
                    (("<-1", -np.inf, -1 - 1e-9), ("-1..0", -1 - 1e-9, 0), ("0..1", 0, 1), ("1..2", 1, 2),
                     ("2..5", 2, 5), (">=5", 5, np.inf))},
