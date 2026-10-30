@@ -40,6 +40,7 @@ SPAN = indicators.INTERVAL_MS
 SPLIT_GAP_DAYS = 7
 WORKERS = 16
 CLOSE_TIME_FIXES: dict[str, int] = {}
+TRAILING_ZERO_TRIMMED: dict[str, int] = {}
 
 
 def usdt_candidates(symbols: list[str], exclusions: dict) -> tuple[list[str], dict[str, str]]:
@@ -99,12 +100,20 @@ def download(symbols: list[str], interval: str, manifest: list[dict]) -> tuple[d
                 fixed += 1
         if fixed:
             CLOSE_TIME_FIXES[f"{s}/{interval}"] = fixed
+        # After a delisting some files carry flat zero-volume rows; trailing ones are not trading data. Trimmed, counted.
+        k = len(candles)
+        while k and candles[k - 1].volume == 0:
+            k -= 1
+        if k < len(candles):
+            TRAILING_ZERO_TRIMMED[f"{s}/{interval}"] = len(candles) - k
+            candles = candles[:k]
         candles = [c for c in candles if c.close_time < IS_END_MS]
         rep = validate.validate_series(candles, SPAN[interval], IS_END_MS)
         if rep.fatal:
             problems[s] = {k: v for k, v in rep.__dict__.items() if k not in ("examples", "gaps")}
             continue
-        out[s] = (candles, rep)
+        if candles:
+            out[s] = (candles, rep)
     return out, problems
 
 
@@ -196,7 +205,8 @@ def main(argv: list[str]) -> int:
         "archive_symbols": len(all_syms), "usdt_candidates": len(cands), "excluded": dropped,
         "daily_series": len(raw_1d), "split_series": seg_info, "ever_members": len(ever),
         "ever_members_not_in_live_store": len(delisted), "fourh_series": len(raw_4h),
-        "rejected_1d": prob_1d, "rejected_4h": prob_4h, "close_time_fixes": CLOSE_TIME_FIXES, "files": len(manifest), "cross_check_vs_api": xc,
+        "rejected_1d": prob_1d, "rejected_4h": prob_4h, "close_time_fixes": CLOSE_TIME_FIXES,
+        "trailing_zero_volume_trimmed": TRAILING_ZERO_TRIMMED, "parse_quirks": archive.QUIRKS, "files": len(manifest), "cross_check_vs_api": xc,
         "gaps_1d": {s: rep.gaps for s, (c, rep) in daily.items() if rep.gaps},
     }
     (out_dir / "dataset.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1, default=str))

@@ -100,9 +100,13 @@ def fetch(symbol: str, interval: str, month: str, cache: Path) -> tuple[Path, st
     return path, got
 
 
+QUIRKS: dict[str, int] = {"microsecond_rows_converted": 0, "malformed_rows_dropped": 0}
+
+
 def parse(zip_path: Path) -> list[Candle]:
-    """Kline CSV rows -> Candle. Millisecond timestamps only (files from 2025 on use microseconds; the in-sample
-    dataset never reaches them, and anything else is refused rather than guessed)."""
+    """Kline CSV rows -> Candle. Timestamps are milliseconds; a few files (around delistings) mix in rows with
+    microsecond timestamps, which are converted and counted. A row whose close time is not after its open time is
+    malformed: dropped and counted, never repaired."""
     with zipfile.ZipFile(zip_path) as z:
         text = z.read(z.namelist()[0]).decode()
     out = []
@@ -110,8 +114,12 @@ def parse(zip_path: Path) -> list[Candle]:
         if not row or not row[0].isdigit():
             continue  # some files carry a header line
         ot, ct = int(row[0]), int(row[6])
-        if ot > 10**13 or ct > 10**13:
-            raise ArchiveError(f"non-millisecond timestamp in {zip_path.name}")
+        if ot > 10**14 or ct > 10**14:
+            ot, ct = ot // 1000, ct // 1000
+            QUIRKS["microsecond_rows_converted"] += 1
+        if ct <= ot:
+            QUIRKS["malformed_rows_dropped"] += 1
+            continue
         out.append(Candle(open_time=ot, open=float(row[1]), high=float(row[2]), low=float(row[3]),
                           close=float(row[4]), volume=float(row[5]), close_time=ct, quote_volume=float(row[7])))
     return out
