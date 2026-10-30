@@ -92,11 +92,12 @@ def download(symbols: list[str], interval: str, manifest: list[dict], first_mont
     out, problems = {}, {}
     for s, candles in by_sym.items():
         candles = sorted({c.open_time: c for c in candles}.values(), key=lambda c: c.open_time)
-        # Archive quirk: a few candles end 1 ms or 1 s late (the API has the exact close for the same candle,
-        # e.g. LTCUSDT 4h 2018-02-11T00:00). Up to 1001 ms late is normalised and counted; anything else is refused.
+        # Archive quirk: a few candles end 1 ms to a few seconds late (the API has the exact close for the same candle,
+        # e.g. LTCUSDT 4h 2018-02-11T00:00; many 1h series at 2021-12-24T04:00, 1.2–2.4 s). Up to 5 s late is
+        # normalised and counted; anything else is refused.
         fixed = 0
         for k, c in enumerate(candles):
-            if 0 < c.close_time - (c.open_time + SPAN[interval] - 1) <= 1001:
+            if 0 < c.close_time - (c.open_time + SPAN[interval] - 1) <= 5000:
                 candles[k] = dataclasses.replace(c, close_time=c.open_time + SPAN[interval] - 1)
                 fixed += 1
         if fixed:
