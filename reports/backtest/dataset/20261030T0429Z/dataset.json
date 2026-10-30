@@ -1,0 +1,362 @@
+{
+ "built_utc": "20261030T0429Z",
+ "is_end_utc": "2025-01-01T00:00:00Z",
+ "last_month": "2024-12",
+ "archive_symbols": 3745,
+ "usdt_candidates": 656,
+ "excluded": {
+  "1INCHDOWNUSDT": "excluded:leveraged_token",
+  "1INCHUPUSDT": "excluded:leveraged_token",
+  "AAOIBUSDT": "excluded:tokenized_equity",
+  "AAVEDOWNUSDT": "excluded:leveraged_token",
+  "AAVEUPUSDT": "excluded:leveraged_token",
+  "ADADOWNUSDT": "excluded:leveraged_token",
+  "ADAUPUSDT": "excluded:leveraged_token",
+  "AEURUSDT": "excluded:stable_or_pegged",
+  "AUDUSDT": "excluded:stable_or_pegged",
+  "BCHDOWNUSDT": "excluded:leveraged_token",
+  "BCHUPUSDT": "excluded:leveraged_token",
+  "BEARUSDT": "excluded:leveraged_token",
+  "BETHUSDT": "excluded:wrapped",
+  "BFUSDUSDT": "excluded:stable_or_pegged",
+  "BNBBEARUSDT": "excluded:leveraged_token",
+  "BNBBULLUSDT": "excluded:leveraged_token",
+  "BNBDOWNUSDT": "excluded:leveraged_token",
+  "BNBUPUSDT": "excluded:leveraged_token",
+  "BNCBUSDT": "excluded:tokenized_equity",
+  "BNSOLUSDT": "excluded:wrapped",
+  "BTCDOWNUSDT": "excluded:leveraged_token",
+  "BTCUPUSDT": "excluded:leveraged_token",
+  "BULLUSDT": "excluded:leveraged_token",
+  "BUSDUSDT": "excluded:stable_or_pegged",
+  "CBRSBUSDT": "excluded:tokenized_equity",
+  "CRCLBUSDT": "excluded:tokenized_equity",
+  "DAIUSDT": "excluded:stable_or_pegged",
+  "DOTDOWNUSDT": "excluded:leveraged_token",
+  "DOTUPUSDT": "excluded:leveraged_token",
+  "EOSBEARUSDT": "excluded:leveraged_token",
+  "EOSBULLUSDT": "excluded:leveraged_token",
+  "EOSDOWNUSDT": "excluded:leveraged_token",
+  "EOSUPUSDT": "excluded:leveraged_token",
+  "ETHBEARUSDT": "excluded:leveraged_token",
+  "ETHBULLUSDT": "excluded:leveraged_token",
+  "ETHDOWNUSDT": "excluded:leveraged_token",
+  "ETHUPUSDT": "excluded:leveraged_token",
+  "EURIUSDT": "excluded:stable_or_pegged",
+  "EURUSDT": "excluded:stable_or_pegged",
+  "FDUSDUSDT": "excluded:stable_or_pegged",
+  "FILDOWNUSDT": "excluded:leveraged_token",
+  "FILUPUSDT": "excluded:leveraged_token",
+  "FRAXUSDT": "excluded:stable_or_pegged",
+  "GBPUSDT": "excluded:stable_or_pegged",
+  "GOOGLBUSDT": "excluded:tokenized_equity",
+  "INTCBUSDT": "excluded:tokenized_equity",
+  "JUPUSDT": "excluded:leveraged_token",
+  "KORUBUSDT": "excluded:tokenized_equity",
+  "LINKDOWNUSDT": "excluded:leveraged_token",
+  "LINKUPUSDT": "excluded:leveraged_token",
+  "LITEBUSDT": "excluded:tokenized_equity",
+  "LTCDOWNUSDT": "excluded:leveraged_token",
+  "LTCUPUSDT": "excluded:leveraged_token",
+  "MSTRBUSDT": "excluded:tokenized_equity",
+  "MUBUSDT": "excluded:tokenized_equity",
+  "NBISBUSDT": "excluded:tokenized_equity",
+  "NVDABUSDT": "excluded:tokenized_equity",
+  "PAXGUSDT": "excluded:stable_or_pegged",
+  "QQQBUSDT": "excluded:tokenized_equity",
+  "RLUSDUSDT": "excluded:stable_or_pegged",
+  "SKHYBUSDT": "excluded:tokenized_equity",
+  "SNDKBUSDT": "excluded:tokenized_equity",
+  "SNXXBUSDT": "excluded:tokenized_equity",
+  "SOXLBUSDT": "excluded:tokenized_equity",
+  "SOXSBUSDT": "excluded:tokenized_equity",
+  "SPCXBUSDT": "excluded:tokenized_equity",
+  "SUSDUSDT": "excluded:stable_or_pegged",
+  "SUSHIDOWNUSDT": "excluded:leveraged_token",
+  "SUSHIUPUSDT": "excluded:leveraged_token",
+  "SXPDOWNUSDT": "excluded:leveraged_token",
+  "SXPUPUSDT": "excluded:leveraged_token",
+  "SYRUPUSDT": "excluded:leveraged_token",
+  "TQQQBUSDT": "excluded:tokenized_equity",
+  "TRXDOWNUSDT": "excluded:leveraged_token",
+  "TRXUPUSDT": "excluded:leveraged_token",
+  "TSLABUSDT": "excluded:tokenized_equity",
+  "TUSDUSDT": "excluded:stable_or_pegged",
+  "UNIDOWNUSDT": "excluded:leveraged_token",
+  "UNIUPUSDT": "excluded:leveraged_token",
+  "USD1USDT": "excluded:stable_or_pegged",
+  "USDCUSDT": "excluded:stable_or_pegged",
+  "USDEUSDT": "excluded:stable_or_pegged",
+  "USDPUSDT": "excluded:stable_or_pegged",
+  "USDSUSDT": "excluded:stable_or_pegged",
+  "USTCUSDT": "excluded:stable_or_pegged",
+  "USTUSDT": "excluded:stable_or_pegged",
+  "UUSDT": "excluded:unidentified",
+  "WBETHUSDT": "excluded:wrapped",
+  "WBTCUSDT": "excluded:wrapped",
+  "XAUTUSDT": "excluded:stable_or_pegged",
+  "XLMDOWNUSDT": "excluded:leveraged_token",
+  "XLMUPUSDT": "excluded:leveraged_token",
+  "XRPBEARUSDT": "excluded:leveraged_token",
+  "XRPBULLUSDT": "excluded:leveraged_token",
+  "XRPDOWNUSDT": "excluded:leveraged_token",
+  "XRPUPUSDT": "excluded:leveraged_token",
+  "XTZDOWNUSDT": "excluded:leveraged_token",
+  "XTZUPUSDT": "excluded:leveraged_token",
+  "XUSDUSDT": "excluded:stable_or_pegged",
+  "YFIDOWNUSDT": "excluded:leveraged_token",
+  "YFIUPUSDT": "excluded:leveraged_token"
+ },
+ "daily_series": 476,
+ "split_series": {
+  "CVCUSDT": [
+   {
+    "series": "CVCUSDT#1",
+    "first": 1566864000000,
+    "last": 1670544000000
+   },
+   {
+    "series": "CVCUSDT#2",
+    "first": 1683849600000,
+    "last": 1735603200000
+   }
+  ],
+  "FTTUSDT": [
+   {
+    "series": "FTTUSDT#1",
+    "first": 1576800000000,
+    "last": 1668470400000
+   },
+   {
+    "series": "FTTUSDT#2",
+    "first": 1695340800000,
+    "last": 1735603200000
+   }
+  ],
+  "KEYUSDT": [
+   {
+    "series": "KEYUSDT#1",
+    "first": 1566864000000,
+    "last": 1675987200000
+   },
+   {
+    "series": "KEYUSDT#2",
+    "first": 1678406400000,
+    "last": 1733788800000
+   }
+  ],
+  "LUNAUSDT": [
+   {
+    "series": "LUNAUSDT#1",
+    "first": 1597968000000,
+    "last": 1652400000000
+   },
+   {
+    "series": "LUNAUSDT#2",
+    "first": 1653955200000,
+    "last": 1735603200000
+   }
+  ],
+  "NBTUSDT": [
+   {
+    "series": "NBTUSDT#1",
+    "first": 1646956800000,
+    "last": 1662854400000
+   },
+   {
+    "series": "NBTUSDT#2",
+    "first": 1664582400000,
+    "last": 1677542400000
+   }
+  ],
+  "STRAXUSDT": [
+   {
+    "series": "STRAXUSDT#1",
+    "first": 1605657600000,
+    "last": 1710892800000
+   },
+   {
+    "series": "STRAXUSDT#2",
+    "first": 1711584000000,
+    "last": 1735603200000
+   }
+  ],
+  "VENUSDT": [
+   {
+    "series": "VENUSDT#1",
+    "first": 1529625600000,
+    "last": 1532304000000
+   },
+   {
+    "series": "VENUSDT#2",
+    "first": 1539907200000,
+    "last": 1539907200000
+   }
+  ],
+  "VIDTUSDT": [
+   {
+    "series": "VIDTUSDT#1",
+    "first": 1631145600000,
+    "last": 1667174400000
+   },
+   {
+    "series": "VIDTUSDT#2",
+    "first": 1667952000000,
+    "last": 1735603200000
+   }
+  ]
+ },
+ "ever_members": 395,
+ "ever_members_not_in_live_store": 350,
+ "fourh_series": 393,
+ "rejected_1d": {},
+ "rejected_4h": {
+  "ICXUSDT": {
+   "count": 14356,
+   "first": "2018-06-13T08:00:00Z",
+   "last": "2024-12-31T20:00:00Z",
+   "duplicates": 0,
+   "unordered": 0,
+   "unclosed": 0,
+   "misaligned": 9,
+   "partial": 17,
+   "bad_ohlc": 0
+  },
+  "ONTUSDT": {
+   "count": 14387,
+   "first": "2018-06-08T04:00:00Z",
+   "last": "2024-12-31T20:00:00Z",
+   "duplicates": 0,
+   "unordered": 0,
+   "unclosed": 0,
+   "misaligned": 9,
+   "partial": 17,
+   "bad_ohlc": 0
+  }
+ },
+ "close_time_fixes": {
+  "BCCUSDT/4h": 1,
+  "BTCUSDT/4h": 1,
+  "ETHUSDT/4h": 1,
+  "LTCUSDT/4h": 1,
+  "NEOUSDT/4h": 1,
+  "VENUSDT/4h": 1
+ },
+ "trailing_zero_volume_trimmed": {
+  "BCCUSDT/1d": 1,
+  "KLAYUSDT/1d": 1,
+  "BCCUSDT/4h": 1
+ },
+ "parse_quirks": {
+  "microsecond_rows_converted": 2,
+  "malformed_rows_dropped": 1
+ },
+ "files": 33018,
+ "cross_check_vs_api": {
+  "archive_rows_in_shared_symbols": 58729,
+  "compared": 58729,
+  "price_mismatched": 0,
+  "volume_only_differences": 123,
+  "examples": []
+ },
+ "gaps_1d": {
+  "BNXUSDT": [
+   {
+    "after": "2023-02-16T00:00:00Z",
+    "before": "2023-02-22T00:00:00Z",
+    "missing_candles": 5
+   }
+  ],
+  "BTCSTUSDT": [
+   {
+    "after": "2021-03-15T00:00:00Z",
+    "before": "2021-03-19T00:00:00Z",
+    "missing_candles": 3
+   }
+  ],
+  "COCOSUSDT": [
+   {
+    "after": "2021-01-19T00:00:00Z",
+    "before": "2021-01-23T00:00:00Z",
+    "missing_candles": 3
+   }
+  ],
+  "CVCUSDT": [
+   {
+    "after": "2022-12-09T00:00:00Z",
+    "before": "2023-05-12T00:00:00Z",
+    "missing_candles": 153
+   }
+  ],
+  "DREPUSDT": [
+   {
+    "after": "2021-03-29T00:00:00Z",
+    "before": "2021-04-02T00:00:00Z",
+    "missing_candles": 3
+   }
+  ],
+  "FTTUSDT": [
+   {
+    "after": "2022-11-15T00:00:00Z",
+    "before": "2023-09-22T00:00:00Z",
+    "missing_candles": 310
+   }
+  ],
+  "KEYUSDT": [
+   {
+    "after": "2023-02-10T00:00:00Z",
+    "before": "2023-03-10T00:00:00Z",
+    "missing_candles": 27
+   }
+  ],
+  "LUNAUSDT": [
+   {
+    "after": "2022-05-13T00:00:00Z",
+    "before": "2022-05-31T00:00:00Z",
+    "missing_candles": 17
+   }
+  ],
+  "NBTUSDT": [
+   {
+    "after": "2022-09-11T00:00:00Z",
+    "before": "2022-10-01T00:00:00Z",
+    "missing_candles": 19
+   }
+  ],
+  "QUICKUSDT": [
+   {
+    "after": "2023-07-17T00:00:00Z",
+    "before": "2023-07-21T00:00:00Z",
+    "missing_candles": 3
+   }
+  ],
+  "STRAXUSDT": [
+   {
+    "after": "2024-03-20T00:00:00Z",
+    "before": "2024-03-28T00:00:00Z",
+    "missing_candles": 7
+   }
+  ],
+  "SUNUSDT": [
+   {
+    "after": "2021-06-14T00:00:00Z",
+    "before": "2021-06-18T00:00:00Z",
+    "missing_candles": 3
+   }
+  ],
+  "VENUSDT": [
+   {
+    "after": "2018-07-23T00:00:00Z",
+    "before": "2018-10-19T00:00:00Z",
+    "missing_candles": 87
+   }
+  ],
+  "VIDTUSDT": [
+   {
+    "after": "2022-10-31T00:00:00Z",
+    "before": "2022-11-09T00:00:00Z",
+    "missing_candles": 8
+   }
+  ]
+ }
+}

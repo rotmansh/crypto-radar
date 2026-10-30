@@ -92,11 +92,12 @@ def download(symbols: list[str], interval: str, manifest: list[dict]) -> tuple[d
     out, problems = {}, {}
     for s, candles in by_sym.items():
         candles = sorted({c.open_time: c for c in candles}.values(), key=lambda c: c.open_time)
-        # Archive quirk: a few files end a candle 1 ms late (close_time = open_time + span). Normalised and counted.
+        # Archive quirk: a few candles end 1 ms or 1 s late (the API has the exact close for the same candle,
+        # e.g. LTCUSDT 4h 2018-02-11T00:00). Up to 1001 ms late is normalised and counted; anything else is refused.
         fixed = 0
         for k, c in enumerate(candles):
-            if c.close_time == c.open_time + SPAN[interval]:
-                candles[k] = dataclasses.replace(c, close_time=c.close_time - 1)
+            if 0 < c.close_time - (c.open_time + SPAN[interval] - 1) <= 1001:
+                candles[k] = dataclasses.replace(c, close_time=c.open_time + SPAN[interval] - 1)
                 fixed += 1
         if fixed:
             CLOSE_TIME_FIXES[f"{s}/{interval}"] = fixed
