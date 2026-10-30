@@ -77,8 +77,15 @@ def main() -> int:
     print("window start", start.date(), "· series 1d", len(raw_1d), "4h", len(raw_4h), flush=True)
 
     strategies = ALL + RESEARCH
-    res = engine.run({"1d": raw_1d, "4h": raw_4h}, ucfg, set(raw_1d), strategies, as_of_ms=bt.IS_END_MS,
-                     membership=member)
+    raw = {"1d": raw_1d, "4h": raw_4h}
+    res = engine.run(raw, ucfg, set(raw_1d), ALL, as_of_ms=bt.IS_END_MS, membership=member)
+    # The research versions share one id, and engine results are keyed by id: one engine run per version so no
+    # version can overwrite another's evaluation.
+    evaluated = {(s.ref, tf): res.evaluated[(s.id, tf)] for s in ALL for tf in s.timeframes}
+    for v in RESEARCH:
+        rv = engine.run(raw, ucfg, set(raw_1d), (v,), as_of_ms=bt.IS_END_MS, membership=member)
+        assert rv.data_fingerprint == res.data_fingerprint
+        evaluated.update({(v.ref, tf): rv.evaluated[(v.id, tf)] for tf in v.timeframes})
     print("engine done", res.data_fingerprint, flush=True)
 
     btc_med = float(med["BTCUSDT"].reindex([start]).iloc[0])
@@ -101,7 +108,7 @@ def main() -> int:
         for tf in strat.timeframes:
             name = f"{strat.ref}·{tf}"
             frames = res.frames[tf]
-            trades, skipped = bt.stream_trades(kind_of(strat.id), tf, frames, res.evaluated[(strat.id, tf)], med,
+            trades, skipped = bt.stream_trades(kind_of(strat.id), tf, frames, evaluated[(strat.ref, tf)], med,
                                                name, start_ms)
             grid = frames["BTCUSDT"].index[frames["BTCUSDT"].index >= start]
             s = {"strategy": strat.ref, "params_hash": strat.params_hash, "timeframe": tf,
