@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-10-31T00:27:30+00:00",
+ "updated_utc": "2026-10-31T04:28:04+00:00",
  "last_run": {
-  "run_id": "41150072380",
+  "run_id": "41168503183",
   "event": "external_cron",
-  "started_utc": "2026-10-31T00:25:45+00:00",
-  "finished_utc": "2026-10-31T00:27:30+00:00",
+  "started_utc": "2026-10-31T04:25:40+00:00",
+  "finished_utc": "2026-10-31T04:28:04+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-10-30T20:00+00:00",
+  "expected_4h_candle_utc": "2026-10-31T00:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -18,24 +18,24 @@
   "review_queue": null,
   "signals_now": 0,
   "watch_now": 3,
-  "journal_live_new": 1,
+  "journal_live_new": 0,
   "journal_already_active": 0,
-  "episodes_ended": 2,
-  "notifications_queued": 1,
-  "start_delay_min": 25.8,
-  "duration_s": 106,
-  "code_commit": "09f2daeb66df"
+  "episodes_ended": 0,
+  "notifications_queued": 0,
+  "start_delay_min": 25.7,
+  "duration_s": 144,
+  "code_commit": "ec1b65e3323c"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-10-31-run-41150072380",
-  "scan_generated_utc": "2026-10-31T00:27:17+00:00",
-  "sync_run": "2026-10-31-run-41150072380",
+  "scan_run": "2026-10-31-run-41168503183",
+  "scan_generated_utc": "2026-10-31T04:27:46+00:00",
+  "sync_run": "2026-10-31-run-41168503183",
   "exchange_snapshot": "unchanged since 2026-10-30-run-41002798937.csv",
   "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-10-31T00:25:45+00:00",
+ "last_success_utc": "2026-10-31T04:25:40+00:00",
  "review_evidence": [
   {
    "symbol": "GTCUSDT",
@@ -46,9 +46,9 @@
    "liquidity_hits": "7",
    "liquidity_measurements": "7",
    "liquidity_span_hours": "24.0",
-   "spread_pct": "0.09013068949977726",
-   "depth_bid_1pct_usd": "26518.301380999997",
-   "depth_ask_1pct_usd": "10268.632443999999",
+   "spread_pct": "0.07190041792117624",
+   "depth_bid_1pct_usd": "27845.108643",
+   "depth_ask_1pct_usd": "5461.716279",
    "median_quote_volume_30d": "8738602"
   },
   {
@@ -60,9 +60,9 @@
    "liquidity_hits": "6",
    "liquidity_measurements": "7",
    "liquidity_span_hours": "24.0",
-   "spread_pct": "0.18709073900841147",
-   "depth_bid_1pct_usd": "82701.18483",
-   "depth_ask_1pct_usd": "15175.41316",
+   "spread_pct": "0.19361084220716915",
+   "depth_bid_1pct_usd": "85573.42949",
+   "depth_ask_1pct_usd": "17397.99296",
    "median_quote_volume_30d": "6961665"
   }
  ]
