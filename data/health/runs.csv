@@ -27,3 +27,4 @@ run_id,event,started_utc,finished_utc,status,sync_outcome,scan_outcome,expected_
 41256674455,external_cron,2026-11-01T00:25:41+00:00,2026-11-01T00:27:37+00:00,success,success,success,2026-10-31T20:00+00:00,True,1,0,94,0,47,,0,4,1,0,0,1,25.7,116,03ff05bf370a
 41273036222,external_cron,2026-11-01T04:25:44+00:00,2026-11-01T04:27:15+00:00,success,success,success,2026-11-01T00:00+00:00,True,1,0,94,0,47,,0,4,0,0,0,0,25.7,91,0495f355055b
 41288798914,external_cron,2026-11-01T08:25:44+00:00,2026-11-01T08:27:16+00:00,success,success,success,2026-11-01T04:00+00:00,True,1,0,94,0,47,,0,4,0,0,0,0,25.7,92,9d11d1f41108
+41306414297,external_cron,2026-11-01T12:25:41+00:00,2026-11-01T12:27:16+00:00,success,success,success,2026-11-01T08:00+00:00,True,1,0,94,0,47,,0,4,0,0,0,0,25.7,96,a7b0e6604fef
