@@ -57,3 +57,4 @@ run_id,trigger,decided_utc,slot,run,reason,dispatch_reason
 41712420482,external_cron,2026-11-03T20:26:01+00:00,2026-11-03T16:00+00:00,True,slot 2026-11-03T16:00+00:00 not yet covered,cron-job.org
 41746692355,external_cron,2026-11-04T00:25:30+00:00,2026-11-03T20:00+00:00,True,slot 2026-11-03T20:00+00:00 not yet covered,cron-job.org
 41748908177,schedule,2026-11-04T00:43:19+00:00,2026-11-03T20:00+00:00,False,slot 2026-11-03T20:00+00:00 already covered by a successful run,
+41773106341,external_cron,2026-11-04T04:25:32+00:00,2026-11-04T00:00+00:00,True,slot 2026-11-04T00:00+00:00 not yet covered,cron-job.org
