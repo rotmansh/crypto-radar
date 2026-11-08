@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-11-08T12:27:11+00:00",
+ "updated_utc": "2026-11-08T16:26:54+00:00",
  "last_run": {
-  "run_id": "42480172460",
+  "run_id": "42499804341",
   "event": "external_cron",
-  "started_utc": "2026-11-08T12:25:42+00:00",
-  "finished_utc": "2026-11-08T12:27:11+00:00",
+  "started_utc": "2026-11-08T16:25:41+00:00",
+  "finished_utc": "2026-11-08T16:26:54+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-11-08T08:00+00:00",
+  "expected_4h_candle_utc": "2026-11-08T12:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -18,24 +18,24 @@
   "review_queue": null,
   "signals_now": 0,
   "watch_now": 5,
-  "journal_live_new": 1,
+  "journal_live_new": 0,
   "journal_already_active": 0,
   "episodes_ended": 0,
-  "notifications_queued": 1,
+  "notifications_queued": 0,
   "start_delay_min": 25.7,
-  "duration_s": 90,
-  "code_commit": "793e3765f53a"
+  "duration_s": 74,
+  "code_commit": "169fc05b5d47"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-11-08-run-42480172460",
-  "scan_generated_utc": "2026-11-08T12:26:56+00:00",
-  "sync_run": "2026-11-08-run-42480172460",
+  "scan_run": "2026-11-08-run-42499804341",
+  "scan_generated_utc": "2026-11-08T16:26:46+00:00",
+  "sync_run": "2026-11-08-run-42499804341",
   "exchange_snapshot": "unchanged since 2026-11-03-run-41578032174.csv",
   "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-11-08T12:25:42+00:00",
+ "last_success_utc": "2026-11-08T16:25:41+00:00",
  "review_evidence": [
   {
    "symbol": "GTCUSDT",
@@ -43,12 +43,12 @@
    "review_reason": "",
    "flags": "",
    "liquidity_warnings": "thin_book_bid;thin_book_ask",
-   "liquidity_hits": "7",
-   "liquidity_measurements": "7",
-   "liquidity_span_hours": "24.0",
-   "spread_pct": "0.05232710253205427",
-   "depth_bid_1pct_usd": "19545.777465",
-   "depth_ask_1pct_usd": "3383.6354690000003",
+   "liquidity_hits": "8",
+   "liquidity_measurements": "8",
+   "liquidity_span_hours": "28.0",
+   "spread_pct": "0.11810691487866805",
+   "depth_bid_1pct_usd": "46254.7175",
+   "depth_ask_1pct_usd": "11096.919075",
    "median_quote_volume_30d": "5064945"
   }
  ]
