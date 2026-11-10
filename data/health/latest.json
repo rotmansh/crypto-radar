@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-11-10T12:27:21+00:00",
+ "updated_utc": "2026-11-10T16:27:26+00:00",
  "last_run": {
-  "run_id": "42815613306",
+  "run_id": "42854373798",
   "event": "external_cron",
-  "started_utc": "2026-11-10T12:25:48+00:00",
-  "finished_utc": "2026-11-10T12:27:21+00:00",
+  "started_utc": "2026-11-10T16:25:52+00:00",
+  "finished_utc": "2026-11-10T16:27:26+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-11-10T08:00+00:00",
+  "expected_4h_candle_utc": "2026-11-10T12:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -17,25 +17,25 @@
   "universe_included": 40,
   "review_queue": 2,
   "signals_now": 1,
-  "watch_now": 4,
+  "watch_now": 3,
   "journal_live_new": 0,
   "journal_already_active": 0,
   "episodes_ended": 1,
   "notifications_queued": 0,
-  "start_delay_min": 25.8,
-  "duration_s": 93,
-  "code_commit": "08f2b83a2bfb"
+  "start_delay_min": 25.9,
+  "duration_s": 94,
+  "code_commit": "835b659cf2f9"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-11-10-run-42815613306",
-  "scan_generated_utc": "2026-11-10T12:27:13+00:00",
-  "sync_run": "2026-11-10-run-42815613306",
+  "scan_run": "2026-11-10-run-42854373798",
+  "scan_generated_utc": "2026-11-10T16:27:12+00:00",
+  "sync_run": "2026-11-10-run-42854373798",
   "exchange_snapshot": "unchanged since 2026-11-03-run-41578032174.csv",
   "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-11-10T12:25:48+00:00",
+ "last_success_utc": "2026-11-10T16:25:52+00:00",
  "review_evidence": [
   {
    "symbol": "HBARUSDT",
@@ -44,11 +44,11 @@
    "flags": "equity_like_weekend_volume",
    "liquidity_warnings": "",
    "liquidity_hits": "0",
-   "liquidity_measurements": "8",
-   "liquidity_span_hours": "28.0",
-   "spread_pct": "0.014982395685085026",
-   "depth_bid_1pct_usd": "316507.96118",
-   "depth_ask_1pct_usd": "270674.5703",
+   "liquidity_measurements": "7",
+   "liquidity_span_hours": "24.0",
+   "spread_pct": "0.015201033670283684",
+   "depth_bid_1pct_usd": "227460.89497",
+   "depth_ask_1pct_usd": "308043.24662",
    "median_quote_volume_30d": "8596727"
   },
   {
@@ -58,11 +58,11 @@
    "flags": "equity_like_weekend_volume",
    "liquidity_warnings": "",
    "liquidity_hits": "0",
-   "liquidity_measurements": "8",
-   "liquidity_span_hours": "28.0",
-   "spread_pct": "0.02301760847047738",
-   "depth_bid_1pct_usd": "226350.010919",
-   "depth_ask_1pct_usd": "250011.620257",
+   "liquidity_measurements": "7",
+   "liquidity_span_hours": "24.0",
+   "spread_pct": "0.023604390416627995",
+   "depth_bid_1pct_usd": "203927.37221",
+   "depth_ask_1pct_usd": "257673.58956199998",
    "median_quote_volume_30d": "7648126"
   }
  ]
