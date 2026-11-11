@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-11-11T08:27:18+00:00",
+ "updated_utc": "2026-11-11T12:27:34+00:00",
  "last_run": {
-  "run_id": "42986904101",
+  "run_id": "43020188331",
   "event": "external_cron",
-  "started_utc": "2026-11-11T08:25:40+00:00",
-  "finished_utc": "2026-11-11T08:27:18+00:00",
+  "started_utc": "2026-11-11T12:25:44+00:00",
+  "finished_utc": "2026-11-11T12:27:34+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-11-11T04:00+00:00",
+  "expected_4h_candle_utc": "2026-11-11T08:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -20,21 +20,21 @@
   "watch_now": 8,
   "journal_live_new": 2,
   "journal_already_active": 0,
-  "episodes_ended": 3,
+  "episodes_ended": 2,
   "notifications_queued": 2,
   "start_delay_min": 25.7,
-  "duration_s": 98,
-  "code_commit": "b23af158d5f3"
+  "duration_s": 111,
+  "code_commit": "e3811870341d"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-11-11-run-42986904101",
-  "scan_generated_utc": "2026-11-11T08:27:09+00:00",
-  "sync_run": "2026-11-11-run-42986904101",
+  "scan_run": "2026-11-11-run-43020188331",
+  "scan_generated_utc": "2026-11-11T12:27:19+00:00",
+  "sync_run": "2026-11-11-run-43020188331",
   "exchange_snapshot": "unchanged since 2026-11-03-run-41578032174.csv",
   "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-11-11T08:25:40+00:00",
+ "last_success_utc": "2026-11-11T12:25:44+00:00",
  "review_evidence": []
 }
