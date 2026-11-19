@@ -1,10 +1,10 @@
 {
- "run": "2026-11-19-run-44458208838",
- "generated_utc": "2026-11-19T04:27:21+00:00",
+ "run": "2026-11-19-run-44487467793",
+ "generated_utc": "2026-11-19T08:27:25+00:00",
  "source": "binance",
- "code_commit": "5b045080d2fe",
- "data_fingerprint": "71e3176ef3ffdcd7",
- "universe_snapshot": "2026-11-19-run-44458208838.csv",
+ "code_commit": "73ce3179f3f7",
+ "data_fingerprint": "24d29c8d0ca54859",
+ "universe_snapshot": "2026-11-19-run-44487467793.csv",
  "universe_size": 36,
  "high_risk_stop_pct": 10.0,
  "btc_regime": {
@@ -83,36 +83,36 @@
    "signals": [],
    "watch": [
     {
-     "symbol": "SUIUSDT",
-     "base": "SUI",
+     "symbol": "PEPEUSDT",
+     "base": "PEPE",
      "timeframe": "4h",
      "strategy": "B-BBSQ",
      "strategy_version": "1.0.0",
      "params_hash": "9bbcd16acf0c",
      "state": "WATCH",
-     "candle_open_utc": "2026-11-19T00:00:00Z",
-     "candle_close_utc": "2026-11-19T04:00:00Z",
-     "ref_price": 0.7261,
+     "candle_open_utc": "2026-11-19T04:00:00Z",
+     "candle_close_utc": "2026-11-19T08:00:00Z",
+     "ref_price": 3.83e-06,
      "stop": null,
      "target": null,
      "rr": null,
      "rr_note": "יחושב רק לאיתות מאושר",
      "risk_pct_to_stop": null,
      "high_risk": false,
-     "watch_invalidation": 0.725595,
-     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 0.7256 מבטלת את ההתראה",
-     "breakout_level": 0.7446,
-     "atr_pct": 2.72709573,
-     "realized_vol_30": 0.75981445,
-     "history_candles": 7774,
+     "watch_invalidation": 3.81e-06,
+     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 0.00000381 מבטלת את ההתראה",
+     "breakout_level": 3.98e-06,
+     "atr_pct": 3.28616135,
+     "realized_vol_30": 0.90655182,
+     "history_candles": 7762,
      "member": true,
      "partial_in_window": false,
-     "median_qvol_30d": 28222112.0,
-     "spread_pct": 0.013757996835659213,
-     "depth_bid_1pct_usd": 731705.12005,
-     "depth_ask_1pct_usd": 533592.7765,
+     "median_qvol_30d": 50385124.0,
+     "spread_pct": 0.26350461133069575,
+     "depth_bid_1pct_usd": 590359.58447959,
+     "depth_ask_1pct_usd": 555693.02060302,
      "liquidity_warnings": [],
-     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 5.00 (נדרש ≤ 15) · סגירה 0.7261 מול SMA20 0.7256 · רמת פריצה 0.7446, במרחק 2.55% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
+     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 7.78 (נדרש ≤ 15) · סגירה 0.00000383 מול SMA20 0.00000381 · רמת פריצה 0.00000398, במרחק 3.92% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
       {
        "rule": "squeeze_recent",
@@ -120,7 +120,7 @@
        "met": true,
        "in_watch": true,
        "in_signal": false,
-       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 5.00 (נדרש ≤ 15)"
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 7.78 (נדרש ≤ 15)"
       },
       {
        "rule": "above_mid",
@@ -128,7 +128,7 @@
        "met": true,
        "in_watch": true,
        "in_signal": false,
-       "detail_he": "סגירה 0.7261 מול SMA20 0.7256"
+       "detail_he": "סגירה 0.00000383 מול SMA20 0.00000381"
       },
       {
        "rule": "below_level",
@@ -136,7 +136,211 @@
        "met": true,
        "in_watch": true,
        "in_signal": false,
-       "detail_he": "רמת פריצה 0.7446, במרחק 2.55% מהסגירה"
+       "detail_he": "רמת פריצה 0.00000398, במרחק 3.92% מהסגירה"
+      },
+      {
+       "rule": "squeeze_prior",
+       "label_he": "התכנסות ב-5 הנרות שלפני הפריצה",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-5 הנרות הקודמים: 8.33 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "close_above_upper",
+       "label_he": "סגירה מעל הרצועה העליונה",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 0.00000383 מול רצועה עליונה 0.000003953"
+      },
+      {
+       "rule": "close_above_range",
+       "label_he": "סגירה מעל שיא 20 הנרות",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 0.00000383 מול שיא הטווח 0.00000398"
+      },
+      {
+       "rule": "volume_surge",
+       "label_he": "נפח ≥ 1.5× הממוצע",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נפח פי 1.02 מהממוצע של 20 הנרות הקודמים (נדרש ≥ 1.5)"
+      },
+      {
+       "rule": "complete",
+       "label_he": "נר הפריצה שלם",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נר שלם"
+      }
+     ],
+     "episode_started_utc": "2026-11-19T04:00:00Z",
+     "signal_id": "15795585d8b4282b",
+     "lifecycle": "new",
+     "first_seen_utc": "2026-11-19T08:27:25+00:00"
+    },
+    {
+     "symbol": "DOGEUSDT",
+     "base": "DOGE",
+     "timeframe": "4h",
+     "strategy": "B-BBSQ",
+     "strategy_version": "1.0.0",
+     "params_hash": "9bbcd16acf0c",
+     "state": "WATCH",
+     "candle_open_utc": "2026-11-19T04:00:00Z",
+     "candle_close_utc": "2026-11-19T08:00:00Z",
+     "ref_price": 0.05959,
+     "stop": null,
+     "target": null,
+     "rr": null,
+     "rr_note": "יחושב רק לאיתות מאושר",
+     "risk_pct_to_stop": null,
+     "high_risk": false,
+     "watch_invalidation": 0.059142,
+     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 0.05914 מבטלת את ההתראה",
+     "breakout_level": 0.06045,
+     "atr_pct": 2.23200238,
+     "realized_vol_30": 0.73144352,
+     "history_candles": 16161,
+     "member": true,
+     "partial_in_window": false,
+     "median_qvol_30d": 34140555.0,
+     "spread_pct": 0.01684494230606607,
+     "depth_bid_1pct_usd": 1948265.92303,
+     "depth_ask_1pct_usd": 869385.9622899999,
+     "liquidity_warnings": [],
+     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 3.89 (נדרש ≤ 15) · סגירה 0.05959 מול SMA20 0.05914 · רמת פריצה 0.06045, במרחק 1.44% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
+     "rules": [
+      {
+       "rule": "squeeze_recent",
+       "label_he": "התכנסות ב-3 הנרות האחרונים",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 3.89 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "above_mid",
+       "label_he": "סגירה מעל הרצועה האמצעית",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "סגירה 0.05959 מול SMA20 0.05914"
+      },
+      {
+       "rule": "below_level",
+       "label_he": "עדיין לא פרץ",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "רמת פריצה 0.06045, במרחק 1.44% מהסגירה"
+      },
+      {
+       "rule": "squeeze_prior",
+       "label_he": "התכנסות ב-5 הנרות שלפני הפריצה",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-5 הנרות הקודמים: 5.00 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "close_above_upper",
+       "label_he": "סגירה מעל הרצועה העליונה",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 0.05959 מול רצועה עליונה 0.05997"
+      },
+      {
+       "rule": "close_above_range",
+       "label_he": "סגירה מעל שיא 20 הנרות",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 0.05959 מול שיא הטווח 0.06045"
+      },
+      {
+       "rule": "volume_surge",
+       "label_he": "נפח ≥ 1.5× הממוצע",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נפח פי 0.37 מהממוצע של 20 הנרות הקודמים (נדרש ≥ 1.5)"
+      },
+      {
+       "rule": "complete",
+       "label_he": "נר הפריצה שלם",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נר שלם"
+      }
+     ],
+     "episode_started_utc": "2026-11-19T04:00:00Z",
+     "signal_id": "0c780ed4bca75ef8",
+     "lifecycle": "new",
+     "first_seen_utc": "2026-11-19T08:27:25+00:00"
+    },
+    {
+     "symbol": "SUIUSDT",
+     "base": "SUI",
+     "timeframe": "4h",
+     "strategy": "B-BBSQ",
+     "strategy_version": "1.0.0",
+     "params_hash": "9bbcd16acf0c",
+     "state": "WATCH",
+     "candle_open_utc": "2026-11-19T04:00:00Z",
+     "candle_close_utc": "2026-11-19T08:00:00Z",
+     "ref_price": 0.7292,
+     "stop": null,
+     "target": null,
+     "rr": null,
+     "rr_note": "יחושב רק לאיתות מאושר",
+     "risk_pct_to_stop": null,
+     "high_risk": false,
+     "watch_invalidation": 0.72518,
+     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 0.7252 מבטלת את ההתראה",
+     "breakout_level": 0.7446,
+     "atr_pct": 2.60675836,
+     "realized_vol_30": 0.76132147,
+     "history_candles": 7775,
+     "member": true,
+     "partial_in_window": false,
+     "median_qvol_30d": 28222112.0,
+     "spread_pct": 0.013746649254242762,
+     "depth_bid_1pct_usd": 778372.62769,
+     "depth_ask_1pct_usd": 617532.458,
+     "liquidity_warnings": [],
+     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 2.78 (נדרש ≤ 15) · סגירה 0.7292 מול SMA20 0.7252 · רמת פריצה 0.7446, במרחק 2.11% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
+     "rules": [
+      {
+       "rule": "squeeze_recent",
+       "label_he": "התכנסות ב-3 הנרות האחרונים",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 2.78 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "above_mid",
+       "label_he": "סגירה מעל הרצועה האמצעית",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "סגירה 0.7292 מול SMA20 0.7252"
+      },
+      {
+       "rule": "below_level",
+       "label_he": "עדיין לא פרץ",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "רמת פריצה 0.7446, במרחק 2.11% מהסגירה"
       },
       {
        "rule": "squeeze_prior",
@@ -152,7 +356,7 @@
        "met": false,
        "in_watch": false,
        "in_signal": true,
-       "detail_he": "סגירה 0.7261 מול רצועה עליונה 0.74"
+       "detail_he": "סגירה 0.7292 מול רצועה עליונה 0.7386"
       },
       {
        "rule": "close_above_range",
@@ -160,7 +364,7 @@
        "met": false,
        "in_watch": false,
        "in_signal": true,
-       "detail_he": "סגירה 0.7261 מול שיא הטווח 0.7446"
+       "detail_he": "סגירה 0.7292 מול שיא הטווח 0.7446"
       },
       {
        "rule": "volume_surge",
@@ -168,7 +372,7 @@
        "met": false,
        "in_watch": false,
        "in_signal": true,
-       "detail_he": "נפח פי 0.83 מהממוצע של 20 הנרות הקודמים (נדרש ≥ 1.5)"
+       "detail_he": "נפח פי 0.85 מהממוצע של 20 הנרות הקודמים (נדרש ≥ 1.5)"
       },
       {
        "rule": "complete",
@@ -181,40 +385,40 @@
      ],
      "episode_started_utc": "2026-11-19T00:00:00Z",
      "signal_id": "121fb53c9db12298",
-     "lifecycle": "new",
+     "lifecycle": "active",
      "first_seen_utc": "2026-11-19T04:27:21+00:00"
     },
     {
-     "symbol": "TAOUSDT",
-     "base": "TAO",
+     "symbol": "LINKUSDT",
+     "base": "LINK",
      "timeframe": "4h",
      "strategy": "B-BBSQ",
      "strategy_version": "1.0.0",
      "params_hash": "9bbcd16acf0c",
      "state": "WATCH",
-     "candle_open_utc": "2026-11-19T00:00:00Z",
-     "candle_close_utc": "2026-11-19T04:00:00Z",
-     "ref_price": 194.6,
+     "candle_open_utc": "2026-11-19T04:00:00Z",
+     "candle_close_utc": "2026-11-19T08:00:00Z",
+     "ref_price": 9.173,
      "stop": null,
      "target": null,
      "rr": null,
      "rr_note": "יחושב רק לאיתות מאושר",
      "risk_pct_to_stop": null,
      "high_risk": false,
-     "watch_invalidation": 193.015,
-     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 193.015 מבטלת את ההתראה",
-     "breakout_level": 199.0,
-     "atr_pct": 2.82980539,
-     "realized_vol_30": 0.9218729,
-     "history_candles": 5710,
+     "watch_invalidation": 9.16495,
+     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 9.16495 מבטלת את ההתראה",
+     "breakout_level": 9.41,
+     "atr_pct": 2.31900551,
+     "realized_vol_30": 0.63506596,
+     "history_candles": 17179,
      "member": true,
      "partial_in_window": false,
-     "median_qvol_30d": 12080336.0,
-     "spread_pct": 0.0512163892445699,
-     "depth_bid_1pct_usd": 416142.39443,
-     "depth_ask_1pct_usd": 289911.42996,
+     "median_qvol_30d": 19787149.0,
+     "spread_pct": 0.010920010920004868,
+     "depth_bid_1pct_usd": 329327.09146,
+     "depth_ask_1pct_usd": 334360.2845,
      "liquidity_warnings": [],
-     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 10.00 (נדרש ≤ 15) · סגירה 194.6 מול SMA20 193.015 · רמת פריצה 199, במרחק 2.26% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
+     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 4.44 (נדרש ≤ 15) · סגירה 9.173 מול SMA20 9.16495 · רמת פריצה 9.41, במרחק 2.58% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
       {
        "rule": "squeeze_recent",
@@ -222,7 +426,7 @@
        "met": true,
        "in_watch": true,
        "in_signal": false,
-       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 10.00 (נדרש ≤ 15)"
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 4.44 (נדרש ≤ 15)"
       },
       {
        "rule": "above_mid",
@@ -230,7 +434,7 @@
        "met": true,
        "in_watch": true,
        "in_signal": false,
-       "detail_he": "סגירה 194.6 מול SMA20 193.015"
+       "detail_he": "סגירה 9.173 מול SMA20 9.16495"
       },
       {
        "rule": "below_level",
@@ -238,7 +442,7 @@
        "met": true,
        "in_watch": true,
        "in_signal": false,
-       "detail_he": "רמת פריצה 199, במרחק 2.26% מהסגירה"
+       "detail_he": "רמת פריצה 9.41, במרחק 2.58% מהסגירה"
       },
       {
        "rule": "squeeze_prior",
@@ -246,7 +450,7 @@
        "met": true,
        "in_watch": false,
        "in_signal": true,
-       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-5 הנרות הקודמים: 10.00 (נדרש ≤ 15)"
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-5 הנרות הקודמים: 1.67 (נדרש ≤ 15)"
       },
       {
        "rule": "close_above_upper",
@@ -254,7 +458,7 @@
        "met": false,
        "in_watch": false,
        "in_signal": true,
-       "detail_he": "סגירה 194.6 מול רצועה עליונה 198.014"
+       "detail_he": "סגירה 9.173 מול רצועה עליונה 9.31755"
       },
       {
        "rule": "close_above_range",
@@ -262,109 +466,7 @@
        "met": false,
        "in_watch": false,
        "in_signal": true,
-       "detail_he": "סגירה 194.6 מול שיא הטווח 199"
-      },
-      {
-       "rule": "volume_surge",
-       "label_he": "נפח ≥ 1.5× הממוצע",
-       "met": false,
-       "in_watch": false,
-       "in_signal": true,
-       "detail_he": "נפח פי 0.63 מהממוצע של 20 הנרות הקודמים (נדרש ≥ 1.5)"
-      },
-      {
-       "rule": "complete",
-       "label_he": "נר הפריצה שלם",
-       "met": true,
-       "in_watch": false,
-       "in_signal": true,
-       "detail_he": "נר שלם"
-      }
-     ],
-     "episode_started_utc": "2026-11-19T00:00:00Z",
-     "signal_id": "781a3059f2f66323",
-     "lifecycle": "new",
-     "first_seen_utc": "2026-11-19T04:27:21+00:00"
-    },
-    {
-     "symbol": "TRUMPUSDT",
-     "base": "TRUMP",
-     "timeframe": "4h",
-     "strategy": "B-BBSQ",
-     "strategy_version": "1.0.0",
-     "params_hash": "9bbcd16acf0c",
-     "state": "WATCH",
-     "candle_open_utc": "2026-11-19T00:00:00Z",
-     "candle_close_utc": "2026-11-19T04:00:00Z",
-     "ref_price": 0.968,
-     "stop": null,
-     "target": null,
-     "rr": null,
-     "rr_note": "יחושב רק לאיתות מאושר",
-     "risk_pct_to_stop": null,
-     "high_risk": false,
-     "watch_invalidation": 0.9557,
-     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 0.9557 מבטלת את ההתראה",
-     "breakout_level": 0.99,
-     "atr_pct": 3.02165439,
-     "realized_vol_30": 0.85009129,
-     "history_candles": 4013,
-     "member": true,
-     "partial_in_window": false,
-     "median_qvol_30d": 7556401.0,
-     "spread_pct": 0.1027221366204418,
-     "depth_bid_1pct_usd": 212921.967655,
-     "depth_ask_1pct_usd": 159677.95358499998,
-     "liquidity_warnings": [],
-     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 9.44 (נדרש ≤ 15) · סגירה 0.968 מול SMA20 0.9557 · רמת פריצה 0.99, במרחק 2.27% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
-     "rules": [
-      {
-       "rule": "squeeze_recent",
-       "label_he": "התכנסות ב-3 הנרות האחרונים",
-       "met": true,
-       "in_watch": true,
-       "in_signal": false,
-       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 9.44 (נדרש ≤ 15)"
-      },
-      {
-       "rule": "above_mid",
-       "label_he": "סגירה מעל הרצועה האמצעית",
-       "met": true,
-       "in_watch": true,
-       "in_signal": false,
-       "detail_he": "סגירה 0.968 מול SMA20 0.9557"
-      },
-      {
-       "rule": "below_level",
-       "label_he": "עדיין לא פרץ",
-       "met": true,
-       "in_watch": true,
-       "in_signal": false,
-       "detail_he": "רמת פריצה 0.99, במרחק 2.27% מהסגירה"
-      },
-      {
-       "rule": "squeeze_prior",
-       "label_he": "התכנסות ב-5 הנרות שלפני הפריצה",
-       "met": true,
-       "in_watch": false,
-       "in_signal": true,
-       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-5 הנרות הקודמים: 9.44 (נדרש ≤ 15)"
-      },
-      {
-       "rule": "close_above_upper",
-       "label_he": "סגירה מעל הרצועה העליונה",
-       "met": false,
-       "in_watch": false,
-       "in_signal": true,
-       "detail_he": "סגירה 0.968 מול רצועה עליונה 0.9819"
-      },
-      {
-       "rule": "close_above_range",
-       "label_he": "סגירה מעל שיא 20 הנרות",
-       "met": false,
-       "in_watch": false,
-       "in_signal": true,
-       "detail_he": "סגירה 0.968 מול שיא הטווח 0.99"
+       "detail_he": "סגירה 9.173 מול שיא הטווח 9.41"
       },
       {
        "rule": "volume_surge",
@@ -383,9 +485,417 @@
        "detail_he": "נר שלם"
       }
      ],
+     "episode_started_utc": "2026-11-19T04:00:00Z",
+     "signal_id": "ff6e602421bd067e",
+     "lifecycle": "new",
+     "first_seen_utc": "2026-11-19T08:27:25+00:00"
+    },
+    {
+     "symbol": "ADAUSDT",
+     "base": "ADA",
+     "timeframe": "4h",
+     "strategy": "B-BBSQ",
+     "strategy_version": "1.0.0",
+     "params_hash": "9bbcd16acf0c",
+     "state": "WATCH",
+     "candle_open_utc": "2026-11-19T04:00:00Z",
+     "candle_close_utc": "2026-11-19T08:00:00Z",
+     "ref_price": 0.154,
+     "stop": null,
+     "target": null,
+     "rr": null,
+     "rr_note": "יחושב רק לאיתות מאושר",
+     "risk_pct_to_stop": null,
+     "high_risk": false,
+     "watch_invalidation": 0.15325,
+     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 0.1533 מבטלת את ההתראה",
+     "breakout_level": 0.1566,
+     "atr_pct": 2.40404088,
+     "realized_vol_30": 0.73906296,
+     "history_candles": 18820,
+     "member": true,
+     "partial_in_window": false,
+     "median_qvol_30d": 15293011.0,
+     "spread_pct": 0.06512536633017843,
+     "depth_bid_1pct_usd": 515593.83539,
+     "depth_ask_1pct_usd": 483122.79060999997,
+     "liquidity_warnings": [],
+     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 6.67 (נדרש ≤ 15) · סגירה 0.154 מול SMA20 0.1533 · רמת פריצה 0.1566, במרחק 1.69% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
+     "rules": [
+      {
+       "rule": "squeeze_recent",
+       "label_he": "התכנסות ב-3 הנרות האחרונים",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 6.67 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "above_mid",
+       "label_he": "סגירה מעל הרצועה האמצעית",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "סגירה 0.154 מול SMA20 0.1533"
+      },
+      {
+       "rule": "below_level",
+       "label_he": "עדיין לא פרץ",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "רמת פריצה 0.1566, במרחק 1.69% מהסגירה"
+      },
+      {
+       "rule": "squeeze_prior",
+       "label_he": "התכנסות ב-5 הנרות שלפני הפריצה",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-5 הנרות הקודמים: 4.44 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "close_above_upper",
+       "label_he": "סגירה מעל הרצועה העליונה",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 0.154 מול רצועה עליונה 0.1557"
+      },
+      {
+       "rule": "close_above_range",
+       "label_he": "סגירה מעל שיא 20 הנרות",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 0.154 מול שיא הטווח 0.1566"
+      },
+      {
+       "rule": "volume_surge",
+       "label_he": "נפח ≥ 1.5× הממוצע",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נפח פי 0.64 מהממוצע של 20 הנרות הקודמים (נדרש ≥ 1.5)"
+      },
+      {
+       "rule": "complete",
+       "label_he": "נר הפריצה שלם",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נר שלם"
+      }
+     ],
+     "episode_started_utc": "2026-11-19T04:00:00Z",
+     "signal_id": "a23b7d3a19f3a46f",
+     "lifecycle": "new",
+     "first_seen_utc": "2026-11-19T08:27:25+00:00"
+    },
+    {
+     "symbol": "LTCUSDT",
+     "base": "LTC",
+     "timeframe": "4h",
+     "strategy": "B-BBSQ",
+     "strategy_version": "1.0.0",
+     "params_hash": "9bbcd16acf0c",
+     "state": "WATCH",
+     "candle_open_utc": "2026-11-19T04:00:00Z",
+     "candle_close_utc": "2026-11-19T08:00:00Z",
+     "ref_price": 44.67,
+     "stop": null,
+     "target": null,
+     "rr": null,
+     "rr_note": "יחושב רק לאיתות מאושר",
+     "risk_pct_to_stop": null,
+     "high_risk": false,
+     "watch_invalidation": 44.5905,
+     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 44.5905 מבטלת את ההתראה",
+     "breakout_level": 45.67,
+     "atr_pct": 2.07782646,
+     "realized_vol_30": 0.66890627,
+     "history_candles": 19564,
+     "member": true,
+     "partial_in_window": false,
+     "median_qvol_30d": 13522765.0,
+     "spread_pct": 0.02245424946670711,
+     "depth_bid_1pct_usd": 281362.65534,
+     "depth_ask_1pct_usd": 301609.01657,
+     "liquidity_warnings": [],
+     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 11.11 (נדרש ≤ 15) · סגירה 44.67 מול SMA20 44.5905 · רמת פריצה 45.67, במרחק 2.24% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
+     "rules": [
+      {
+       "rule": "squeeze_recent",
+       "label_he": "התכנסות ב-3 הנרות האחרונים",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 11.11 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "above_mid",
+       "label_he": "סגירה מעל הרצועה האמצעית",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "סגירה 44.67 מול SMA20 44.5905"
+      },
+      {
+       "rule": "below_level",
+       "label_he": "עדיין לא פרץ",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "רמת פריצה 45.67, במרחק 2.24% מהסגירה"
+      },
+      {
+       "rule": "squeeze_prior",
+       "label_he": "התכנסות ב-5 הנרות שלפני הפריצה",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-5 הנרות הקודמים: 8.89 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "close_above_upper",
+       "label_he": "סגירה מעל הרצועה העליונה",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 44.67 מול רצועה עליונה 45.4492"
+      },
+      {
+       "rule": "close_above_range",
+       "label_he": "סגירה מעל שיא 20 הנרות",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 44.67 מול שיא הטווח 45.67"
+      },
+      {
+       "rule": "volume_surge",
+       "label_he": "נפח ≥ 1.5× הממוצע",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נפח פי 0.68 מהממוצע של 20 הנרות הקודמים (נדרש ≥ 1.5)"
+      },
+      {
+       "rule": "complete",
+       "label_he": "נר הפריצה שלם",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נר שלם"
+      }
+     ],
+     "episode_started_utc": "2026-11-19T04:00:00Z",
+     "signal_id": "c74c4f49cb5f522c",
+     "lifecycle": "new",
+     "first_seen_utc": "2026-11-19T08:27:25+00:00"
+    },
+    {
+     "symbol": "TAOUSDT",
+     "base": "TAO",
+     "timeframe": "4h",
+     "strategy": "B-BBSQ",
+     "strategy_version": "1.0.0",
+     "params_hash": "9bbcd16acf0c",
+     "state": "WATCH",
+     "candle_open_utc": "2026-11-19T04:00:00Z",
+     "candle_close_utc": "2026-11-19T08:00:00Z",
+     "ref_price": 197.2,
+     "stop": null,
+     "target": null,
+     "rr": null,
+     "rr_note": "יחושב רק לאיתות מאושר",
+     "risk_pct_to_stop": null,
+     "high_risk": false,
+     "watch_invalidation": 193.125,
+     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 193.125 מבטלת את ההתראה",
+     "breakout_level": 199.0,
+     "atr_pct": 2.71618432,
+     "realized_vol_30": 0.92672952,
+     "history_candles": 5711,
+     "member": true,
+     "partial_in_window": false,
+     "median_qvol_30d": 12080336.0,
+     "spread_pct": 0.05087763927753463,
+     "depth_bid_1pct_usd": 315584.51764000003,
+     "depth_ask_1pct_usd": 352538.89306,
+     "liquidity_warnings": [],
+     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 10.00 (נדרש ≤ 15) · סגירה 197.2 מול SMA20 193.125 · רמת פריצה 199, במרחק 0.91% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
+     "rules": [
+      {
+       "rule": "squeeze_recent",
+       "label_he": "התכנסות ב-3 הנרות האחרונים",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 10.00 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "above_mid",
+       "label_he": "סגירה מעל הרצועה האמצעית",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "סגירה 197.2 מול SMA20 193.125"
+      },
+      {
+       "rule": "below_level",
+       "label_he": "עדיין לא פרץ",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "רמת פריצה 199, במרחק 0.91% מהסגירה"
+      },
+      {
+       "rule": "squeeze_prior",
+       "label_he": "התכנסות ב-5 הנרות שלפני הפריצה",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-5 הנרות הקודמים: 10.00 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "close_above_upper",
+       "label_he": "סגירה מעל הרצועה העליונה",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 197.2 מול רצועה עליונה 198.383"
+      },
+      {
+       "rule": "close_above_range",
+       "label_he": "סגירה מעל שיא 20 הנרות",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 197.2 מול שיא הטווח 199"
+      },
+      {
+       "rule": "volume_surge",
+       "label_he": "נפח ≥ 1.5× הממוצע",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נפח פי 1.10 מהממוצע של 20 הנרות הקודמים (נדרש ≥ 1.5)"
+      },
+      {
+       "rule": "complete",
+       "label_he": "נר הפריצה שלם",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נר שלם"
+      }
+     ],
+     "episode_started_utc": "2026-11-19T00:00:00Z",
+     "signal_id": "781a3059f2f66323",
+     "lifecycle": "active",
+     "first_seen_utc": "2026-11-19T04:27:21+00:00"
+    },
+    {
+     "symbol": "TRUMPUSDT",
+     "base": "TRUMP",
+     "timeframe": "4h",
+     "strategy": "B-BBSQ",
+     "strategy_version": "1.0.0",
+     "params_hash": "9bbcd16acf0c",
+     "state": "WATCH",
+     "candle_open_utc": "2026-11-19T04:00:00Z",
+     "candle_close_utc": "2026-11-19T08:00:00Z",
+     "ref_price": 0.967,
+     "stop": null,
+     "target": null,
+     "rr": null,
+     "rr_note": "יחושב רק לאיתות מאושר",
+     "risk_pct_to_stop": null,
+     "high_risk": false,
+     "watch_invalidation": 0.9566,
+     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 0.9566 מבטלת את ההתראה",
+     "breakout_level": 0.99,
+     "atr_pct": 2.92690935,
+     "realized_vol_30": 0.84786222,
+     "history_candles": 4014,
+     "member": true,
+     "partial_in_window": false,
+     "median_qvol_30d": 7556401.0,
+     "spread_pct": 0.10346611484738759,
+     "depth_bid_1pct_usd": 193297.344255,
+     "depth_ask_1pct_usd": 178672.544581,
+     "liquidity_warnings": [],
+     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 10.56 (נדרש ≤ 15) · סגירה 0.967 מול SMA20 0.9566 · רמת פריצה 0.99, במרחק 2.38% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
+     "rules": [
+      {
+       "rule": "squeeze_recent",
+       "label_he": "התכנסות ב-3 הנרות האחרונים",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 10.56 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "above_mid",
+       "label_he": "סגירה מעל הרצועה האמצעית",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "סגירה 0.967 מול SMA20 0.9566"
+      },
+      {
+       "rule": "below_level",
+       "label_he": "עדיין לא פרץ",
+       "met": true,
+       "in_watch": true,
+       "in_signal": false,
+       "detail_he": "רמת פריצה 0.99, במרחק 2.38% מהסגירה"
+      },
+      {
+       "rule": "squeeze_prior",
+       "label_he": "התכנסות ב-5 הנרות שלפני הפריצה",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-5 הנרות הקודמים: 9.44 (נדרש ≤ 15)"
+      },
+      {
+       "rule": "close_above_upper",
+       "label_he": "סגירה מעל הרצועה העליונה",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 0.967 מול רצועה עליונה 0.983"
+      },
+      {
+       "rule": "close_above_range",
+       "label_he": "סגירה מעל שיא 20 הנרות",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "סגירה 0.967 מול שיא הטווח 0.99"
+      },
+      {
+       "rule": "volume_surge",
+       "label_he": "נפח ≥ 1.5× הממוצע",
+       "met": false,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נפח פי 0.45 מהממוצע של 20 הנרות הקודמים (נדרש ≥ 1.5)"
+      },
+      {
+       "rule": "complete",
+       "label_he": "נר הפריצה שלם",
+       "met": true,
+       "in_watch": false,
+       "in_signal": true,
+       "detail_he": "נר שלם"
+      }
+     ],
      "episode_started_utc": "2026-11-19T00:00:00Z",
      "signal_id": "d417e7a0871d6a18",
-     "lifecycle": "new",
+     "lifecycle": "active",
      "first_seen_utc": "2026-11-19T04:27:21+00:00"
     }
    ],
@@ -1700,7 +2210,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-12T04:27:21+00:00",
    "episode_started_utc": "2026-11-12T00:00:00Z",
-   "candles_since_start": 42,
+   "candles_since_start": 43,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-12T12:00:00Z"
@@ -1721,7 +2231,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-12T20:27:26+00:00",
    "episode_started_utc": "2026-11-12T16:00:00Z",
-   "candles_since_start": 38,
+   "candles_since_start": 39,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-13T00:00:00Z"
@@ -1763,7 +2273,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-13T00:27:24+00:00",
    "episode_started_utc": "2026-11-12T20:00:00Z",
-   "candles_since_start": 37,
+   "candles_since_start": 38,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-13T00:00:00Z"
@@ -1784,7 +2294,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-13T08:27:43+00:00",
    "episode_started_utc": "2026-11-13T04:00:00Z",
-   "candles_since_start": 35,
+   "candles_since_start": 36,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-14T00:00:00Z"
@@ -1805,7 +2315,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-13T08:27:43+00:00",
    "episode_started_utc": "2026-11-13T04:00:00Z",
-   "candles_since_start": 35,
+   "candles_since_start": 36,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-14T00:00:00Z"
@@ -1826,7 +2336,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-13T16:27:29+00:00",
    "episode_started_utc": "2026-11-13T12:00:00Z",
-   "candles_since_start": 33,
+   "candles_since_start": 34,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-13T20:00:00Z"
@@ -1847,7 +2357,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-13T20:27:16+00:00",
    "episode_started_utc": "2026-11-13T16:00:00Z",
-   "candles_since_start": 32,
+   "candles_since_start": 33,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-13T20:00:00Z"
@@ -1910,7 +2420,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-17T04:27:19+00:00",
    "episode_started_utc": "2026-11-17T00:00:00Z",
-   "candles_since_start": 12,
+   "candles_since_start": 13,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-17T08:00:00Z"
@@ -1931,7 +2441,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-17T16:26:55+00:00",
    "episode_started_utc": "2026-11-17T12:00:00Z",
-   "candles_since_start": 9,
+   "candles_since_start": 10,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-17T20:00:00Z"
@@ -1952,7 +2462,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-17T20:27:01+00:00",
    "episode_started_utc": "2026-11-17T16:00:00Z",
-   "candles_since_start": 8,
+   "candles_since_start": 9,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-17T20:00:00Z"
@@ -1973,7 +2483,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-17T20:27:01+00:00",
    "episode_started_utc": "2026-11-17T16:00:00Z",
-   "candles_since_start": 8,
+   "candles_since_start": 9,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T12:00:00Z"
@@ -1994,7 +2504,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-17T20:27:01+00:00",
    "episode_started_utc": "2026-11-17T16:00:00Z",
-   "candles_since_start": 8,
+   "candles_since_start": 9,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-18T16:00:00Z"
@@ -2015,7 +2525,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T00:00:00Z"
@@ -2036,7 +2546,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T00:00:00Z"
@@ -2057,7 +2567,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2078,7 +2588,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2099,7 +2609,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T12:00:00Z"
@@ -2120,7 +2630,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T00:00:00Z"
@@ -2141,7 +2651,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T00:00:00Z"
@@ -2162,7 +2672,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2183,7 +2693,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T00:00:00Z"
@@ -2204,7 +2714,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2225,7 +2735,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2246,7 +2756,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2267,7 +2777,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-18T04:00:00Z"
@@ -2288,7 +2798,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T04:27:22+00:00",
    "episode_started_utc": "2026-11-18T00:00:00Z",
-   "candles_since_start": 6,
+   "candles_since_start": 7,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-18T04:00:00Z"
@@ -2309,7 +2819,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2330,7 +2840,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2351,7 +2861,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2372,7 +2882,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2393,7 +2903,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T12:00:00Z"
@@ -2414,7 +2924,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T12:00:00Z"
@@ -2435,7 +2945,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T12:27:00+00:00",
    "episode_started_utc": "2026-11-18T08:00:00Z",
-   "candles_since_start": 4,
+   "candles_since_start": 5,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T12:00:00Z"
@@ -2456,7 +2966,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T12:27:00+00:00",
    "episode_started_utc": "2026-11-18T08:00:00Z",
-   "candles_since_start": 4,
+   "candles_since_start": 5,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T16:00:00Z"
@@ -2477,7 +2987,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-19T00:27:17+00:00",
    "episode_started_utc": "2026-11-18T20:00:00Z",
-   "candles_since_start": 1,
+   "candles_since_start": 2,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-19T00:00:00Z"
@@ -2498,8 +3008,8 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-19T04:27:21+00:00",
    "episode_started_utc": "2026-11-19T00:00:00Z",
-   "candles_since_start": 0,
-   "status": "new",
+   "candles_since_start": 1,
+   "status": "active",
    "reason": null,
    "ended_candle_utc": null
   },
@@ -2519,8 +3029,8 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-19T04:27:21+00:00",
    "episode_started_utc": "2026-11-19T00:00:00Z",
-   "candles_since_start": 0,
-   "status": "new",
+   "candles_since_start": 1,
+   "status": "active",
    "reason": null,
    "ended_candle_utc": null
   },
@@ -2540,6 +3050,111 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-19T04:27:21+00:00",
    "episode_started_utc": "2026-11-19T00:00:00Z",
+   "candles_since_start": 1,
+   "status": "active",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "a23b7d3a19f3a46f",
+   "origin": "live_new",
+   "symbol": "ADAUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "0.154",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "0.15325",
+   "breakout_level": "0.1566",
+   "high_risk": "False",
+   "detected_at_utc": "2026-11-19T08:27:25+00:00",
+   "episode_started_utc": "2026-11-19T04:00:00Z",
+   "candles_since_start": 0,
+   "status": "new",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "0c780ed4bca75ef8",
+   "origin": "live_new",
+   "symbol": "DOGEUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "0.05959",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "0.059142",
+   "breakout_level": "0.06045",
+   "high_risk": "False",
+   "detected_at_utc": "2026-11-19T08:27:25+00:00",
+   "episode_started_utc": "2026-11-19T04:00:00Z",
+   "candles_since_start": 0,
+   "status": "new",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "ff6e602421bd067e",
+   "origin": "live_new",
+   "symbol": "LINKUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "9.173",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "9.16495",
+   "breakout_level": "9.41",
+   "high_risk": "False",
+   "detected_at_utc": "2026-11-19T08:27:25+00:00",
+   "episode_started_utc": "2026-11-19T04:00:00Z",
+   "candles_since_start": 0,
+   "status": "new",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "c74c4f49cb5f522c",
+   "origin": "live_new",
+   "symbol": "LTCUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "44.67",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "44.5905",
+   "breakout_level": "45.67",
+   "high_risk": "False",
+   "detected_at_utc": "2026-11-19T08:27:25+00:00",
+   "episode_started_utc": "2026-11-19T04:00:00Z",
+   "candles_since_start": 0,
+   "status": "new",
+   "reason": null,
+   "ended_candle_utc": null
+  },
+  {
+   "signal_id": "15795585d8b4282b",
+   "origin": "live_new",
+   "symbol": "PEPEUSDT",
+   "timeframe": "4h",
+   "strategy": "B-BBSQ",
+   "strategy_version": "1.0.0",
+   "type": "WATCH",
+   "ref_price": "3.83e-06",
+   "stop": "",
+   "target": "",
+   "watch_invalidation": "3.81e-06",
+   "breakout_level": "3.98e-06",
+   "high_risk": "False",
+   "detected_at_utc": "2026-11-19T08:27:25+00:00",
+   "episode_started_utc": "2026-11-19T04:00:00Z",
    "candles_since_start": 0,
    "status": "new",
    "reason": null,
@@ -2605,7 +3220,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-12T04:27:21+00:00",
    "episode_started_utc": "2026-11-12T00:00:00Z",
-   "candles_since_start": 42,
+   "candles_since_start": 43,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-12T12:00:00Z"
@@ -2626,7 +3241,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-12T20:27:26+00:00",
    "episode_started_utc": "2026-11-12T16:00:00Z",
-   "candles_since_start": 38,
+   "candles_since_start": 39,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-13T00:00:00Z"
@@ -2668,7 +3283,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-13T00:27:24+00:00",
    "episode_started_utc": "2026-11-12T20:00:00Z",
-   "candles_since_start": 37,
+   "candles_since_start": 38,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-13T00:00:00Z"
@@ -2689,7 +3304,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-13T08:27:43+00:00",
    "episode_started_utc": "2026-11-13T04:00:00Z",
-   "candles_since_start": 35,
+   "candles_since_start": 36,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-14T00:00:00Z"
@@ -2710,7 +3325,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-13T08:27:43+00:00",
    "episode_started_utc": "2026-11-13T04:00:00Z",
-   "candles_since_start": 35,
+   "candles_since_start": 36,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-14T00:00:00Z"
@@ -2731,7 +3346,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-13T16:27:29+00:00",
    "episode_started_utc": "2026-11-13T12:00:00Z",
-   "candles_since_start": 33,
+   "candles_since_start": 34,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-13T20:00:00Z"
@@ -2752,7 +3367,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-13T20:27:16+00:00",
    "episode_started_utc": "2026-11-13T16:00:00Z",
-   "candles_since_start": 32,
+   "candles_since_start": 33,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-13T20:00:00Z"
@@ -2794,7 +3409,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-17T04:27:19+00:00",
    "episode_started_utc": "2026-11-17T00:00:00Z",
-   "candles_since_start": 12,
+   "candles_since_start": 13,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-17T08:00:00Z"
@@ -2815,7 +3430,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-17T16:26:55+00:00",
    "episode_started_utc": "2026-11-17T12:00:00Z",
-   "candles_since_start": 9,
+   "candles_since_start": 10,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-17T20:00:00Z"
@@ -2836,7 +3451,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-17T20:27:01+00:00",
    "episode_started_utc": "2026-11-17T16:00:00Z",
-   "candles_since_start": 8,
+   "candles_since_start": 9,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-17T20:00:00Z"
@@ -2857,7 +3472,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-17T20:27:01+00:00",
    "episode_started_utc": "2026-11-17T16:00:00Z",
-   "candles_since_start": 8,
+   "candles_since_start": 9,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T12:00:00Z"
@@ -2878,7 +3493,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-17T20:27:01+00:00",
    "episode_started_utc": "2026-11-17T16:00:00Z",
-   "candles_since_start": 8,
+   "candles_since_start": 9,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-18T16:00:00Z"
@@ -2899,7 +3514,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T00:00:00Z"
@@ -2920,7 +3535,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T00:00:00Z"
@@ -2941,7 +3556,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2962,7 +3577,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -2983,7 +3598,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T12:00:00Z"
@@ -3004,7 +3619,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T00:00:00Z"
@@ -3025,7 +3640,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T00:00:00Z"
@@ -3046,7 +3661,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -3067,7 +3682,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T00:00:00Z"
@@ -3088,7 +3703,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -3109,7 +3724,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -3130,7 +3745,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -3151,7 +3766,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T00:27:09+00:00",
    "episode_started_utc": "2026-11-17T20:00:00Z",
-   "candles_since_start": 7,
+   "candles_since_start": 8,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-18T04:00:00Z"
@@ -3172,7 +3787,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T04:27:22+00:00",
    "episode_started_utc": "2026-11-18T00:00:00Z",
-   "candles_since_start": 6,
+   "candles_since_start": 7,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-18T04:00:00Z"
@@ -3193,7 +3808,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -3214,7 +3829,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -3235,7 +3850,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -3256,7 +3871,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T08:00:00Z"
@@ -3277,7 +3892,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T12:00:00Z"
@@ -3298,7 +3913,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T08:27:08+00:00",
    "episode_started_utc": "2026-11-18T04:00:00Z",
-   "candles_since_start": 5,
+   "candles_since_start": 6,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T12:00:00Z"
@@ -3319,7 +3934,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T12:27:00+00:00",
    "episode_started_utc": "2026-11-18T08:00:00Z",
-   "candles_since_start": 4,
+   "candles_since_start": 5,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T12:00:00Z"
@@ -3340,7 +3955,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-18T12:27:00+00:00",
    "episode_started_utc": "2026-11-18T08:00:00Z",
-   "candles_since_start": 4,
+   "candles_since_start": 5,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-18T16:00:00Z"
@@ -3361,7 +3976,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-19T00:27:17+00:00",
    "episode_started_utc": "2026-11-18T20:00:00Z",
-   "candles_since_start": 1,
+   "candles_since_start": 2,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-19T00:00:00Z"
@@ -4610,10 +5225,10 @@
  ],
  "run_stats": {
   "journal_added": {
-   "live_new": 3
+   "live_new": 5
   },
-  "episodes_ended_new": 1,
-  "notifications_queued": 3,
+  "episodes_ended_new": 0,
+  "notifications_queued": 5,
   "notifications_sent": 0,
   "full_history_report": true
  }
