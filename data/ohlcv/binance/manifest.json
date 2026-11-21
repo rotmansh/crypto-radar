@@ -1,22 +1,22 @@
 {
  "AAVEUSDT": {
   "1d": {
-   "count": 2227,
+   "count": 2228,
    "first": "2020-10-15T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 13367,
+   "count": 13368,
    "first": "2020-10-15T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 79.835,
@@ -79,17 +79,17 @@
  },
  "ADAUSDT": {
   "1d": {
-   "count": 3139,
+   "count": 3140,
    "first": "2018-04-17T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 18829,
+   "count": 18830,
    "first": "2018-04-17T04:00:00Z",
    "gaps": [
     {
@@ -128,9 +128,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 0.13308,
@@ -237,66 +237,66 @@
  },
  "ARBUSDT": {
   "1d": {
-   "count": 1338,
+   "count": 1339,
    "first": "2023-03-23T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 8030,
+   "count": 8031,
    "first": "2023-03-23T12:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
  },
  "ASTERUSDT": {
   "1d": {
-   "count": 410,
+   "count": 411,
    "first": "2025-10-06T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 2462,
+   "count": 2463,
    "first": "2025-10-06T12:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
  },
  "AVAXUSDT": {
   "1d": {
-   "count": 2250,
+   "count": 2251,
    "first": "2020-09-22T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 13504,
+   "count": 13505,
    "first": "2020-09-22T04:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 3.1171,
@@ -359,17 +359,17 @@
  },
  "BCHUSDT": {
   "1d": {
-   "count": 2549,
+   "count": 2550,
    "first": "2019-11-28T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 15296,
+   "count": 15297,
    "first": "2019-11-28T08:00:00Z",
    "gaps": [
     {
@@ -378,9 +378,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 417.4,
@@ -465,12 +465,12 @@
  },
  "BNBUSDT": {
   "1d": {
-   "count": 3301,
+   "count": 3302,
    "first": "2017-11-06T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 8.2791,
@@ -487,7 +487,7 @@
    "partial_count": 1
   },
   "4h": {
-   "count": 19795,
+   "count": 19796,
    "first": "2017-11-06T00:00:00Z",
    "gaps": [
     {
@@ -531,9 +531,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 9.2335,
@@ -596,12 +596,12 @@
  },
  "BTCUSDT": {
   "1d": {
-   "count": 3382,
+   "count": 3383,
    "first": "2017-08-17T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 7784.02,
@@ -618,7 +618,7 @@
    "partial_count": 1
   },
   "4h": {
-   "count": 20280,
+   "count": 20281,
    "first": "2017-08-17T04:00:00Z",
    "gaps": [
     {
@@ -662,9 +662,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 4619.43,
@@ -821,17 +821,17 @@
  },
  "DOGEUSDT": {
   "1d": {
-   "count": 2695,
+   "count": 2696,
    "first": "2019-07-05T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 16170,
+   "count": 16171,
    "first": "2019-07-05T12:00:00Z",
    "gaps": [
     {
@@ -845,9 +845,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 0.0026832,
@@ -988,22 +988,22 @@
  },
  "ENAUSDT": {
   "1d": {
-   "count": 962,
+   "count": 963,
    "first": "2024-04-02T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 5775,
+   "count": 5776,
    "first": "2024-04-02T08:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
@@ -1054,12 +1054,12 @@
  },
  "ETHUSDT": {
   "1d": {
-   "count": 3382,
+   "count": 3383,
    "first": "2017-08-17T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 781.66,
@@ -1076,7 +1076,7 @@
    "partial_count": 1
   },
   "4h": {
-   "count": 20280,
+   "count": 20281,
    "first": "2017-08-17T04:00:00Z",
    "gaps": [
     {
@@ -1120,9 +1120,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 335.0,
@@ -1185,17 +1185,17 @@
  },
  "FETUSDT": {
   "1d": {
-   "count": 2822,
+   "count": 2823,
    "first": "2019-02-28T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 16930,
+   "count": 16931,
    "first": "2019-02-28T08:00:00Z",
    "gaps": [
     {
@@ -1219,9 +1219,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 0.2133,
@@ -1362,22 +1362,22 @@
  },
  "GRAMUSDT": {
   "1d": {
-   "count": 141,
+   "count": 142,
    "first": "2026-07-02T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 849,
+   "count": 850,
    "first": "2026-07-02T08:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
@@ -1429,17 +1429,17 @@
  },
  "HBARUSDT": {
   "1d": {
-   "count": 2609,
+   "count": 2610,
    "first": "2019-09-29T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 15657,
+   "count": 15658,
    "first": "2019-09-29T04:00:00Z",
    "gaps": [
     {
@@ -1448,9 +1448,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 0.03498,
@@ -1513,22 +1513,22 @@
  },
  "HYPEUSDT": {
   "1d": {
-   "count": 57,
+   "count": 58,
    "first": "2026-09-24T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 345,
+   "count": 346,
    "first": "2026-09-24T08:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
@@ -1602,22 +1602,22 @@
  },
  "INJUSDT": {
   "1d": {
-   "count": 2221,
+   "count": 2222,
    "first": "2020-10-21T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 13330,
+   "count": 13331,
    "first": "2020-10-21T04:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 2.8,
@@ -1680,17 +1680,17 @@
  },
  "LINKUSDT": {
   "1d": {
-   "count": 2865,
+   "count": 2866,
    "first": "2019-01-16T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 17188,
+   "count": 17189,
    "first": "2019-01-16T08:00:00Z",
    "gaps": [
     {
@@ -1714,9 +1714,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 0.4669,
@@ -1779,12 +1779,12 @@
  },
  "LTCUSDT": {
   "1d": {
-   "count": 3264,
+   "count": 3265,
    "first": "2017-12-13T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 142.37,
@@ -1801,7 +1801,7 @@
    "partial_count": 1
   },
   "4h": {
-   "count": 19573,
+   "count": 19574,
    "first": "2017-12-13T00:00:00Z",
    "gaps": [
     {
@@ -1845,9 +1845,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 234.0,
@@ -1954,22 +1954,22 @@
  },
  "NEARUSDT": {
   "1d": {
-   "count": 2228,
+   "count": 2229,
    "first": "2020-10-14T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 13372,
+   "count": 13373,
    "first": "2020-10-14T04:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 1.2322,
@@ -2032,22 +2032,22 @@
  },
  "ONDOUSDT": {
   "1d": {
-   "count": 588,
+   "count": 589,
    "first": "2025-04-11T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 3530,
+   "count": 3531,
    "first": "2025-04-11T12:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
@@ -2098,22 +2098,22 @@
  },
  "PEPEUSDT": {
   "1d": {
-   "count": 1295,
+   "count": 1296,
    "first": "2023-05-05T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 7771,
+   "count": 7772,
    "first": "2023-05-05T16:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
@@ -2142,44 +2142,44 @@
  },
  "PUMPUSDT": {
   "1d": {
-   "count": 435,
+   "count": 436,
    "first": "2025-09-11T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 2612,
+   "count": 2613,
    "first": "2025-09-11T12:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
  },
  "QNTUSDT": {
   "1d": {
-   "count": 1940,
+   "count": 1941,
    "first": "2021-07-29T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 11644,
+   "count": 11645,
    "first": "2021-07-29T04:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 150.8,
@@ -2276,22 +2276,22 @@
  },
  "SOLUSDT": {
   "1d": {
-   "count": 2292,
+   "count": 2293,
    "first": "2020-08-11T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 13756,
+   "count": 13757,
    "first": "2020-08-11T04:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 1.5186,
@@ -2376,44 +2376,44 @@
  },
  "SUIUSDT": {
   "1d": {
-   "count": 1297,
+   "count": 1298,
    "first": "2023-05-03T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 7784,
+   "count": 7785,
    "first": "2023-05-03T12:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
  },
  "TAOUSDT": {
   "1d": {
-   "count": 953,
+   "count": 954,
    "first": "2024-04-11T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 5720,
+   "count": 5721,
    "first": "2024-04-11T12:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
@@ -2442,39 +2442,39 @@
  },
  "TRUMPUSDT": {
   "1d": {
-   "count": 670,
+   "count": 671,
    "first": "2025-01-19T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 4023,
+   "count": 4024,
    "first": "2025-01-19T08:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
  },
  "TRXUSDT": {
   "1d": {
-   "count": 3084,
+   "count": 3085,
    "first": "2018-06-11T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 18498,
+   "count": 18499,
    "first": "2018-06-11T08:00:00Z",
    "gaps": [
     {
@@ -2513,9 +2513,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 0.0409,
@@ -2578,22 +2578,22 @@
  },
  "UNIUSDT": {
   "1d": {
-   "count": 2255,
+   "count": 2256,
    "first": "2020-09-17T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 13535,
+   "count": 13536,
    "first": "2020-09-17T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 3.5299,
@@ -2656,39 +2656,39 @@
  },
  "WLDUSDT": {
   "1d": {
-   "count": 1215,
+   "count": 1216,
    "first": "2023-07-24T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 7293,
+   "count": 7294,
    "first": "2023-07-24T08:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
  },
  "XLMUSDT": {
   "1d": {
-   "count": 3095,
+   "count": 3096,
    "first": "2018-05-31T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 18564,
+   "count": 18565,
    "first": "2018-05-31T08:00:00Z",
    "gaps": [
     {
@@ -2727,9 +2727,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 0.19469,
@@ -2814,17 +2814,17 @@
  },
  "XRPUSDT": {
   "1d": {
-   "count": 3122,
+   "count": 3123,
    "first": "2018-05-04T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 18726,
+   "count": 18727,
    "first": "2018-05-04T08:00:00Z",
    "gaps": [
     {
@@ -2863,9 +2863,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 0.47879,
@@ -2928,17 +2928,17 @@
  },
  "ZECUSDT": {
   "1d": {
-   "count": 2801,
+   "count": 2802,
    "first": "2019-03-21T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 16806,
+   "count": 16807,
    "first": "2019-03-21T04:00:00Z",
    "gaps": [
     {
@@ -2957,9 +2957,9 @@
      "missing_candles": 1
     }
    ],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [
     {
      "c": 68.14,
@@ -3022,22 +3022,22 @@
  },
  "ZROUSDT": {
   "1d": {
-   "count": 883,
+   "count": 884,
    "first": "2024-06-20T00:00:00Z",
    "gaps": [],
-   "last": "2026-11-19T00:00:00Z",
+   "last": "2026-11-20T00:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   },
   "4h": {
-   "count": 5300,
+   "count": 5301,
    "first": "2024-06-20T12:00:00Z",
    "gaps": [],
-   "last": "2026-11-20T16:00:00Z",
+   "last": "2026-11-20T20:00:00Z",
    "last_error": null,
-   "last_sync_utc": "2026-11-20T20:26:05+00:00",
+   "last_sync_utc": "2026-11-21T00:26:15+00:00",
    "partial_candles": [],
    "partial_count": 0
   }
