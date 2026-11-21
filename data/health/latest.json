@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-11-21T16:27:45+00:00",
+ "updated_utc": "2026-11-21T20:27:32+00:00",
  "last_run": {
-  "run_id": "44924492083",
+  "run_id": "44946198890",
   "event": "external_cron",
-  "started_utc": "2026-11-21T16:25:50+00:00",
-  "finished_utc": "2026-11-21T16:27:45+00:00",
+  "started_utc": "2026-11-21T20:25:52+00:00",
+  "finished_utc": "2026-11-21T20:27:32+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-11-21T12:00+00:00",
+  "expected_4h_candle_utc": "2026-11-21T16:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -22,20 +22,20 @@
   "journal_already_active": 0,
   "episodes_ended": 0,
   "notifications_queued": 0,
-  "start_delay_min": 25.8,
-  "duration_s": 116,
-  "code_commit": "cefdc7cbcbcb"
+  "start_delay_min": 25.9,
+  "duration_s": 101,
+  "code_commit": "58fa7aaf5baf"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-11-21-run-44924492083",
-  "scan_generated_utc": "2026-11-21T16:27:35+00:00",
-  "sync_run": "2026-11-21-run-44924492083",
+  "scan_run": "2026-11-21-run-44946198890",
+  "scan_generated_utc": "2026-11-21T20:27:20+00:00",
+  "sync_run": "2026-11-21-run-44946198890",
   "exchange_snapshot": "unchanged since 2026-11-20-run-44773235331.csv",
   "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-11-21T16:25:50+00:00",
+ "last_success_utc": "2026-11-21T20:25:52+00:00",
  "review_evidence": [
   {
    "symbol": "RWUSDUSDT",
@@ -44,11 +44,11 @@
    "flags": "permission_profile_anomaly;stable_like_price",
    "liquidity_warnings": "",
    "liquidity_hits": "0",
-   "liquidity_measurements": "8",
-   "liquidity_span_hours": "28.0",
+   "liquidity_measurements": "7",
+   "liquidity_span_hours": "24.0",
    "spread_pct": "0.00999950002499765",
-   "depth_bid_1pct_usd": "17225908.5248",
-   "depth_ask_1pct_usd": "8906516.1395",
+   "depth_bid_1pct_usd": "22149435.0784",
+   "depth_ask_1pct_usd": "10220410.730899999",
    "median_quote_volume_30d": "12921645"
   },
   {
@@ -57,12 +57,12 @@
    "review_reason": "",
    "flags": "",
    "liquidity_warnings": "thin_book_bid;thin_book_ask",
-   "liquidity_hits": "8",
-   "liquidity_measurements": "8",
-   "liquidity_span_hours": "28.0",
-   "spread_pct": "0.09741841207987913",
-   "depth_bid_1pct_usd": "34707.516321",
-   "depth_ask_1pct_usd": "33573.492278",
+   "liquidity_hits": "7",
+   "liquidity_measurements": "7",
+   "liquidity_span_hours": "24.0",
+   "spread_pct": "0.09871668311944316",
+   "depth_bid_1pct_usd": "34258.625343",
+   "depth_ask_1pct_usd": "34489.135894",
    "median_quote_volume_30d": "5339985"
   },
   {
@@ -71,12 +71,12 @@
    "review_reason": "",
    "flags": "",
    "liquidity_warnings": "thin_book_bid;thin_book_ask",
-   "liquidity_hits": "8",
-   "liquidity_measurements": "8",
-   "liquidity_span_hours": "28.0",
-   "spread_pct": "0.12278841323882232",
-   "depth_bid_1pct_usd": "26108.406578000002",
-   "depth_ask_1pct_usd": "9335.380873",
+   "liquidity_hits": "7",
+   "liquidity_measurements": "7",
+   "liquidity_span_hours": "24.0",
+   "spread_pct": "0.09947499309202182",
+   "depth_bid_1pct_usd": "10759.114097",
+   "depth_ask_1pct_usd": "6820.263733",
    "median_quote_volume_30d": "5146547"
   }
  ]
