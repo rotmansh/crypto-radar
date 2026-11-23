@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-11-23T00:27:22+00:00",
+ "updated_utc": "2026-11-23T04:27:42+00:00",
  "last_run": {
-  "run_id": "45088679444",
+  "run_id": "45111754986",
   "event": "external_cron",
-  "started_utc": "2026-11-23T00:25:48+00:00",
-  "finished_utc": "2026-11-23T00:27:22+00:00",
+  "started_utc": "2026-11-23T04:25:47+00:00",
+  "finished_utc": "2026-11-23T04:27:42+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-11-22T20:00+00:00",
+  "expected_4h_candle_utc": "2026-11-23T00:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -17,25 +17,25 @@
   "universe_included": 35,
   "review_queue": 1,
   "signals_now": 0,
-  "watch_now": 0,
-  "journal_live_new": 0,
+  "watch_now": 1,
+  "journal_live_new": 1,
   "journal_already_active": 0,
   "episodes_ended": 0,
-  "notifications_queued": 0,
+  "notifications_queued": 1,
   "start_delay_min": 25.8,
-  "duration_s": 95,
-  "code_commit": "595fb1019288"
+  "duration_s": 116,
+  "code_commit": "d6de5f725dc8"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-11-23-run-45088679444",
-  "scan_generated_utc": "2026-11-23T00:27:08+00:00",
-  "sync_run": "2026-11-23-run-45088679444",
+  "scan_run": "2026-11-23-run-45111754986",
+  "scan_generated_utc": "2026-11-23T04:27:28+00:00",
+  "sync_run": "2026-11-23-run-45111754986",
   "exchange_snapshot": "unchanged since 2026-11-20-run-44773235331.csv",
   "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-11-23T00:25:48+00:00",
+ "last_success_utc": "2026-11-23T04:25:47+00:00",
  "review_evidence": [
   {
    "symbol": "RWUSDUSDT",
@@ -47,8 +47,8 @@
    "liquidity_measurements": "7",
    "liquidity_span_hours": "24.0",
    "spread_pct": "0.00999950002499765",
-   "depth_bid_1pct_usd": "14481410.0348",
-   "depth_ask_1pct_usd": "34165955.6355",
+   "depth_bid_1pct_usd": "11416337.4559",
+   "depth_ask_1pct_usd": "33597469.8851",
    "median_quote_volume_30d": "16703611"
   }
  ]
