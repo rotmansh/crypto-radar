@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-11-24T12:27:11+00:00",
+ "updated_utc": "2026-11-24T16:27:24+00:00",
  "last_run": {
-  "run_id": "45393348885",
+  "run_id": "45436931258",
   "event": "external_cron",
-  "started_utc": "2026-11-24T12:25:49+00:00",
-  "finished_utc": "2026-11-24T12:27:11+00:00",
+  "started_utc": "2026-11-24T16:25:48+00:00",
+  "finished_utc": "2026-11-24T16:27:24+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-11-24T08:00+00:00",
+  "expected_4h_candle_utc": "2026-11-24T12:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -23,19 +23,19 @@
   "episodes_ended": 1,
   "notifications_queued": 0,
   "start_delay_min": 25.8,
-  "duration_s": 83,
-  "code_commit": "f4e2733c9d91"
+  "duration_s": 97,
+  "code_commit": "1e5e3d6fc4ef"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-11-24-run-45393348885",
-  "scan_generated_utc": "2026-11-24T12:27:04+00:00",
-  "sync_run": "2026-11-24-run-45393348885",
+  "scan_run": "2026-11-24-run-45436931258",
+  "scan_generated_utc": "2026-11-24T16:27:13+00:00",
+  "sync_run": "2026-11-24-run-45436931258",
   "exchange_snapshot": "unchanged since 2026-11-20-run-44773235331.csv",
   "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-11-24T12:25:49+00:00",
+ "last_success_utc": "2026-11-24T16:25:48+00:00",
  "review_evidence": [
   {
    "symbol": "RWUSDUSDT",
@@ -44,11 +44,11 @@
    "flags": "permission_profile_anomaly;stable_like_price",
    "liquidity_warnings": "",
    "liquidity_hits": "0",
-   "liquidity_measurements": "8",
-   "liquidity_span_hours": "28.0",
+   "liquidity_measurements": "7",
+   "liquidity_span_hours": "24.0",
    "spread_pct": "0.00999950002499765",
-   "depth_bid_1pct_usd": "12576719.5553",
-   "depth_ask_1pct_usd": "26477320.5136",
+   "depth_bid_1pct_usd": "12710219.0363",
+   "depth_ask_1pct_usd": "26122617.1122",
    "median_quote_volume_30d": "18751725"
   }
  ]
