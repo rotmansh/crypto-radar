@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-11-25T12:27:41+00:00",
+ "updated_utc": "2026-11-25T16:28:06+00:00",
  "last_run": {
-  "run_id": "45613604452",
+  "run_id": "45653681506",
   "event": "external_cron",
-  "started_utc": "2026-11-25T12:25:53+00:00",
-  "finished_utc": "2026-11-25T12:27:41+00:00",
+  "started_utc": "2026-11-25T16:25:56+00:00",
+  "finished_utc": "2026-11-25T16:28:06+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-11-25T08:00+00:00",
+  "expected_4h_candle_utc": "2026-11-25T12:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -20,22 +20,22 @@
   "watch_now": 0,
   "journal_live_new": 0,
   "journal_already_active": 0,
-  "episodes_ended": 1,
+  "episodes_ended": 0,
   "notifications_queued": 0,
   "start_delay_min": 25.9,
-  "duration_s": 108,
-  "code_commit": "3adb167b74e5"
+  "duration_s": 131,
+  "code_commit": "2ac2cad7a32f"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-11-25-run-45613604452",
-  "scan_generated_utc": "2026-11-25T12:27:26+00:00",
-  "sync_run": "2026-11-25-run-45613604452",
-  "exchange_snapshot": "saved 2026-11-25-run-45613604452.csv",
+  "scan_run": "2026-11-25-run-45653681506",
+  "scan_generated_utc": "2026-11-25T16:27:52+00:00",
+  "sync_run": "2026-11-25-run-45653681506",
+  "exchange_snapshot": "unchanged since 2026-11-25-run-45613604452.csv",
   "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-11-25T12:25:53+00:00",
+ "last_success_utc": "2026-11-25T16:25:56+00:00",
  "review_evidence": [
   {
    "symbol": "RWUSDUSDT",
@@ -47,8 +47,8 @@
    "liquidity_measurements": "7",
    "liquidity_span_hours": "24.0",
    "spread_pct": "0.00999950002499765",
-   "depth_bid_1pct_usd": "7520630.836",
-   "depth_ask_1pct_usd": "31991757.325799998",
+   "depth_bid_1pct_usd": "9286400.1593",
+   "depth_ask_1pct_usd": "33992137.4934",
    "median_quote_volume_30d": "18751725"
   }
  ]
