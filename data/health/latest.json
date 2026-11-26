@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-11-26T00:27:21+00:00",
+ "updated_utc": "2026-11-26T04:27:46+00:00",
  "last_run": {
-  "run_id": "45728619962",
+  "run_id": "45755099013",
   "event": "external_cron",
-  "started_utc": "2026-11-26T00:25:43+00:00",
-  "finished_utc": "2026-11-26T00:27:21+00:00",
+  "started_utc": "2026-11-26T04:25:46+00:00",
+  "finished_utc": "2026-11-26T04:27:46+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-11-25T20:00+00:00",
+  "expected_4h_candle_utc": "2026-11-26T00:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -17,25 +17,25 @@
   "universe_included": 36,
   "review_queue": 1,
   "signals_now": 0,
-  "watch_now": 2,
+  "watch_now": 1,
   "journal_live_new": 0,
   "journal_already_active": 0,
-  "episodes_ended": 0,
+  "episodes_ended": 1,
   "notifications_queued": 0,
-  "start_delay_min": 25.7,
-  "duration_s": 98,
-  "code_commit": "50f8c0431b28"
+  "start_delay_min": 25.8,
+  "duration_s": 121,
+  "code_commit": "69c1f0127774"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-11-26-run-45728619962",
-  "scan_generated_utc": "2026-11-26T00:27:13+00:00",
-  "sync_run": "2026-11-26-run-45728619962",
+  "scan_run": "2026-11-26-run-45755099013",
+  "scan_generated_utc": "2026-11-26T04:27:36+00:00",
+  "sync_run": "2026-11-26-run-45755099013",
   "exchange_snapshot": "unchanged since 2026-11-25-run-45613604452.csv",
   "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-11-26T00:25:43+00:00",
+ "last_success_utc": "2026-11-26T04:25:46+00:00",
  "review_evidence": [
   {
    "symbol": "RWUSDUSDT",
@@ -47,8 +47,8 @@
    "liquidity_measurements": "8",
    "liquidity_span_hours": "28.0",
    "spread_pct": "0.00999950002499765",
-   "depth_bid_1pct_usd": "8015716.3407",
-   "depth_ask_1pct_usd": "33756216.3745",
+   "depth_bid_1pct_usd": "7520783.9697",
+   "depth_ask_1pct_usd": "33522332.0659",
    "median_quote_volume_30d": "19166005"
   }
  ]
