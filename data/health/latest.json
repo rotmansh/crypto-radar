@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-11-26T16:27:33+00:00",
+ "updated_utc": "2026-11-26T20:27:36+00:00",
  "last_run": {
-  "run_id": "45858619602",
+  "run_id": "45890923744",
   "event": "external_cron",
-  "started_utc": "2026-11-26T16:25:51+00:00",
-  "finished_utc": "2026-11-26T16:27:33+00:00",
+  "started_utc": "2026-11-26T20:25:49+00:00",
+  "finished_utc": "2026-11-26T20:27:36+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-11-26T12:00+00:00",
+  "expected_4h_candle_utc": "2026-11-26T16:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -17,25 +17,25 @@
   "universe_included": 36,
   "review_queue": 1,
   "signals_now": 0,
-  "watch_now": 0,
-  "journal_live_new": 0,
+  "watch_now": 1,
+  "journal_live_new": 1,
   "journal_already_active": 0,
-  "episodes_ended": 1,
-  "notifications_queued": 0,
-  "start_delay_min": 25.9,
-  "duration_s": 102,
-  "code_commit": "fb44b7c0ba12"
+  "episodes_ended": 0,
+  "notifications_queued": 1,
+  "start_delay_min": 25.8,
+  "duration_s": 108,
+  "code_commit": "f662faac2d7b"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-11-26-run-45858619602",
-  "scan_generated_utc": "2026-11-26T16:27:24+00:00",
-  "sync_run": "2026-11-26-run-45858619602",
+  "scan_run": "2026-11-26-run-45890923744",
+  "scan_generated_utc": "2026-11-26T20:27:25+00:00",
+  "sync_run": "2026-11-26-run-45890923744",
   "exchange_snapshot": "unchanged since 2026-11-25-run-45613604452.csv",
   "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-11-26T16:25:51+00:00",
+ "last_success_utc": "2026-11-26T20:25:49+00:00",
  "review_evidence": [
   {
    "symbol": "RWUSDUSDT",
@@ -47,8 +47,8 @@
    "liquidity_measurements": "8",
    "liquidity_span_hours": "28.0",
    "spread_pct": "0.00999950002499765",
-   "depth_bid_1pct_usd": "7378398.7502",
-   "depth_ask_1pct_usd": "34436880.6678",
+   "depth_bid_1pct_usd": "7183832.4048",
+   "depth_ask_1pct_usd": "34411752.2556",
    "median_quote_volume_30d": "19166005"
   }
  ]
