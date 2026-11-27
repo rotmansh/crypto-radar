@@ -1,16 +1,16 @@
 {
- "run": "2026-11-26-run-45890923744",
- "generated_utc": "2026-11-26T20:27:25+00:00",
+ "run": "2026-11-27-run-45916619147",
+ "generated_utc": "2026-11-27T00:27:07+00:00",
  "source": "binance",
- "code_commit": "f662faac2d7b",
- "data_fingerprint": "de85a6694d953aea",
- "universe_snapshot": "2026-11-26-run-45890923744.csv",
+ "code_commit": "b428d321dc0a",
+ "data_fingerprint": "da35b6e84f400746",
+ "universe_snapshot": "2026-11-27-run-45916619147.csv",
  "universe_size": 36,
  "high_risk_stop_pct": 10.0,
  "btc_regime": {
-  "candle_open_utc": "2026-11-25T00:00:00Z",
-  "close": 60458.01,
-  "sma200": 72088.2737,
+  "candle_open_utc": "2026-11-26T00:00:00Z",
+  "close": 60577.18,
+  "sma200": 71980.10925,
   "above_sma200": false
  },
  "stale": [],
@@ -27,12 +27,12 @@
    "insufficient": [
     {
      "symbol": "GRAMUSDT",
-     "history_candles": 147,
+     "history_candles": 148,
      "needs": 220
     },
     {
      "symbol": "HYPEUSDT",
-     "history_candles": 63,
+     "history_candles": 64,
      "needs": 220
     }
    ],
@@ -62,12 +62,12 @@
    "insufficient": [
     {
      "symbol": "GRAMUSDT",
-     "history_candles": 147,
+     "history_candles": 148,
      "needs": 200
     },
     {
      "symbol": "HYPEUSDT",
-     "history_candles": 63,
+     "history_candles": 64,
      "needs": 200
     }
    ],
@@ -90,9 +90,9 @@
      "strategy_version": "1.0.0",
      "params_hash": "9bbcd16acf0c",
      "state": "WATCH",
-     "candle_open_utc": "2026-11-26T16:00:00Z",
-     "candle_close_utc": "2026-11-26T20:00:00Z",
-     "ref_price": 3.53e-06,
+     "candle_open_utc": "2026-11-26T20:00:00Z",
+     "candle_close_utc": "2026-11-27T00:00:00Z",
+     "ref_price": 3.48e-06,
      "stop": null,
      "target": null,
      "rr": null,
@@ -100,19 +100,19 @@
      "risk_pct_to_stop": null,
      "high_risk": false,
      "watch_invalidation": 3.47e-06,
-     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 0.000003474 מבטלת את ההתראה",
+     "watch_invalidation_he": "סגירה מתחת לרצועה האמצעית 0.000003467 מבטלת את ההתראה",
      "breakout_level": 3.77e-06,
-     "atr_pct": 3.85353649,
-     "realized_vol_30": 1.05170098,
-     "history_candles": 7807,
+     "atr_pct": 3.85547598,
+     "realized_vol_30": 1.05906948,
+     "history_candles": 7808,
      "member": true,
      "partial_in_window": false,
      "median_qvol_30d": 45983592.0,
-     "spread_pct": 0.2844950213371359,
-     "depth_bid_1pct_usd": 1113532.6419049199,
-     "depth_ask_1pct_usd": 1238910.15268629,
+     "spread_pct": 0.28612303290414604,
+     "depth_bid_1pct_usd": 871111.47636499,
+     "depth_ask_1pct_usd": 882413.15784534,
      "liquidity_warnings": [],
-     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 15.00 (נדרש ≤ 15) · סגירה 0.00000353 מול SMA20 0.000003474 · רמת פריצה 0.00000377, במרחק 6.80% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
+     "reason_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 2.22 (נדרש ≤ 15) · סגירה 0.00000348 מול SMA20 0.000003467 · רמת פריצה 0.00000377, במרחק 8.33% מהסגירה · חסר לאישור: סגירה מעל הרצועה העליונה, סגירה מעל שיא 20 הנרות, נפח ≥ 1.5× הממוצע",
      "rules": [
       {
        "rule": "squeeze_recent",
@@ -120,7 +120,7 @@
        "met": true,
        "in_watch": true,
        "in_signal": false,
-       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 15.00 (נדרש ≤ 15)"
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-3 נרות: 2.22 (נדרש ≤ 15)"
       },
       {
        "rule": "above_mid",
@@ -128,7 +128,7 @@
        "met": true,
        "in_watch": true,
        "in_signal": false,
-       "detail_he": "סגירה 0.00000353 מול SMA20 0.000003474"
+       "detail_he": "סגירה 0.00000348 מול SMA20 0.000003467"
       },
       {
        "rule": "below_level",
@@ -136,7 +136,7 @@
        "met": true,
        "in_watch": true,
        "in_signal": false,
-       "detail_he": "רמת פריצה 0.00000377, במרחק 6.80% מהסגירה"
+       "detail_he": "רמת פריצה 0.00000377, במרחק 8.33% מהסגירה"
       },
       {
        "rule": "squeeze_prior",
@@ -144,7 +144,7 @@
        "met": true,
        "in_watch": false,
        "in_signal": true,
-       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-5 הנרות הקודמים: 13.33 (נדרש ≤ 15)"
+       "detail_he": "אחוזון רוחב הרצועה הנמוך ב-5 הנרות הקודמים: 14.44 (נדרש ≤ 15)"
       },
       {
        "rule": "close_above_upper",
@@ -152,7 +152,7 @@
        "met": false,
        "in_watch": false,
        "in_signal": true,
-       "detail_he": "סגירה 0.00000353 מול רצועה עליונה 0.000003613"
+       "detail_he": "סגירה 0.00000348 מול רצועה עליונה 0.000003586"
       },
       {
        "rule": "close_above_range",
@@ -160,7 +160,7 @@
        "met": false,
        "in_watch": false,
        "in_signal": true,
-       "detail_he": "סגירה 0.00000353 מול שיא הטווח 0.00000377"
+       "detail_he": "סגירה 0.00000348 מול שיא הטווח 0.00000377"
       },
       {
        "rule": "volume_surge",
@@ -168,7 +168,7 @@
        "met": false,
        "in_watch": false,
        "in_signal": true,
-       "detail_he": "נפח פי 0.47 מהממוצע של 20 הנרות הקודמים (נדרש ≥ 1.5)"
+       "detail_he": "נפח פי 0.36 מהממוצע של 20 הנרות הקודמים (נדרש ≥ 1.5)"
       },
       {
        "rule": "complete",
@@ -181,7 +181,7 @@
      ],
      "episode_started_utc": "2026-11-26T16:00:00Z",
      "signal_id": "08f5818652a3be5e",
-     "lifecycle": "new",
+     "lifecycle": "active",
      "first_seen_utc": "2026-11-26T20:27:25+00:00"
     }
    ],
@@ -200,12 +200,12 @@
    "insufficient": [
     {
      "symbol": "GRAMUSDT",
-     "history_candles": 147,
+     "history_candles": 148,
      "needs": 200
     },
     {
      "symbol": "HYPEUSDT",
-     "history_candles": 63,
+     "history_candles": 64,
      "needs": 200
     }
    ],
@@ -1607,27 +1607,6 @@
    "candles_since_start": null
   },
   {
-   "signal_id": "4303b5a980179754",
-   "origin": "live_new",
-   "symbol": "XPLUSDT",
-   "timeframe": "4h",
-   "strategy": "B-BBSQ",
-   "strategy_version": "1.0.0",
-   "type": "WATCH",
-   "ref_price": "0.04693",
-   "stop": "",
-   "target": "",
-   "watch_invalidation": "0.045979",
-   "breakout_level": "0.04895",
-   "high_risk": "False",
-   "detected_at_utc": "2026-11-19T20:27:07+00:00",
-   "episode_started_utc": "2026-11-19T16:00:00Z",
-   "candles_since_start": 42,
-   "status": "ended",
-   "reason": "invalidated",
-   "ended_candle_utc": "2026-11-20T00:00:00Z"
-  },
-  {
    "signal_id": "2f54c32408e30aec",
    "origin": "live_new",
    "symbol": "XPLUSDT",
@@ -1643,7 +1622,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-23T04:27:28+00:00",
    "episode_started_utc": "2026-11-23T00:00:00Z",
-   "candles_since_start": 22,
+   "candles_since_start": 23,
    "status": "ended",
    "reason": "became_signal",
    "ended_candle_utc": "2026-11-23T12:00:00Z"
@@ -1664,7 +1643,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-23T16:27:15+00:00",
    "episode_started_utc": "2026-11-23T12:00:00Z",
-   "candles_since_start": 19,
+   "candles_since_start": 20,
    "status": "ended",
    "reason": "closed_below_stop",
    "ended_candle_utc": "2026-11-24T12:00:00Z"
@@ -1685,7 +1664,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-23T20:27:41+00:00",
    "episode_started_utc": "2026-11-23T16:00:00Z",
-   "candles_since_start": 18,
+   "candles_since_start": 19,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-24T08:00:00Z"
@@ -1706,7 +1685,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-24T20:27:30+00:00",
    "episode_started_utc": "2026-11-24T16:00:00Z",
-   "candles_since_start": 12,
+   "candles_since_start": 13,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-25T08:00:00Z"
@@ -1727,7 +1706,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-25T20:27:16+00:00",
    "episode_started_utc": "2026-11-25T16:00:00Z",
-   "candles_since_start": 6,
+   "candles_since_start": 7,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-26T12:00:00Z"
@@ -1748,7 +1727,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-25T20:27:16+00:00",
    "episode_started_utc": "2026-11-25T16:00:00Z",
-   "candles_since_start": 6,
+   "candles_since_start": 7,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-26T00:00:00Z"
@@ -1769,34 +1748,13 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-26T20:27:25+00:00",
    "episode_started_utc": "2026-11-26T16:00:00Z",
-   "candles_since_start": 0,
-   "status": "new",
+   "candles_since_start": 1,
+   "status": "active",
    "reason": null,
    "ended_candle_utc": null
   }
  ],
  "lifecycle_ended": [
-  {
-   "signal_id": "4303b5a980179754",
-   "origin": "live_new",
-   "symbol": "XPLUSDT",
-   "timeframe": "4h",
-   "strategy": "B-BBSQ",
-   "strategy_version": "1.0.0",
-   "type": "WATCH",
-   "ref_price": "0.04693",
-   "stop": "",
-   "target": "",
-   "watch_invalidation": "0.045979",
-   "breakout_level": "0.04895",
-   "high_risk": "False",
-   "detected_at_utc": "2026-11-19T20:27:07+00:00",
-   "episode_started_utc": "2026-11-19T16:00:00Z",
-   "candles_since_start": 42,
-   "status": "ended",
-   "reason": "invalidated",
-   "ended_candle_utc": "2026-11-20T00:00:00Z"
-  },
   {
    "signal_id": "2f54c32408e30aec",
    "origin": "live_new",
@@ -1813,7 +1771,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-23T04:27:28+00:00",
    "episode_started_utc": "2026-11-23T00:00:00Z",
-   "candles_since_start": 22,
+   "candles_since_start": 23,
    "status": "ended",
    "reason": "became_signal",
    "ended_candle_utc": "2026-11-23T12:00:00Z"
@@ -1834,7 +1792,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-23T16:27:15+00:00",
    "episode_started_utc": "2026-11-23T12:00:00Z",
-   "candles_since_start": 19,
+   "candles_since_start": 20,
    "status": "ended",
    "reason": "closed_below_stop",
    "ended_candle_utc": "2026-11-24T12:00:00Z"
@@ -1855,7 +1813,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-23T20:27:41+00:00",
    "episode_started_utc": "2026-11-23T16:00:00Z",
-   "candles_since_start": 18,
+   "candles_since_start": 19,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-24T08:00:00Z"
@@ -1876,7 +1834,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-24T20:27:30+00:00",
    "episode_started_utc": "2026-11-24T16:00:00Z",
-   "candles_since_start": 12,
+   "candles_since_start": 13,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-25T08:00:00Z"
@@ -1897,7 +1855,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-25T20:27:16+00:00",
    "episode_started_utc": "2026-11-25T16:00:00Z",
-   "candles_since_start": 6,
+   "candles_since_start": 7,
    "status": "ended",
    "reason": "invalidated",
    "ended_candle_utc": "2026-11-26T12:00:00Z"
@@ -1918,7 +1876,7 @@
    "high_risk": "False",
    "detected_at_utc": "2026-11-25T20:27:16+00:00",
    "episode_started_utc": "2026-11-25T16:00:00Z",
-   "candles_since_start": 6,
+   "candles_since_start": 7,
    "status": "ended",
    "reason": "conditions_ended",
    "ended_candle_utc": "2026-11-26T00:00:00Z"
@@ -3313,11 +3271,9 @@
   }
  ],
  "run_stats": {
-  "journal_added": {
-   "live_new": 1
-  },
+  "journal_added": {},
   "episodes_ended_new": 0,
-  "notifications_queued": 1,
+  "notifications_queued": 0,
   "notifications_sent": 0,
   "full_history_report": true
  }
