@@ -1,14 +1,14 @@
 {
- "updated_utc": "2026-11-28T00:10:15+00:00",
+ "updated_utc": "2026-11-28T04:27:25+00:00",
  "last_run": {
-  "run_id": "46086235171",
-  "event": "schedule",
-  "started_utc": "2026-11-28T00:08:19+00:00",
-  "finished_utc": "2026-11-28T00:10:15+00:00",
+  "run_id": "46107464722",
+  "event": "external_cron",
+  "started_utc": "2026-11-28T04:25:47+00:00",
+  "finished_utc": "2026-11-28T04:27:25+00:00",
   "status": "success",
   "sync_outcome": "success",
   "scan_outcome": "success",
-  "expected_4h_candle_utc": "2026-11-27T20:00+00:00",
+  "expected_4h_candle_utc": "2026-11-28T00:00+00:00",
   "btc_fresh": true,
   "freshness_attempts": 1,
   "stale_series": 0,
@@ -17,25 +17,25 @@
   "universe_included": 36,
   "review_queue": 1,
   "signals_now": 0,
-  "watch_now": 1,
+  "watch_now": 0,
   "journal_live_new": 0,
   "journal_already_active": 0,
-  "episodes_ended": 0,
+  "episodes_ended": 1,
   "notifications_queued": 0,
-  "start_delay_min": 8.3,
-  "duration_s": 117,
-  "code_commit": "9c4c1a8a7040"
+  "start_delay_min": 25.8,
+  "duration_s": 98,
+  "code_commit": "0ec4b0541908"
  },
  "detail": {
   "stale_series": [],
-  "scan_run": "2026-11-28-run-46086235171",
-  "scan_generated_utc": "2026-11-28T00:10:04+00:00",
-  "sync_run": "2026-11-28-run-46086235171",
+  "scan_run": "2026-11-28-run-46107464722",
+  "scan_generated_utc": "2026-11-28T04:27:10+00:00",
+  "sync_run": "2026-11-28-run-46107464722",
   "exchange_snapshot": "unchanged since 2026-11-25-run-45613604452.csv",
-  "dispatch_reason": null
+  "dispatch_reason": "cron-job.org"
  },
  "missed_slots_48h": [],
- "last_success_utc": "2026-11-28T00:08:19+00:00",
+ "last_success_utc": "2026-11-28T04:25:47+00:00",
  "review_evidence": [
   {
    "symbol": "RWUSDUSDT",
@@ -44,11 +44,11 @@
    "flags": "permission_profile_anomaly;stable_like_price",
    "liquidity_warnings": "",
    "liquidity_hits": "0",
-   "liquidity_measurements": "8",
-   "liquidity_span_hours": "27.7",
+   "liquidity_measurements": "7",
+   "liquidity_span_hours": "24.0",
    "spread_pct": "0.010000500025000148",
-   "depth_bid_1pct_usd": "8907727.7221",
-   "depth_ask_1pct_usd": "39864959.332899995",
+   "depth_bid_1pct_usd": "8409168.6848",
+   "depth_ask_1pct_usd": "41267045.5782",
    "median_quote_volume_30d": "19166005"
   }
  ]
